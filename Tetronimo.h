@@ -9,7 +9,7 @@
 
 using namespace std;
 
-enum facing {UP, DOWN, LEFT, RIGHT}
+enum facing {UP, DOWN, LEFT, RIGHT};
 
 class Tetronimo
 {
