@@ -1,12 +1,13 @@
 #include <cstring>
-
 class Grid
 {
     public:
-        void initBoard();
-        bool gridState[10][20];
-}
+        bool gridState[10][10];
+        void initGrid();
+        friend class Tetronimo;
+};
 
-void Grid::initBoard (){
-    memset((*this).gridState, false, sizeof((*this).gridState));
+void Grid::initGrid()
+{
+    memset((*this).gridState, false, sizeof((*this).gridState[10][20])*10*20);
 }
