@@ -32,6 +32,11 @@ class Tetronimo
         facing isFacing();
         void getAnchorLoc(int&,int&);
         void collisionCheck();
+    /*------------------------/
+     * Declare grid functions /
+     *-----------------------*/
+        void getGridState(Grid current);
+        bool flashGrid[10][20];
 
     protected:
         int m_brickLocs[4][4];
@@ -39,5 +44,11 @@ class Tetronimo
     private:
         facing m_facing;
 };
+
+void Tetronimo::getGridState(Grid current)
+{
+    //loads all of grid into local grid for collision detection
+    memcpy((*this).flashGrid, current.gridState, sizeof(current.gridState));
+}
 
 #endif // TETRONIMO_H_INCLUDED

@@ -9,5 +9,5 @@ class Grid
 
 void Grid::initGrid()
 {
-    memset((*this).gridState, false, sizeof((*this).gridState[10][20])*10*20);
+    memset((*this).gridState, false, sizeof(*this).gridState);
 }

@@ -9,7 +9,7 @@ using namespace std;
 int main (int argc, char *argv())
 {
     Grid x;
-    x.initBoard();
+    x.initGrid();
     cout << x.gridState[0][2];
 }
 
