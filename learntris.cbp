@@ -31,6 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Tetronimo.h" />
+		<Unit filename="block.h" />
+		<Unit filename="floor.h" />
+		<Unit filename="grid.h" />
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
