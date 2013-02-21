@@ -9,9 +9,9 @@
 
 using namespace std;
 
-enum facing {UP, DOWN, LEFT, RIGHT}
+enum facing {UP, DOWN, LEFT, RIGHT};
 
-Class Tetronimo
+class Tetronimo
 {
     public:
         Tetronimo();
