@@ -10,6 +10,15 @@ int main (int argc, char *argv())
 {
     Grid x;
     x.initGrid();
-    cout << x.gridState[0][2];
+    //prints grid
+    for(int i = 0; i < 300; i++)
+    {
+        cout << *((*x.gridState) + i);
+        if ((i+1)%25==0)
+        {
+            cout << endl;
+        }
+    }
+
 }
 

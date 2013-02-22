@@ -1,8 +1,9 @@
 #include <cstring>
+
 class Grid
 {
     public:
-        bool gridState[10][23];
+        bool gridState[12][25];
         void initGrid();
         friend class Tetronimo;
 };
@@ -10,8 +11,18 @@ class Grid
 void Grid::initGrid()
 {
     memset((*this).gridState, false, sizeof(*this).gridState);
-    for (int i; i < 10; i++)
+    //builds true value walls during grid initialization
+    // doesnt work...?
+
+    for (int i = 0; i < 11; i++)
+    {
+        (*this).gridState[i][0] = true;
+
+    }
+    for (int i = 0; i < 25; i++)
     {
         (*this).gridState[0][i] = true;
+        (*this).gridState[11][i] = true;
     }
+
 }
