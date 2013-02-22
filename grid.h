@@ -2,11 +2,7 @@
 class Grid
 {
     public:
-<<<<<<< HEAD
-        bool gridState[10][22];
-=======
-        bool gridState[10][20];
->>>>>>> 16a64fb291f355587eb9cd57e266de762a5d978b
+        bool gridState[10][23];
         void initGrid();
         friend class Tetronimo;
 };
