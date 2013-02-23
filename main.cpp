@@ -21,11 +21,11 @@ int main (int argc, char *argv())
     //prints grid
     for(int i = 0; i < 300; i++)
     {
-        cout << *((*t.flashGrid) + i) <<endl;/*
+        cout << *((*t.flashGrid) + i);
         if ((i+1)%25==0)
         {
             cout << endl;
-        }*/
+        }
     }
 
 }

@@ -34,9 +34,9 @@ class Tetronimo
      * Declare grid functions /
      *-----------------------*/
         void getGridState(Grid current);
-        bool flashGrid[10][20];
-        int location; //a single number representing the offset of the anchor block
-                      //from 0 on the grid
+        bool flashGrid[12][25];
+        int location = 0; //a single number representing the offset of the anchor block
+        int locations = 0;              //from 0 on the grid
     /*------------------------/
      * Declare move functions /
      *-----------------------*/
@@ -58,17 +58,18 @@ class Tetronimo
 void Tetronimo::getGridState(Grid current)
 {
     //loads all of grid into local grid for collision detection
-    memcpy((*this).flashGrid, current.gridState, sizeof(current.gridState));
+    memcpy(flashGrid, current.gridState, sizeof(current.gridState));
 }
 
 void Tetronimo::initAnchor()
 {
-    (*this).location = 125;
+    location = 124;
 }
 
 void Tetronimo::printToTest()
 {
-    *((*(*this).flashGrid) + (*this).location) = true;
+    *((*flashGrid) + location) = true;
+
 }
 
 class LineBlock : public Tetronimo
