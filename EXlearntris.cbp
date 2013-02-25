@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Board.h" />
+		<Unit filename="Tetro.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -6,12 +6,28 @@ using namespace std;
 
 int main()
 {
-    Zblock z;
-    cout << z.shapes[1][1];
+    Tetro z;
     Board x;
-    for (int i=0; i< 300; i++)
+    /*for (int i=0; i< 7*16; i++)
     {
-        cout << *((*x.boardState) + i);
+
+        cout << *((*z.shapes) + i) <<endl;
+    }*/
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        int what = 0;
+        for (int j=0; j<4; j++)
+        {
+            const int location = 150;
+            *((*x.boardState) + (location + *((*z.shapes) + i))) = 8;
+            if (j == 3)
+            {
+                x.printBoard();
+                x.initBoard();
+            }
+        }
     }
 }
 /* remember, we dont need to store the tetronimo on the grid at all,
