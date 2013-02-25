@@ -14,21 +14,18 @@ int main()
         cout << *((*z.shapes) + i) <<endl;
     }*/
 
-
-    for (int i = 0; i < 4; i++)
-    {
-        int what = 0;
-        for (int j=0; j<4; j++)
+    int location = 150;
+        for (int j = 0; j < 112; j++)
         {
-            const int location = 150;
-            *((*x.boardState) + (location + *((*z.shapes) + i))) = 8;
-            if (j == 3)
+            *((*x.boardState) + (location + *((*z.shapes) + j))) = 8;
+            if ((j+1)% 4 == 0)
             {
                 x.printBoard();
                 x.initBoard();
+                cout << endl << "i =" << j << endl;
             }
         }
-    }
+
 }
 /* remember, we dont need to store the tetronimo on the grid at all,
 just change it's value. It will call the grid whenever it moves to verify it can,
