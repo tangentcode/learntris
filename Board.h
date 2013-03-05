@@ -7,9 +7,9 @@ class Board
         enum {BLOC_NULL, BLOC_FILL, BLOC_SIDE};
         int boardState[25][12];
         bool getSpace(int x);
-        int test = 4;
         void initBoard();
         void printBoard();
+        void writeToBoard();
 };
 
 Board::Board()
@@ -20,6 +20,15 @@ Board::Board()
 void Board::initBoard()
 {
     memset(boardState, BLOC_NULL, sizeof(boardState));
+    for (int i = 0; i < 25; i++)
+    {
+        boardState[i][0] = 1;
+        boardState[i][11] = 1;
+    }
+    for(int i = 0; i < 12; i++)
+    {
+        boardState[24][i] = 1;
+    }
 }
 
 void Board::printBoard()

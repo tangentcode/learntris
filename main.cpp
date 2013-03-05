@@ -8,23 +8,14 @@ int main()
 {
     Tetro z;
     Board x;
-    /*for (int i=0; i< 7*16; i++)
-    {
-
-        cout << *((*z.shapes) + i) <<endl;
-    }*/
-
-    int location = 150;
-        for (int j = 0; j < 112; j++)
-        {
-            *((*x.boardState) + (location + *((*z.shapes) + j))) = 8;
-            if ((j+1)% 4 == 0)
-            {
-                x.printBoard();
-                x.initBoard();
-                cout << endl << "i =" << j << endl;
-            }
-        }
+    z.currentshape = 0;
+    z.shapeface = 0;
+    z.location = 15;
+    x.initBoard();
+    z.moveLeft(z.location, x);
+    z.moveRight(z.location, x);
+    cout << z.location << endl;
+    x.printBoard();
 
 }
 /* remember, we dont need to store the tetronimo on the grid at all,
