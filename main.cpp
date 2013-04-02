@@ -66,7 +66,9 @@ int main(int argc, char** argv)
     Board board1;
     board1.initBoard();
     Tetro tetro1;
-    tetro1.current_location = 250;
+    tetro1.current_location = 186;
+    tetro1.current_tetro = 0;
+    tetro1.current_face = 0;
     //Quit flag
     bool quit = false;
 
@@ -85,7 +87,7 @@ int main(int argc, char** argv)
     SDL_FillRect(screen, NULL, 0x000000);
     SDL_Rect locale;
     locale.x=160;
-    locale.y = 455;
+    locale.y = 448;
     bool pressflag = false;
     genBoard(board1);
     char direction;
@@ -102,40 +104,37 @@ int main(int argc, char** argv)
                 switch( event.key.keysym.sym )
                 {
                 case SDLK_UP:
-                    tetro1.current_location-=10;
+                    tetro1.current_location-=12;
                     locale.y=locale.y-32;
                     pressflag = true;
                     break;
                 case SDLK_DOWN:
-                    //direction = 'd';
-                    //if(tetro1.collisionCheck(direction, board1))
-                    //{
-                        //tetro1.current_location+=10;
+                    direction = 'd';
+                    if(tetro1.collisionCheck(direction, board1))
+                    {
+                        tetro1.current_location+=12;
                         locale.y=locale.y+32;
                         pressflag = true;
-                    /*}
-                    else
-                    {
-                        break;
-                    }*/
+                    }
+
                     break;
                 case SDLK_LEFT:
-                    //direction = 'd';
-                    //if(tetro1.collisionCheck(direction, board1) == true)
-                    //{
-                        //tetro1.current_location--;
+                    direction = 'l';
+                    if(tetro1.collisionCheck(direction, board1) == true)
+                    {
+                        tetro1.current_location--;
                         locale.x=locale.x-32;
                         pressflag = true;
-                    //}
+                    }
                     break;
                 case SDLK_RIGHT:
-                    //direction = 'd';
-                    //if(tetro1.collisionCheck(direction, board1))
-                    //{
-                        //tetro1.current_location++;
+                    direction = 'd';
+                    if(tetro1.collisionCheck(direction, board1))
+                    {
+                        tetro1.current_location++;
                         locale.x=locale.x+32;
                         pressflag = true;
-                    //}
+                    }
                     break;
                 }
 

@@ -71,46 +71,43 @@ private:
 
 bool Tetro::collisionCheck(char direction, Board board)
 {
-
-    for(int i = 0; i < 4; i++)
+    if(direction=='l')
     {
-        if(direction == 'l')
+        for(int i = 0; i < 4; i++)
         {
-            if (*((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) - 1)) != 0)
+            if (board.getSpace((shape_tetro[current_tetro][current_face][i] + current_location) - 1))
             {
+                std::cout << i << ' ' << (shape_tetro[current_tetro][current_face][i] + current_location) << ' ' << *((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) - 1));
+                std::cout << std::endl << current_location << std::endl;
                 return false;
-                break;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        if(direction == 'r')
-        {
-            if (*((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) + 1)) != 0)
-            {
-                return false;
-                break;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        if(direction == 'd')
-        {
-            if (1==1)
-            {
-                return false;
-                break;
-            }
-            else
-            {
-                return true;
             }
         }
     }
+    if(direction=='r')
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if (board.getSpace((shape_tetro[current_tetro][current_face][i] + current_location) + 1))
+            {
+                std::cout << i << ' ' << (shape_tetro[current_tetro][current_face][i] + current_location) << ' ' << *((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) + 1));
+                std::cout << std::endl << current_location << std::endl;
+                return false;
+            }
+        }
+    }
+    if(direction=='d')
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if (board.getSpace((shape_tetro[current_tetro][current_face][i] + current_location) +12))
+            {
+                std::cout << i << ' ' << (shape_tetro[current_tetro][current_face][i] + current_location);
+                return false;
+            }
+        }
+    }
+    std::cout << std::endl << current_location << std::endl;
+    return true;
 }
 
 

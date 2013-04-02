@@ -50,6 +50,17 @@ void Board::printBoard()
             std::cout << std::endl;
         }
     }
+    for (int k=0; k< 300; k++)
+    {
+        if(getSpace(k))
+        {
+            std::cout << 0;
+        }
+        else
+        {
+            std::cout << 1;
+        }
+    }
 }
 /*--------------------------
 Who knows
