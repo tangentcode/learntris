@@ -138,6 +138,7 @@ int main(int argc, char** argv)
                     //}
                     break;
                 }
+
             }
 
             //If the user has Xed out the window
