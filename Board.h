@@ -1,21 +1,28 @@
+#ifndef _Board_
+#define _Board_
+
 #include <cstring>
+#include <iostream>
 class Board
 {
-    public:
-        Board();
+public:
+    Board();
 
-        enum {BLOC_NULL, BLOC_FILL, BLOC_SIDE};
-        int boardState[25][12];
-        bool getSpace(int x);
-        void initBoard();
-        void printBoard();
+    enum {BLOC_NULL, BLOC_FILL, BLOC_SIDE};
+    int boardState[25][12];
+    bool getSpace(int x);
+    void initBoard();
+    void printBoard();
+    friend class Tetro;
 };
 
 Board::Board()
 {
     memset(boardState, BLOC_NULL, sizeof(boardState));
 }
-
+/*--------------------------
+Sets up walls on the board
+----------------------------*/
 void Board::initBoard()
 {
     memset(boardState, BLOC_NULL, sizeof(boardState));
@@ -29,6 +36,9 @@ void Board::initBoard()
         boardState[24][i] = 2;
     }
 }
+/*--------------------------
+Early cout boardview for diag
+----------------------------*/
 
 void Board::printBoard()
 {
@@ -37,10 +47,13 @@ void Board::printBoard()
         std::cout << *((*boardState) + k);
         if ((k+1)%12 == 0)
         {
-        std::cout << std::endl;
+            std::cout << std::endl;
         }
     }
 }
+/*--------------------------
+Who knows
+----------------------------*/
 bool Board::getSpace(int x)
 {
     if (*((*boardState) + x) != BLOC_NULL)
@@ -53,3 +66,4 @@ bool Board::getSpace(int x)
     }
 
 }
+#endif

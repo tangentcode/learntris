@@ -1,11 +1,13 @@
 #ifndef _Tetro_
 #define _Tetro_
+#include "Board.h"
+
 
 class Tetro
 {
 public:
     void moveTetro();
-    bool collisionCheck();
+    bool collisionCheck(char direction, Board board);
     void rotateTetro();
     int current_location;
     int current_face;
@@ -66,6 +68,50 @@ public:
 private:
 
 };
+
+bool Tetro::collisionCheck(char direction, Board board)
+{
+
+    for(int i = 0; i < 4; i++)
+    {
+        if(direction == 'l')
+        {
+            if (*((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) - 1)) != 0)
+            {
+                return false;
+                break;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        if(direction == 'r')
+        {
+            if (*((*board.boardState) + ((shape_tetro[current_tetro][current_face][i] + current_location) + 1)) != 0)
+            {
+                return false;
+                break;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        if(direction == 'd')
+        {
+            if (1==1)
+            {
+                return false;
+                break;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+}
 
 
 #endif

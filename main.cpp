@@ -7,7 +7,7 @@
 
 //#include <cstdlib>
 #include <iostream>
-//#include "Tetro.h"
+#include "Tetro.h"
 #include "Board.h"
 //#include "Game.h"
 #include "SDL/SDL.h"
@@ -32,18 +32,24 @@ void printTetros(Board x, Tetro z)
     }
 }
 */
+
+/*------------------------------------
+Pushes the current board to the screen
+------------------------------------*/
 int genBoard(Board board)
 {
     for(int i = 0; i < 25; i++)
     {
         for(int k = 0; k < 12; k++)
         {
+            //Checks and applies walls
             if(board.boardState[i][k] == 2)
             {
                 int x = k*32;
                 int y = i*32;
                 apply_surface(x,y,wall,screen);
             }
+            //Checks and applies blocks
             else if (board.boardState[i][k] == 1)
             {
                 int x = k*32;
@@ -53,10 +59,14 @@ int genBoard(Board board)
         }
     }
 }
+
+
 int main(int argc, char** argv)
 {
     Board board1;
     board1.initBoard();
+    Tetro tetro1;
+    tetro1.current_location = 250;
     //Quit flag
     bool quit = false;
 
@@ -78,6 +88,7 @@ int main(int argc, char** argv)
     locale.y = 455;
     bool pressflag = false;
     genBoard(board1);
+    char direction;
 
     while( quit == false )
     {
@@ -91,20 +102,40 @@ int main(int argc, char** argv)
                 switch( event.key.keysym.sym )
                 {
                 case SDLK_UP:
+                    tetro1.current_location-=10;
                     locale.y=locale.y-32;
                     pressflag = true;
                     break;
                 case SDLK_DOWN:
-                    locale.y=locale.y+32;
-                    pressflag = true;
+                    //direction = 'd';
+                    //if(tetro1.collisionCheck(direction, board1))
+                    //{
+                        //tetro1.current_location+=10;
+                        locale.y=locale.y+32;
+                        pressflag = true;
+                    /*}
+                    else
+                    {
+                        break;
+                    }*/
                     break;
                 case SDLK_LEFT:
-                    locale.x=locale.x-32;
-                    pressflag = true;
+                    //direction = 'd';
+                    //if(tetro1.collisionCheck(direction, board1) == true)
+                    //{
+                        //tetro1.current_location--;
+                        locale.x=locale.x-32;
+                        pressflag = true;
+                    //}
                     break;
                 case SDLK_RIGHT:
-                    locale.x=locale.x+32;
-                    pressflag = true;
+                    //direction = 'd';
+                    //if(tetro1.collisionCheck(direction, board1))
+                    //{
+                        //tetro1.current_location++;
+                        locale.x=locale.x+32;
+                        pressflag = true;
+                    //}
                     break;
                 }
             }
@@ -123,6 +154,7 @@ int main(int argc, char** argv)
         {
             //Apply the background to the screen
             SDL_FillRect(screen, NULL, 0x000000);
+            genBoard(board1);
             apply_surface( locale.x, locale.y, anchor, screen );
             //send pressflag waiting for input
             pressflag = false;
