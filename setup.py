@@ -8,5 +8,5 @@ setup(
     license='MIT License',
     author='tangentstorm',
     author_email='',
-    description=''
+    description='', requires=['pexpect']
 )
