@@ -17,7 +17,9 @@ Tetro::~Tetro()
 {
 
 };
-
+/*---------------------------------
+CONVERT ME TO SWITCH CASE!
+-----------------------------------*/
 void Tetro::rotateTetro(Board board)
 {
     //temporary holders for switching
@@ -81,6 +83,7 @@ void Tetro::moveTetro(char direction, Board board)
         in this, that's not the  purpose of moving
         left and right. Replace it with a changed
         'current_location_x/y' or something.
+        Also, convert to switch case later.
         -------------------------------------*/
         if(direction == 'd')
         {
