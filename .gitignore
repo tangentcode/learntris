@@ -15,9 +15,9 @@
 # Compiled Python Files
 *.pyc
 
-# Backup/Temp Files
+# Backup/Temp/IDE Files
+.idea
 .#*
 #*.*
 *.*#
-*.~
-
+*.*~
