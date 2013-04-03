@@ -18,9 +18,9 @@ Board::~Board()
 
 };
 /*--------------------------
-Sets up walls on the board(integrated into constructor)
-----------------------------*//*
-void Board::initBoard()
+Sets up walls on the board (integrated into constructor)
+----------------------------*/
+/*void Board::initBoard()
 {
     memset(boardState, BLOC_NULL, sizeof(boardState));
     for (int i = 0; i < 25; i++)
@@ -33,6 +33,7 @@ void Board::initBoard()
         boardState[24][i] = 2;
     }
 }*/
+
 /*--------------------------
 Early cout boardview for diag
 ----------------------------*/
@@ -47,17 +48,7 @@ void Board::printBoard()
             std::cout << std::endl;
         }
     }
-    for (int k=0; k< 300; k++)
-    {
-        if(getSpace(k))
-        {
-            std::cout << 0;
-        }
-        else
-        {
-            std::cout << 1;
-        }
-    }
+    std::cout << std::endl;
 }
 /*--------------------------
 Who knows
