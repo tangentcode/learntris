@@ -15,6 +15,7 @@ public:
     bool getSpace(int x);
     void initBoard();
     void printBoard();
+    void writeToBoard(int locX, int locY, int shape_to_write[][2]);
     friend class Tetro;
 };
 

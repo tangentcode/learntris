@@ -20,36 +20,33 @@ Tetro::~Tetro()
 /*---------------------------------
 CONVERT ME TO SWITCH CASE!
 -----------------------------------*/
-void Tetro::rotateTetro(Board board)
+bool Tetro::rotateTetro(Board board)
 {
     //temporary holders for switching
     int sX, sY;
-    int potential_tetro[4][2];
     for(int i = 0; i<4; i++)
     {
         //Store the numbers, change the operand of the y value, switch
         sX = current_tetro[i][0];
         sY = current_tetro[i][1];
         sY = sY * (-1);
-        potential_tetro[i][0] = sY;
-        potential_tetro[i][1] = sX;
+        ghost_tetro[i][0] = sY;
+        ghost_tetro[i][1] = sX;
     }
-    if(collisionCheck(potential_tetro, board))
+    if(collisionCheck(ghost_tetro, board))
     {
-        std::cout << "rotated";
-        memcpy(current_tetro, potential_tetro, sizeof(current_tetro));
+        memcpy(current_tetro, ghost_tetro, sizeof(current_tetro));
         /*for(int i = 0; i < 4; i++)
         {
             for(int j = 0; j < 2; j++)
             {
-                current_tetro[i][j] = potential_tetro[i][j];
+                current_tetro[i][j] = ghost_tetro[i][j];
             }
             //std::cout << current_tetro[i][0] << current_tetro[i][1] << std::endl;
         }*/
     }
     else
     {
-        std::cout << "not rotated";
     }
 }
 
@@ -71,11 +68,18 @@ bool Tetro::collisionCheck(int potential[][2], Board board)
     return true;
 }
 
-void Tetro::moveTetro(char direction, Board board)
+bool Tetro::moveTetro(char direction, Board & board)
 {
     int sX, sY;
-    int potential_tetro[4][2];
-    // down
+    switch(direction)
+        {
+        case DOWN:
+            ghost_location_y = current_location_y; break;
+        case LEFT:
+            ghost_location_x = current_location_x; break;
+        case RIGHT:
+            ghost_location_x = current_location_x; break;
+        }
     for(int i = 0; i<4; i++)
     {
         /*-------------------------------------
@@ -85,35 +89,49 @@ void Tetro::moveTetro(char direction, Board board)
         'current_location_x/y' or something.
         Also, convert to switch case later.
         -------------------------------------*/
-        if(direction == 'd')
+        switch(direction)
         {
+        case DOWN:
             sY = current_tetro[i][1];
             sY++;
-            potential_tetro[i][1] = sY;
-            potential_tetro[i][0] = current_tetro[i][0];
-        }
-        else if(direction == 'r')
-        {
-            sX = current_tetro[i][0];
-            sX++;
-            potential_tetro[i][0] = sX;
-            potential_tetro[i][1] = current_tetro[i][1];
-
-        }
-        else if(direction == 'l')
-        {
+            ghost_tetro[i][1] = sY;
+            ghost_tetro[i][0] = current_tetro[i][0];
+            break;
+        case LEFT:
             sX = current_tetro[i][0];
             sX--;
-            potential_tetro[i][0] = sX;
-            potential_tetro[i][1] = current_tetro[i][1];
+            ghost_tetro[i][0] = sX;
+            ghost_tetro[i][1] = current_tetro[i][1];
+            break;
+        case RIGHT:
+            sX = current_tetro[i][0];
+            sX++;
+            ghost_tetro[i][0] = sX;
+            ghost_tetro[i][1] = current_tetro[i][1];
+            break;
+        }
 
+    }
+    if(collisionCheck(ghost_tetro, board))
+    {
+        if(direction == DOWN)
+        {
+            current_location_x = ghost_location_x;
+        }
+        else
+        {
+            current_location_y = ghost_location_y;
         }
     }
-    if(collisionCheck(potential_tetro, board))
+    else if(direction == 'd')
     {
-        memcpy(current_tetro, potential_tetro, sizeof(current_tetro));
+        std::cout << "written" << std::endl;
+        board.writeToBoard(current_location_x, current_location_y, current_tetro);
+        return false;
     }
     else
     {
+        return false;
     }
+    return true;
 }

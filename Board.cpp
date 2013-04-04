@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <iostream>
 
 Board::Board()
 {
@@ -64,4 +65,17 @@ bool Board::getSpace(int x)
         return false;
     }
 
+}
+
+void Board::writeToBoard(int locX, int locY, int shape_to_write[][2])
+{
+    int wX, wY;
+    for(int i = 0; i < 4; i++)
+    {
+        wX = shape_to_write[i][0] + locX;
+        wY = shape_to_write[i][1] + locY;
+        std::cout << wX << " " << wY << std::endl;
+        boardState[wY][wX] = 1;
+
+    }
 }
