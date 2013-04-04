@@ -18,22 +18,6 @@ Board::~Board()
 {
 
 };
-/*--------------------------
-Sets up walls on the board (integrated into constructor)
-----------------------------*/
-/*void Board::initBoard()
-{
-    memset(boardState, BLOC_NULL, sizeof(boardState));
-    for (int i = 0; i < 25; i++)
-    {
-        boardState[i][0] = 2;
-        boardState[i][11] = 2;
-    }
-    for(int i = 0; i < 12; i++)
-    {
-        boardState[24][i] = 2;
-    }
-}*/
 
 /*--------------------------
 Early cout boardview for diag

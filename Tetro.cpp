@@ -1,6 +1,9 @@
 #include "Tetro.h"
 #include <iostream>
 #include <cstring>
+/*---------------------------
+Stores Block type upon creation
+------------------------------*/
 
 Tetro::Tetro(int blocktype)
 {
@@ -17,9 +20,7 @@ Tetro::~Tetro()
 {
 
 };
-/*---------------------------------
-CONVERT ME TO SWITCH CASE!
------------------------------------*/
+
 bool Tetro::rotateTetro(Board board)
 {
     //temporary holders for switching
@@ -36,14 +37,6 @@ bool Tetro::rotateTetro(Board board)
     if(collisionCheck(ghost_tetro, board))
     {
         memcpy(current_tetro, ghost_tetro, sizeof(current_tetro));
-        /*for(int i = 0; i < 4; i++)
-        {
-            for(int j = 0; j < 2; j++)
-            {
-                current_tetro[i][j] = ghost_tetro[i][j];
-            }
-            //std::cout << current_tetro[i][0] << current_tetro[i][1] << std::endl;
-        }*/
     }
     else
     {
@@ -82,13 +75,6 @@ bool Tetro::moveTetro(char direction, Board & board)
         }
     for(int i = 0; i<4; i++)
     {
-        /*-------------------------------------
-        Note to self: Need to get rid of the memcpy
-        in this, that's not the  purpose of moving
-        left and right. Replace it with a changed
-        'current_location_x/y' or something.
-        Also, convert to switch case later.
-        -------------------------------------*/
         switch(direction)
         {
         case DOWN:
@@ -123,7 +109,7 @@ bool Tetro::moveTetro(char direction, Board & board)
             current_location_y = ghost_location_y;
         }
     }
-    else if(direction == 'd')
+    else if(direction == DOWN)
     {
         std::cout << "written" << std::endl;
         board.writeToBoard(current_location_x, current_location_y, current_tetro);
