@@ -6,21 +6,21 @@
 using namespace std;
 
 void pFunction(Board board);
-void gFunction(Board *board);
+void gFunction(Board &board);
 
 main()
 {
     string line;
     string lastline;
     Board overboard;
-    Board * p_overboard = &overboard;
+    //Board * p_overboard = &overboard;
     while(line != "q")
     {
         cout << ">";
         cin >> line;
         if(line == "g")
         {
-            gFunction(p_overboard);
+            gFunction(overboard);
         }
         if(line == "p")
         {
@@ -32,7 +32,7 @@ main()
 
 void pFunction(Board board)
 {
-            for (int k=0; k< 300; k++)
+            for (int k=0; k< 276; k++)
             {
                 if(*((*board.boardState) + k) == 2)
                 {
@@ -58,25 +58,21 @@ void pFunction(Board board)
             std::cout << std::endl;
 };
 
-void gFunction(Board *board)
+void gFunction(Board &board)
 {
-    for (int k=0; k< 300; k++)
+    char line[10];
+    for (int i=0; i< 22; i++)
     {
-        if(*((*board->boardState) + k) == 2)
-        {
-        }
-        else if(*((*board->boardState) + k) == 0)
-        {
-            cin >> (*((*board->boardState) + k));
-        }
-        if ((k+1)%12 == 0)
-        {
-            std::cout << std::endl;
-            for(int i = 0; i < 12; i++)
+            cin >> line;
+            for(int k = 0; k < 12; k++)
             {
-                cout << (*((*board->boardState) + ((k - 11) + i) ));
+                if((k!=0) && (k!=11))
+                {
+                    int temp = line[k] - '0';
+                    board.boardState[i][k] = temp;
+                    std::cout << board.boardState[i][k] << " " << temp << std::endl;
+                }
             }
         }
-    }
-    std::cout << std::endl;
+        std::cout << std::endl;
 };

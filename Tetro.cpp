@@ -55,7 +55,6 @@ bool Tetro::collisionCheck(int potential[][2], Board board)
         if (board.boardState[pot_y][pot_x] !=0)
         {
             return false;
-            break;
         }
     }
     return true;
@@ -65,18 +64,26 @@ bool Tetro::moveTetro(char direction, Board & board)
 {
     int sX, sY;
     switch(direction)
-        {
-        case DOWN:
-            ghost_location_y = current_location_y; break;
-        case LEFT:
-            ghost_location_x = current_location_x; break;
-        case RIGHT:
-            ghost_location_x = current_location_x; break;
-        }
+        //***Sets the potential location depending on arguments***
+    {
+    case DOWN:
+        ghost_location_y = current_location_y;
+        ghost_location_y++;
+        break;
+    case LEFT:
+        ghost_location_x = current_location_x;
+        ghost_location_x--;
+        break;
+    case RIGHT:
+        ghost_location_x = current_location_x;
+        ghost_location_x++;
+        break;
+    }
     for(int i = 0; i<4; i++)
     {
         switch(direction)
         {
+            //***Creates a ghost piece to compare in collision tests***
         case DOWN:
             sY = current_tetro[i][1];
             sY++;
@@ -102,17 +109,18 @@ bool Tetro::moveTetro(char direction, Board & board)
     {
         if(direction == DOWN)
         {
-            current_location_x = ghost_location_x;
+            current_location_y = ghost_location_y;
         }
         else
         {
-            current_location_y = ghost_location_y;
+            current_location_x = ghost_location_x;
         }
     }
     else if(direction == DOWN)
     {
-        std::cout << "written" << std::endl;
         board.writeToBoard(current_location_x, current_location_y, current_tetro);
+        board.checkBoard(board);
+        std::cout << "passed check" << std::endl;
         return false;
     }
     else

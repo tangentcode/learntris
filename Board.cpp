@@ -58,8 +58,44 @@ void Board::writeToBoard(int locX, int locY, int shape_to_write[][2])
     {
         wX = shape_to_write[i][0] + locX;
         wY = shape_to_write[i][1] + locY;
-        std::cout << wX << " " << wY << std::endl;
         boardState[wY][wX] = 1;
 
     }
 }
+
+void Board::checkBoard(Board board)
+{
+    int filled_blocks = 0;
+    for(int i = 0; i < 22; i++)
+    {
+        for(int j = 0; j < 12; j++)
+        {
+            if(boardState[i][j] > 0)
+            {
+                filled_blocks++;
+                std::cout << filled_blocks << std::endl;
+                //***Loop that sets each block to that of the block above it***
+                if(filled_blocks == 12)
+                {
+
+                    for(int ii = i; ii != 0; ii--)
+                    {
+                        int row_above = ii;
+                        row_above--;
+                        for(int j = 0; j < 12; j++)
+                        {
+                            boardState[ii][j] = boardState[row_above][j];
+                        }
+                    }
+                }
+            }
+        }
+        filled_blocks = 0;
+    }
+}
+
+
+
+
+
+

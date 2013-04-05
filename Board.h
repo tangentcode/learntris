@@ -11,12 +11,12 @@ public:
     ~Board();
 
     enum {BLOC_NULL, BLOC_FILL, BLOC_SIDE};
-    int boardState[25][12];
+    int boardState[23][12];
     bool getSpace(int x);
     void initBoard();
     void printBoard();
     void writeToBoard(int locX, int locY, int shape_to_write[][2]);
-    friend class Tetro;
+    void checkBoard(Board board);
 };
 
 
