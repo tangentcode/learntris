@@ -4,14 +4,14 @@
 Board::Board()
 {
     memset(boardState, BLOC_NULL, sizeof(boardState));
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < 23; i++)
     {
         boardState[i][0] = 2;
         boardState[i][11] = 2;
     }
     for(int i = 0; i < 12; i++)
     {
-        boardState[24][i] = 2;
+        boardState[22][i] = 2;
     }
 };
 Board::~Board()
@@ -25,7 +25,7 @@ Early cout boardview for diag
 
 void Board::printBoard()
 {
-    for (int k=0; k< 300; k++)
+    for (int k=0; k< 276; k++)
     {
         std::cout << *((*boardState) + k);
         if ((k+1)%12 == 0)

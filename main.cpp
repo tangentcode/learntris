@@ -6,7 +6,7 @@ int main (int argc, char *argv[])
     Tetro tetro(1);
     Board board;
     tetro.current_location_x = 5;
-    tetro.current_location_y = 22;
+    tetro.current_location_y = 20;
 
     tetro.moveTetro('d',board);
     for(int i = 0; i < 4; i++)
