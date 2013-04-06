@@ -14,6 +14,8 @@ Tetro::Tetro(int blocktype)
             current_tetro[i][j] = tetro_shapes[blocktype][i][j];
         }
     }
+    current_location_x = 5;
+    current_location_y = 2;
 };
 
 Tetro::~Tetro()
@@ -62,6 +64,7 @@ bool Tetro::collisionCheck(int potential[][2], Board board)
 
 bool Tetro::moveTetro(char direction, Board & board)
 {
+
     int sX, sY;
     switch(direction)
         //***Sets the potential location depending on arguments***

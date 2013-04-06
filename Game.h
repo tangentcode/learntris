@@ -28,7 +28,7 @@ class Game
     bool load_files(std::string filename, std::string filename2, std::string filename3, std::string filename4);
 
     void gameLoop();
-    int genBoard(Board board);
+    void genBoard(Board board, Tetro tetro);
 };
 
 #endif

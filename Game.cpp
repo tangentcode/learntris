@@ -6,7 +6,7 @@
 
 
 
-SDL_Surface* load_image(std::string filename)
+SDL_Surface* Game::load_image(std::string filename)
 {
     //The image that's loaded
     SDL_Surface* loadedImage = NULL;
@@ -51,7 +51,7 @@ void Game::imageBlitter( int x, int y, SDL_Surface* source, SDL_Surface* destina
 
 
 
-int Game::genBoard(Board board)
+void Game::genBoard(Board board, Tetro tetro)
 {
     for(int i = 0; i < 23; i++)
     {
@@ -79,17 +79,44 @@ int Game::genBoard(Board board)
             }
         }
     }
+    for(int i =0; i <4; i++)
+    {
+        int blox = (tetro.current_location_x + tetro.current_tetro[i][0]) * 32;
+        int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
+        imageBlitter(blox,bloy,live_block,screen);
+    }
+
+
 }
 
 void Game::gameLoop()
 {
     Board board;
-    Tetro tetro(rand() % 7);
+    Tetro tetro(4);
     bool quit = false;
-    bool pressflag = false;
+    bool pressflag = true;
+    bool piece_set = true;
 
     while( quit == false )
     {
+        if(piece_set == true)
+        {
+            int piece = rand() % 7;
+            Tetro next_tetro(piece);
+            tetro = next_tetro;
+            piece_set = false;
+        }
+        if( pressflag == true )
+        {
+            //Apply the background to the screen
+            SDL_FillRect(screen, NULL, 0x000000);
+            genBoard(board, tetro);
+            //send pressflag waiting for input
+            pressflag = false;
+        }
+
+        //Update the screen
+        SDL_Flip( screen );
         //If there's an event to handle
         if( SDL_PollEvent( &event ) )
         {
@@ -100,23 +127,31 @@ void Game::gameLoop()
                 switch( event.key.keysym.sym )
                 {
                 case SDLK_UP:
-                    tetro.moveTetro('u', board);
+                    tetro.current_location_y--;
+                    //tetro.moveTetro('u', board);
                     //locale.y=locale.y-32;
                     pressflag = true;
                     break;
                 case SDLK_DOWN:
-                    //direction = 'd';
-                    tetro.moveTetro('d', board);
-
+                    if(tetro.moveTetro('d', board) == false)
+                    {
+                        piece_set = true;
+                    }
+                    pressflag = true;
                     break;
                 case SDLK_LEFT:
                     //direction = 'l';
                     tetro.moveTetro('l', board);
+                    pressflag = true;
                     break;
                 case SDLK_RIGHT:
                     //direction = 'r';
                     tetro.moveTetro('r', board);
+                    pressflag = true;
                     break;
+                case SDLK_z:
+                    tetro.rotateTetro(board);
+                    pressflag = true;
                 }
 
             }
@@ -131,24 +166,14 @@ void Game::gameLoop()
         }
 
         //If a message needs to be displayed
-        if( pressflag == true )
-        {
-            //Apply the background to the screen
-            SDL_FillRect(screen, NULL, 0x000000);
-            genBoard(board);
-            //send pressflag waiting for input
-            pressflag = false;
-        }
 
-        //Update the screen
-        SDL_Flip( screen );
     }
 }
 
 Game::Game()
 {
     SDL_Init( SDL_INIT_VIDEO );
-    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
+    screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_SWSURFACE );
     SDL_WM_SetCaption( "learntris", NULL );
     background = load_image( "background.bmp" );
     live_block = load_image( "live.bmp" );
