@@ -1,13 +1,18 @@
-mute's learntris v0.1
+mute's learntris v0.2
 
 To be done:
--scoring
+-scoring (kept, not displayed to user yet)
 -hard dropping (added)
 -preview blocks
 -menu
 -sound effects
--gravity (pending)
+-gravity (mostly finished)
+-movement autorepeat
+-2 way rotation (I'm lazy)
 
-Known bugs:
+Controls:
 
--Hard dropping into a line clear results in everything but the dropped block clearing
+Up - Hard Drop
+Left, Right, Down - Movement
+Z - Rotate
+
