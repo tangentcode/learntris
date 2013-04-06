@@ -128,10 +128,9 @@ void Game::gameLoop()
                 switch( event.key.keysym.sym )
                 {
                 case SDLK_UP:
-                    tetro.current_location_y--;
                     for(int i = 0; i < 22; i++)
                     {
-                        if(tetro.moveTetro('d', board) == false)
+                        while(tetro.moveTetro('d', board) == true)
                         {
                             piece_set = true;
                         }

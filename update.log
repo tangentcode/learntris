@@ -7,3 +7,7 @@ To be done:
 -menu
 -sound effects
 -gravity
+
+Known bugs:
+
+-Hard dropping into a line clear results in everything but the dropped block clearing
