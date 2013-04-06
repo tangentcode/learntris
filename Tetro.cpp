@@ -123,7 +123,6 @@ bool Tetro::moveTetro(char direction, Board & board)
     {
         board.writeToBoard(current_location_x, current_location_y, current_tetro);
         board.checkBoard(board);
-        std::cout << "passed check" << std::endl;
         return false;
     }
     else

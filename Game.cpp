@@ -92,7 +92,8 @@ void Game::genBoard(Board board, Tetro tetro)
 void Game::gameLoop()
 {
     Board board;
-    Tetro tetro(4);
+    srand (time(NULL));
+    Tetro tetro(rand() % 7);
     bool quit = false;
     bool pressflag = true;
     bool piece_set = true;
@@ -101,8 +102,8 @@ void Game::gameLoop()
     {
         if(piece_set == true)
         {
-            int piece = rand() % 7;
-            Tetro next_tetro(piece);
+            //int piece = rand() % 7;
+            Tetro next_tetro(rand() % 7);
             tetro = next_tetro;
             piece_set = false;
         }
@@ -128,8 +129,14 @@ void Game::gameLoop()
                 {
                 case SDLK_UP:
                     tetro.current_location_y--;
-                    //tetro.moveTetro('u', board);
-                    //locale.y=locale.y-32;
+                    for(int i = 0; i < 22; i++)
+                    {
+                        if(tetro.moveTetro('d', board) == false)
+                        {
+                            piece_set = true;
+                        }
+
+                    }
                     pressflag = true;
                     break;
                 case SDLK_DOWN:

@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include <string>
 #include "Tetro.h"
+#include <time.h>
 
 const int SCREEN_WIDTH = 384;
 const int SCREEN_HEIGHT = 768;

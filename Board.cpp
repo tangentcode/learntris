@@ -73,7 +73,6 @@ void Board::checkBoard(Board board)
             if(boardState[i][j] > 0)
             {
                 filled_blocks++;
-                std::cout << filled_blocks << std::endl;
                 //***Loop that sets each block to that of the block above it***
                 if(filled_blocks == 12)
                 {
