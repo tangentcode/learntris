@@ -76,7 +76,7 @@ void Board::checkBoard(Board board)
                 //***Loop that sets each block to that of the block above it***
                 if(filled_blocks == 12)
                 {
-
+                    lines_cleared++;
                     for(int ii = i; ii != 0; ii--)
                     {
                         int row_above = ii;

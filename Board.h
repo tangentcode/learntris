@@ -17,6 +17,7 @@ public:
     void printBoard();
     void writeToBoard(int locX, int locY, int shape_to_write[][2]);
     void checkBoard(Board board);
+    int lines_cleared = 0;
 };
 
 

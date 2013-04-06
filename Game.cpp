@@ -8,33 +8,10 @@
 
 SDL_Surface* Game::load_image(std::string filename)
 {
-    //The image that's loaded
+
     SDL_Surface* loadedImage = NULL;
-
-    //The optimized surface that will be used
-    //SDL_Surface* optimizedImage = NULL;
-
-    //Load the image
-    //loadedImage = IMG_Load( filename.c_str() );
-
-    //If the image loaded
-    //if( loadedImage != NULL )
-    //{
-    //Create an optimized surface
     loadedImage = SDL_DisplayFormat( IMG_Load( filename.c_str()) );
-
-    //Free the old surface
-    //SDL_FreeSurface( IMG_Load( filename.c_str()) );
-
-    //If the surface was optimized
-    //if( optimizedImage != NULL )
-    //{
-    //Color key surface
     SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
-    //}
-    //}
-
-    //Return the optimized surface
     return loadedImage;
 }
 
@@ -113,9 +90,12 @@ void Game::gameLoop()
     bool pressflag = true;
     bool piece_set = true;
     int gravity = 1000;
+    int time_mark = 0;
+    int line_mark = 0;
 
     while( quit == false )
     {
+        //Makes a new piece after the previous has been set
         if(piece_set == true)
         {
             //int piece = rand() % 7;
@@ -124,15 +104,7 @@ void Game::gameLoop()
             piece_set = false;
         }
 
-        if (SDL_GetTicks() % gravity == 0)
-        {
-            if(tetro.moveTetro('d', board) == false)
-            {
-                piece_set = true;
-            }
-            pressflag = true;
-        }
-
+        //renders during events
         if( pressflag == true )
         {
             //Apply the background to the screen
@@ -141,13 +113,13 @@ void Game::gameLoop()
             //send pressflag waiting for input
             pressflag = false;
         }
+
+        //Checks for Game Over
         if (checkLoss(board))
         {
             std::cout << "Game Over!" << std::endl;
             quit = true;
         }
-
-
 
         //Update the screen
         SDL_Flip( screen );
@@ -157,7 +129,6 @@ void Game::gameLoop()
             //If a key was pressed
             if( event.type == SDL_KEYDOWN )
             {
-                //Set the proper message surface
                 switch( event.key.keysym.sym )
                 {
                 case SDLK_UP:
@@ -182,12 +153,10 @@ void Game::gameLoop()
                     pressflag = true;
                     break;
                 case SDLK_LEFT:
-                    //direction = 'l';
                     tetro.moveTetro('l', board);
                     pressflag = true;
                     break;
                 case SDLK_RIGHT:
-                    //direction = 'r';
                     tetro.moveTetro('r', board);
                     pressflag = true;
                     break;
@@ -203,6 +172,25 @@ void Game::gameLoop()
             {
                 //Quit the program
                 quit = true;
+            }
+
+        }
+        else
+        {
+            if(board.lines_cleared > line_mark)
+            {
+                gravity -= (board.lines_cleared - line_mark) * 10;
+                line_mark = board.lines_cleared;
+            }
+            //gravity
+            if ((SDL_GetTicks() + gravity) > time_mark)
+            {
+                if(tetro.moveTetro('d', board) == false)
+                {
+                    piece_set = true;
+                }
+                pressflag = true;
+                time_mark = (SDL_GetTicks() + (gravity * 2));
             }
         }
 
