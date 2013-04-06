@@ -20,18 +20,18 @@ SDL_Surface* Game::load_image(std::string filename)
     //If the image loaded
     //if( loadedImage != NULL )
     //{
-        //Create an optimized surface
-        loadedImage = SDL_DisplayFormat( IMG_Load( filename.c_str()) );
+    //Create an optimized surface
+    loadedImage = SDL_DisplayFormat( IMG_Load( filename.c_str()) );
 
-        //Free the old surface
-        //SDL_FreeSurface( IMG_Load( filename.c_str()) );
+    //Free the old surface
+    //SDL_FreeSurface( IMG_Load( filename.c_str()) );
 
-        //If the surface was optimized
-        //if( optimizedImage != NULL )
-        //{
-            //Color key surface
-            SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
-        //}
+    //If the surface was optimized
+    //if( optimizedImage != NULL )
+    //{
+    //Color key surface
+    SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
+    //}
     //}
 
     //Return the optimized surface
@@ -47,6 +47,21 @@ void Game::imageBlitter( int x, int y, SDL_Surface* source, SDL_Surface* destina
 
     //Blit
     SDL_BlitSurface( source, NULL, destination, &offset );
+}
+
+bool Game::checkLoss(Board board)
+{
+    for(int i = 0; i < 2; i++)
+    {
+        for(int j = 0; j < 12; j++)
+        {
+            if(board.boardState[i][j] == 1)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -85,7 +100,7 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
         imageBlitter(blox,bloy,live_block,screen);
     }
-
+    imageBlitter(0,0,HUD,screen);
 
 }
 
@@ -97,6 +112,7 @@ void Game::gameLoop()
     bool quit = false;
     bool pressflag = true;
     bool piece_set = true;
+    int gravity = 1000;
 
     while( quit == false )
     {
@@ -107,6 +123,16 @@ void Game::gameLoop()
             tetro = next_tetro;
             piece_set = false;
         }
+
+        if (SDL_GetTicks() % gravity == 0)
+        {
+            if(tetro.moveTetro('d', board) == false)
+            {
+                piece_set = true;
+            }
+            pressflag = true;
+        }
+
         if( pressflag == true )
         {
             //Apply the background to the screen
@@ -115,6 +141,13 @@ void Game::gameLoop()
             //send pressflag waiting for input
             pressflag = false;
         }
+        if (checkLoss(board))
+        {
+            std::cout << "Game Over!" << std::endl;
+            quit = true;
+        }
+
+
 
         //Update the screen
         SDL_Flip( screen );
@@ -130,9 +163,12 @@ void Game::gameLoop()
                 case SDLK_UP:
                     for(int i = 0; i < 22; i++)
                     {
-                        while(tetro.moveTetro('d', board) == true)
+                        while(piece_set == false)
                         {
-                            piece_set = true;
+                            if(tetro.moveTetro('d', board) == false)
+                            {
+                                piece_set = true;
+                            }
                         }
 
                     }
@@ -167,7 +203,6 @@ void Game::gameLoop()
             {
                 //Quit the program
                 quit = true;
-                pressflag = false;
             }
         }
 
@@ -185,6 +220,7 @@ Game::Game()
     live_block = load_image( "live.bmp" );
     wall = load_image( "wall.bmp" );
     dead_block = load_image("dead.bmp");
+    HUD = load_image("HUD.bmp");
 }
 
 Game::~Game()
@@ -195,6 +231,7 @@ Game::~Game()
     SDL_FreeSurface( screen );
     SDL_FreeSurface( wall );
     SDL_FreeSurface( dead_block );
+    SDL_FreeSurface( HUD );
     //Quit SDL
     SDL_Quit();
 }

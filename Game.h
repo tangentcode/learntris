@@ -13,7 +13,7 @@ const int SCREEN_BPP = 32;
 
 class Game
 {
-    public:
+public:
     Game();
     ~Game();
     SDL_Surface *background = NULL;
@@ -21,9 +21,11 @@ class Game
     SDL_Surface *wall = NULL;
     SDL_Surface *dead_block = NULL;
     SDL_Surface *screen = NULL;
+    SDL_Surface *HUD = NULL;
 
     SDL_Event event;
 
+    bool checkLoss(Board board);
     SDL_Surface* load_image(std::string filename);
     void imageBlitter(int x, int y, SDL_Surface * source, SDL_Surface * destination);
     bool load_files(std::string filename, std::string filename2, std::string filename3, std::string filename4);

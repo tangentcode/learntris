@@ -8,7 +8,7 @@ class Tetro
 public:
     Tetro(int blocktype);
     ~Tetro();
-    enum{LEFT = 'l', DOWN = 'd', RIGHT = 'r'};
+    enum {LEFT = 'l', DOWN = 'd', RIGHT = 'r'};
     bool moveTetro(char direction, Board & board);
     bool rotateTetro(Board board);
     bool collisionCheck(int potential[][2], Board board);
