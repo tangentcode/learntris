@@ -29,6 +29,7 @@ public:
     SDL_Color bgColor = { 0,0,0 };
     TTF_Font *font = NULL;
 
+
     Board board;
     bool quit = false;
     bool pressflag = true;

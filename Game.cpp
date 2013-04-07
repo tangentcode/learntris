@@ -1,11 +1,5 @@
 #include "Game.h"
 
-
-
-
-
-
-
 SDL_Surface* Game::load_image(std::string filename)
 {
 
@@ -25,24 +19,7 @@ void Game::imageBlitter( int x, int y, SDL_Surface* source, SDL_Surface* destina
     //Blit
     SDL_BlitSurface( source, NULL, destination, &offset );
 }
-/*-------------------------------------------
-Checks for loss(multiplayer only)
---------------------------------------------*/
 
-bool Game::checkLoss(Board board)
-{
-    for(int i = 0; i < 2; i++)
-    {
-        for(int j = 0; j < 12; j++)
-        {
-            if(board.boardState[i][j] == 1)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
 /*-------------------------------------------
 Sets up the screen surface for flipping
 --------------------------------------------*/
@@ -68,6 +45,7 @@ void Game::genBoard(Board board, Tetro tetro)
                 int y = i*32;
                 imageBlitter(x,y,dead_block,screen);
             }
+            //Background
             else if (board.boardState[i][k] == 0)
             {
                 int x = k*32;
@@ -76,12 +54,14 @@ void Game::genBoard(Board board, Tetro tetro)
             }
         }
     }
+    //Renders current tetro
     for(int i =0; i <4; i++)
     {
         int blox = (tetro.current_location_x + tetro.current_tetro[i][0]) * 32;
         int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
         imageBlitter(blox,bloy,live_block,screen);
     }
+    //Renders current HUD and etc.
     imageBlitter(0,0,HUD,screen);
     for(int i =0; i <4; i++)
     {
@@ -89,10 +69,9 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (preview[i][1] + 1) * 32;
         imageBlitter(blox,bloy,dead_block,screen);
     }
-    font = TTF_OpenFont( "media/DroidSans.ttf", 18 );
+
     imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
     imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
-        //imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
 }
 /*-------------------------------------------
 Main game loop
@@ -108,13 +87,12 @@ void Game::gameLoop()
         //Makes a new piece after the previous has been set
         if(piece_set == true)
         {
-            //int piece = rand() % 7;
             Tetro new_tetro(rand() % 7);
             tetro = next_tetro;
             next_tetro = new_tetro;
             if(tetro.collisionCheck(tetro.current_tetro, board) == false)
             {
-                    quit = true;
+                quit = true;
             }
             memcpy(preview, next_tetro.current_tetro, sizeof(preview));
             piece_set = false;
@@ -130,16 +108,9 @@ void Game::gameLoop()
             pressflag = false;
         }
 
-        //Checks for Game Over
-        if (checkLoss(board))
-        {
-            std::cout << "Game Over!" << std::endl;
-            quit = true;
-        }
-
         //Update the screen
         SDL_UpdateRect(screen,0,0,0,0);
-       //SDL_Flip( screen );
+        //SDL_Flip( screen );
 
         //Checks for input
         if( SDL_PollEvent( &event ) )
@@ -185,10 +156,9 @@ void Game::gameLoop()
 
             }
 
-            //If the user has Xed out the window
+            //Quit
             else if( event.type == SDL_QUIT )
             {
-                //Quit the program
                 quit = true;
             }
 
@@ -214,24 +184,21 @@ void Game::gameLoop()
                 time_mark = (SDL_GetTicks() + (gravity * 2));
             }
         }
-
-        //If a message needs to be displayed
-
     }
-
 }
 
 Game::Game()
 {
     SDL_Init( SDL_INIT_VIDEO );
     TTF_Init();
-    screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_SWSURFACE );
-    SDL_WM_SetCaption( "learntris", NULL );
+    screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_RESIZABLE);
     background = load_image( "media/background.bmp" );
     live_block = load_image( "media/live.bmp" );
     wall = load_image( "media/wall.bmp" );
     dead_block = load_image("media/dead.bmp");
     HUD = load_image("media/HUD.bmp");
+    SDL_WM_SetCaption( "learntris", NULL );
+    font = TTF_OpenFont( "media/DroidSans.ttf", 18 );
 }
 
 Game::~Game()
@@ -243,10 +210,7 @@ Game::~Game()
     SDL_FreeSurface( wall );
     SDL_FreeSurface( dead_block );
     SDL_FreeSurface( HUD );
+    TTF_CloseFont( font );
     //Quit SDL
     SDL_Quit();
 }
-
-
-
-

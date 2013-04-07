@@ -20,22 +20,6 @@ Board::~Board()
 };
 
 /*--------------------------
-Early cout boardview for diag
-----------------------------*/
-
-void Board::printBoard()
-{
-    for (int k=0; k< 276; k++)
-    {
-        std::cout << *((*boardState) + k);
-        if ((k+1)%12 == 0)
-        {
-            std::cout << std::endl;
-        }
-    }
-    std::cout << std::endl;
-}
-/*--------------------------
 Who knows
 ----------------------------*/
 bool Board::getSpace(int x)
