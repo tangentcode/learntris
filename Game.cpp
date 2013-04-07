@@ -204,11 +204,11 @@ Game::Game()
     SDL_Init( SDL_INIT_VIDEO );
     screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_SWSURFACE );
     SDL_WM_SetCaption( "learntris", NULL );
-    background = load_image( "background.bmp" );
-    live_block = load_image( "live.bmp" );
-    wall = load_image( "wall.bmp" );
-    dead_block = load_image("dead.bmp");
-    HUD = load_image("HUD.bmp");
+    background = load_image( "media/background.bmp" );
+    live_block = load_image( "media/live.bmp" );
+    wall = load_image( "media/wall.bmp" );
+    dead_block = load_image("media/dead.bmp");
+    HUD = load_image("media/HUD.bmp");
 }
 
 Game::~Game()
