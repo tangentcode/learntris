@@ -16,6 +16,14 @@ Tetro::Tetro(int blocktype)
     }
     current_location_x = 5;
     current_location_y = 2;
+    for(int i = 0; i < 4; i++)
+    {
+        if(current_tetro[i][1] == -1)
+        {
+            current_location_y = 3;
+        }
+    }
+
 };
 
 Tetro::~Tetro()

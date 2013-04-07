@@ -3,9 +3,11 @@
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
 #include <string>
 #include "Tetro.h"
 #include <time.h>
+#include <sstream>
 
 const int SCREEN_WIDTH = 384;
 const int SCREEN_HEIGHT = 768;
@@ -22,8 +24,18 @@ public:
     SDL_Surface *dead_block = NULL;
     SDL_Surface *screen = NULL;
     SDL_Surface *HUD = NULL;
-
+    SDL_Surface *stats = NULL;
     SDL_Event event;
+
+    Board board;
+    bool quit = false;
+    bool pressflag = true;
+    bool piece_set = true;
+    int gravity = 1000;
+    int time_mark = 0;
+    int line_mark = 0;
+    int preview[4][2];
+
 
     bool checkLoss(Board board);
     SDL_Surface* load_image(std::string filename);

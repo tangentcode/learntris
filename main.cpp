@@ -7,6 +7,7 @@ int main (int argc, char *argv[])
 {
     Game game;
     game.gameLoop();
+    std::cout << "Game Over!" << std::endl;
 
 
 
@@ -26,6 +27,9 @@ int main (int argc, char *argv[])
     std::cout << "done";
     tetro.rotateTetro(board);
     board.printBoard();
+
+_______________________________________________________________________
+        imageBlitter(0,0,HUD,screen);
 
 
 

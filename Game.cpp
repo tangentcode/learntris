@@ -11,7 +11,7 @@ SDL_Surface* Game::load_image(std::string filename)
 
     SDL_Surface* loadedImage = NULL;
     loadedImage = SDL_DisplayFormat( IMG_Load( filename.c_str()) );
-    SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
+    //SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
     return loadedImage;
 }
 
@@ -78,29 +78,42 @@ void Game::genBoard(Board board, Tetro tetro)
         imageBlitter(blox,bloy,live_block,screen);
     }
     imageBlitter(0,0,HUD,screen);
+    for(int i =0; i <4; i++)
+    {
+        int blox = (preview[i][0] + 3) * 32;
+        int bloy = (preview[i][1] + 1) * 32;
+        imageBlitter(blox,bloy,dead_block,screen);
+    }
+        std::stringstream convert;
+        convert << board.lines_cleared;
+        std::string str_stat = "Lines:" + convert.str();
+        SDL_Color textColor = { 255, 255, 255 };
+        SDL_Color bgColor = { 0,0,0 };
+        TTF_Font *font = TTF_OpenFont( "media/DroidSans.ttf", 16 );
+        imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
+        imageBlitter(16,16,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
 
 }
 
 void Game::gameLoop()
 {
-    Board board;
     srand (time(NULL));
     Tetro tetro(rand() % 7);
-    bool quit = false;
-    bool pressflag = true;
-    bool piece_set = true;
-    int gravity = 1000;
-    int time_mark = 0;
-    int line_mark = 0;
-
+    Tetro next_tetro(rand() % 7);
     while( quit == false )
     {
         //Makes a new piece after the previous has been set
         if(piece_set == true)
         {
             //int piece = rand() % 7;
-            Tetro next_tetro(rand() % 7);
+            Tetro new_tetro(rand() % 7);
             tetro = next_tetro;
+            next_tetro = new_tetro;
+            if(tetro.collisionCheck(tetro.current_tetro, board) == false)
+            {
+                    quit = true;
+            }
+            memcpy(preview, next_tetro.current_tetro, sizeof(preview));
             piece_set = false;
         }
 
@@ -122,8 +135,10 @@ void Game::gameLoop()
         }
 
         //Update the screen
-        SDL_Flip( screen );
-        //If there's an event to handle
+        SDL_UpdateRect(screen,0,0,0,0);
+       //SDL_Flip( screen );
+
+        //Checks for input
         if( SDL_PollEvent( &event ) )
         {
             //If a key was pressed
@@ -197,11 +212,13 @@ void Game::gameLoop()
         //If a message needs to be displayed
 
     }
+
 }
 
 Game::Game()
 {
     SDL_Init( SDL_INIT_VIDEO );
+    TTF_Init();
     screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_SWSURFACE );
     SDL_WM_SetCaption( "learntris", NULL );
     background = load_image( "media/background.bmp" );

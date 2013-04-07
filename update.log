@@ -1,12 +1,12 @@
 mute's learntris v0.2
 
 To be done:
--scoring (kept, not displayed to user yet)
+-scoring (added)
 -hard dropping (added)
--preview blocks
+-preview blocks (added)
 -menu
 -sound effects
--gravity (mostly finished)
+-gravity (added)
 -movement autorepeat
 -2 way rotation (I'm lazy)
 
