@@ -82,6 +82,7 @@ void Game::gameLoop()
     srand (time(NULL));
     Tetro tetro(rand() % 7);
     Tetro next_tetro(rand() % 7);
+    int keydown_mark = 0;
     while( quit == false )
     {
         //Makes a new piece after the previous has been set
@@ -139,14 +140,17 @@ void Game::gameLoop()
                     {
                         piece_set = true;
                     }
+                    keydown_mark = SDL_GetTicks();
                     pressflag = true;
                     break;
                 case SDLK_LEFT:
                     tetro.moveTetro('l', board);
+                    keydown_mark = SDL_GetTicks();
                     pressflag = true;
                     break;
                 case SDLK_RIGHT:
                     tetro.moveTetro('r', board);
+                    keydown_mark = SDL_GetTicks();
                     pressflag = true;
                     break;
                 case SDLK_z:
@@ -161,28 +165,61 @@ void Game::gameLoop()
             {
                 quit = true;
             }
-
         }
-        else
+        Uint8 *keystates = SDL_GetKeyState( NULL );
+        if(keystates[SDLK_DOWN])
         {
-            if(board.lines_cleared > line_mark)
+
+            if(keydown_mark + 500 < SDL_GetTicks())
             {
-                std::stringstream convert;
-                convert << board.lines_cleared;
-                str_stat = "Lines:" + convert.str();
-                gravity -= (board.lines_cleared - line_mark) * 10;
-                line_mark = board.lines_cleared;
-            }
-            //gravity
-            if ((SDL_GetTicks() + gravity) > time_mark)
-            {
+                keydown_mark = SDL_GetTicks() -450;
                 if(tetro.moveTetro('d', board) == false)
                 {
                     piece_set = true;
                 }
-                pressflag = true;
-                time_mark = (SDL_GetTicks() + (gravity * 2));
+                genBoard(board, tetro);
             }
+
+        }
+        else if(keystates[SDLK_LEFT])
+        {
+
+            if(keydown_mark + 500 < SDL_GetTicks())
+            {
+                keydown_mark = SDL_GetTicks() -450;
+                tetro.moveTetro('l', board);
+                genBoard(board, tetro);
+            }
+
+        }
+        else if(keystates[SDLK_RIGHT])
+        {
+
+            if(keydown_mark + 500 < SDL_GetTicks())
+            {
+                keydown_mark = SDL_GetTicks() -450;
+                tetro.moveTetro('r', board);
+                genBoard(board, tetro);
+            }
+
+        }
+        if(board.lines_cleared > line_mark)
+        {
+            std::stringstream convert;
+            convert << board.lines_cleared;
+            str_stat = "Lines:" + convert.str();
+            gravity -= (board.lines_cleared - line_mark) * 10;
+            line_mark = board.lines_cleared;
+        }
+        //gravity
+        if ((SDL_GetTicks() + gravity) > time_mark)
+        {
+            if(tetro.moveTetro('d', board) == false)
+            {
+                piece_set = true;
+            }
+            pressflag = true;
+            time_mark = (SDL_GetTicks() + (gravity * 2));
         }
     }
 }
@@ -191,7 +228,7 @@ Game::Game()
 {
     SDL_Init( SDL_INIT_VIDEO );
     TTF_Init();
-    screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_RESIZABLE);
+    screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_HWSURFACE);
     background = load_image( "media/background.bmp" );
     live_block = load_image( "media/live.bmp" );
     wall = load_image( "media/wall.bmp" );

@@ -8,6 +8,9 @@
 #include "Tetro.h"
 #include <time.h>
 #include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 const int SCREEN_WIDTH = 384;
 const int SCREEN_HEIGHT = 768;
