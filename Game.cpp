@@ -25,6 +25,9 @@ void Game::imageBlitter( int x, int y, SDL_Surface* source, SDL_Surface* destina
     //Blit
     SDL_BlitSurface( source, NULL, destination, &offset );
 }
+/*-------------------------------------------
+Checks for loss(multiplayer only)
+--------------------------------------------*/
 
 bool Game::checkLoss(Board board)
 {
@@ -40,7 +43,9 @@ bool Game::checkLoss(Board board)
     }
     return false;
 }
-
+/*-------------------------------------------
+Sets up the screen surface for flipping
+--------------------------------------------*/
 
 
 void Game::genBoard(Board board, Tetro tetro)
@@ -84,16 +89,12 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (preview[i][1] + 1) * 32;
         imageBlitter(blox,bloy,dead_block,screen);
     }
-        std::stringstream convert;
-        convert << board.lines_cleared;
-        std::string str_stat = "Lines:" + convert.str();
-        SDL_Color textColor = { 255, 255, 255 };
-        SDL_Color bgColor = { 0,0,0 };
-        TTF_Font *font = TTF_OpenFont( "media/DroidSans.ttf", 16 );
-        imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
-        imageBlitter(16,16,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
-
+        //imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
+        //imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
 }
+/*-------------------------------------------
+Main game loop
+--------------------------------------------*/
 
 void Game::gameLoop()
 {
@@ -194,6 +195,9 @@ void Game::gameLoop()
         {
             if(board.lines_cleared > line_mark)
             {
+                std::stringstream convert;
+                convert << board.lines_cleared;
+                str_stat = "Lines:" + convert.str();
                 gravity -= (board.lines_cleared - line_mark) * 10;
                 line_mark = board.lines_cleared;
             }

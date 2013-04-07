@@ -24,8 +24,10 @@ public:
     SDL_Surface *dead_block = NULL;
     SDL_Surface *screen = NULL;
     SDL_Surface *HUD = NULL;
-    SDL_Surface *stats = NULL;
     SDL_Event event;
+    SDL_Color textColor = { 255, 255, 255 };
+    SDL_Color bgColor = { 0,0,0 };
+    TTF_Font *font = TTF_OpenFont( "media/DroidSans.ttf", 16 );
 
     Board board;
     bool quit = false;
@@ -35,15 +37,15 @@ public:
     int time_mark = 0;
     int line_mark = 0;
     int preview[4][2];
+    std::string str_stat;
 
 
-    bool checkLoss(Board board);
     SDL_Surface* load_image(std::string filename);
     void imageBlitter(int x, int y, SDL_Surface * source, SDL_Surface * destination);
-    bool load_files(std::string filename, std::string filename2, std::string filename3, std::string filename4);
 
     void gameLoop();
     void genBoard(Board board, Tetro tetro);
+    bool checkLoss(Board board);
 };
 
 #endif
