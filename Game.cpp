@@ -89,7 +89,9 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (preview[i][1] + 1) * 32;
         imageBlitter(blox,bloy,dead_block,screen);
     }
-        //imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
+    font = TTF_OpenFont( "media/DroidSans.ttf", 18 );
+    imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
+    imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
         //imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
 }
 /*-------------------------------------------

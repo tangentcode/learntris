@@ -27,7 +27,7 @@ public:
     SDL_Event event;
     SDL_Color textColor = { 255, 255, 255 };
     SDL_Color bgColor = { 0,0,0 };
-    TTF_Font *font = TTF_OpenFont( "media/DroidSans.ttf", 16 );
+    TTF_Font *font = NULL;
 
     Board board;
     bool quit = false;
