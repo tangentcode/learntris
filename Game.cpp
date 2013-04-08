@@ -126,6 +126,13 @@ void Game::gameLoop()
                     {
                         while(piece_set == false)
                         {
+                            for(int i =0; i <4; i++)
+                            {
+                                int blox = ((tetro.current_location_x + tetro.current_tetro[i][0] ) * 32);
+                                int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
+                                imageBlitter(blox,bloy,live_block,screen);
+                                SDL_UpdateRect(screen,0,0,0,0);
+                            }
                             if(tetro.moveTetro('d', board) == false)
                             {
                                 piece_set = true;
@@ -147,6 +154,7 @@ void Game::gameLoop()
                     tetro.moveTetro('l', board);
                     keydown_mark = SDL_GetTicks();
                     pressflag = true;
+
                     break;
                 case SDLK_RIGHT:
                     tetro.moveTetro('r', board);
@@ -170,9 +178,9 @@ void Game::gameLoop()
         if(keystates[SDLK_DOWN])
         {
 
-            if(keydown_mark + 500 < SDL_GetTicks())
+            if(keydown_mark + 250 < SDL_GetTicks())
             {
-                keydown_mark = SDL_GetTicks() -450;
+                keydown_mark = SDL_GetTicks() -200;
                 if(tetro.moveTetro('d', board) == false)
                 {
                     piece_set = true;
@@ -184,9 +192,9 @@ void Game::gameLoop()
         else if(keystates[SDLK_LEFT])
         {
 
-            if(keydown_mark + 500 < SDL_GetTicks())
+            if(keydown_mark + 250 < SDL_GetTicks())
             {
-                keydown_mark = SDL_GetTicks() -450;
+                keydown_mark = SDL_GetTicks() -200;
                 tetro.moveTetro('l', board);
                 genBoard(board, tetro);
             }
@@ -195,9 +203,9 @@ void Game::gameLoop()
         else if(keystates[SDLK_RIGHT])
         {
 
-            if(keydown_mark + 500 < SDL_GetTicks())
+            if(keydown_mark + 250 < SDL_GetTicks())
             {
-                keydown_mark = SDL_GetTicks() -450;
+                keydown_mark = SDL_GetTicks() -200;
                 tetro.moveTetro('r', board);
                 genBoard(board, tetro);
             }

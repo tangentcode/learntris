@@ -15,11 +15,11 @@ public:
     int current_location_x, current_location_y;
     int ghost_location_x, ghost_location_y;
     int current_tetro[4][2];
-    int ghost_tetro[4][2];
     friend class Board;
 
 
 private:
+    int ghost_tetro[4][2];
     int tetro_shapes[7][4][2] =
     {
         // Z Block
