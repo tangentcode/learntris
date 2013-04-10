@@ -20,6 +20,4 @@ public:
     int lines_cleared = 0;
 };
 
-
-
 #endif

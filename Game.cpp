@@ -2,7 +2,6 @@
 
 SDL_Surface* Game::load_image(std::string filename)
 {
-
     SDL_Surface* loadedImage = NULL;
     loadedImage = SDL_DisplayFormat( SDL_LoadBMP( filename.c_str()) );
     return loadedImage;
@@ -23,7 +22,6 @@ void Game::imageBlitter( int x, int y, SDL_Surface* source, SDL_Surface* destina
 Sets up the screen surface for flipping
 --------------------------------------------*/
 
-
 void Game::genBoard(Board board, Tetro tetro)
 {
     for(int i = 0; i < 23; i++)
@@ -35,7 +33,6 @@ void Game::genBoard(Board board, Tetro tetro)
             //Checks and applies walls
             if(board.boardState[i][k] == 2)
             {
-
                 imageBlitter(x,y,wall,screen);
             }
             //Checks and applies blocks
@@ -57,25 +54,22 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
         imageBlitter(blox,bloy,live_block,screen);
     }
-
     SDL_UpdateRect(screen,0,64,384,672);
     //Renders current HUD and etc.
     if (piece_set == true)
     {
-    imageBlitter(0,0,HUD,screen);
-    for(int i =0; i <4; i++)
-    {
-        int blox = (preview[i][0] + 3) * 32;
-        int bloy = (preview[i][1] + 1) * 32;
-        imageBlitter(blox,bloy,dead_block,screen);
-    }
-    imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
-    imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
-    SDL_UpdateRect(screen,0,0,384,64);
+        imageBlitter(0,0,HUD,screen);
+        for(int i =0; i <4; i++)
+        {
+            int blox = (preview[i][0] + 3) * 32;
+            int bloy = (preview[i][1] + 1) * 32;
+            imageBlitter(blox,bloy,dead_block,screen);
+        }
+        imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
+        imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
+        SDL_UpdateRect(screen,0,0,384,64);
     }
 }
-
-
 
 /*-------------------------------------------
 Main game loop

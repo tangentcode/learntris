@@ -76,9 +76,3 @@ void Board::checkBoard(Board board)
         filled_blocks = 0;
     }
 }
-
-
-
-
-
-
