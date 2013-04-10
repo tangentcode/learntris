@@ -4,8 +4,7 @@ SDL_Surface* Game::load_image(std::string filename)
 {
 
     SDL_Surface* loadedImage = NULL;
-    loadedImage = SDL_DisplayFormat( IMG_Load( filename.c_str()) );
-    //SDL_SetColorKey( loadedImage, SDL_SRCCOLORKEY, SDL_MapRGB( loadedImage->format, 0, 0xFF, 0xFF ) );
+    loadedImage = SDL_DisplayFormat( SDL_LoadBMP( filename.c_str()) );
     return loadedImage;
 }
 
@@ -31,25 +30,22 @@ void Game::genBoard(Board board, Tetro tetro)
     {
         for(int k = 0; k < 12; k++)
         {
+            int x = k*32;
+            int y = i*32;
             //Checks and applies walls
             if(board.boardState[i][k] == 2)
             {
-                int x = k*32;
-                int y = i*32;
+
                 imageBlitter(x,y,wall,screen);
             }
             //Checks and applies blocks
             else if (board.boardState[i][k] == 1)
             {
-                int x = k*32;
-                int y = i*32;
                 imageBlitter(x,y,dead_block,screen);
             }
             //Background
             else if (board.boardState[i][k] == 0)
             {
-                int x = k*32;
-                int y = i*32;
                 imageBlitter(x,y,background,screen);
             }
         }
@@ -61,7 +57,11 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
         imageBlitter(blox,bloy,live_block,screen);
     }
+
+    SDL_UpdateRect(screen,0,64,384,672);
     //Renders current HUD and etc.
+    if (piece_set == true)
+    {
     imageBlitter(0,0,HUD,screen);
     for(int i =0; i <4; i++)
     {
@@ -69,10 +69,14 @@ void Game::genBoard(Board board, Tetro tetro)
         int bloy = (preview[i][1] + 1) * 32;
         imageBlitter(blox,bloy,dead_block,screen);
     }
-
     imageBlitter(16,8,TTF_RenderText_Shaded( font, "Next:", textColor , bgColor),screen);
     imageBlitter(192,8,TTF_RenderText_Shaded( font, str_stat.c_str(), textColor , bgColor),screen);
+    SDL_UpdateRect(screen,0,0,384,64);
+    }
 }
+
+
+
 /*-------------------------------------------
 Main game loop
 --------------------------------------------*/
@@ -82,7 +86,6 @@ void Game::gameLoop()
     srand (time(NULL));
     Tetro tetro(rand() % 7);
     Tetro next_tetro(rand() % 7);
-    int keydown_mark = 0;
     while( quit == false )
     {
         //Makes a new piece after the previous has been set
@@ -96,23 +99,9 @@ void Game::gameLoop()
                 quit = true;
             }
             memcpy(preview, next_tetro.current_tetro, sizeof(preview));
+            genBoard(board, tetro);
             piece_set = false;
         }
-
-        //renders during events
-        if( pressflag == true )
-        {
-            //Apply the background to the screen
-            SDL_FillRect(screen, NULL, 0x000000);
-            genBoard(board, tetro);
-            //send pressflag waiting for input
-            pressflag = false;
-        }
-
-        //Update the screen
-        SDL_UpdateRect(screen,0,0,0,0);
-        //SDL_Flip( screen );
-
         //Checks for input
         if( SDL_PollEvent( &event ) )
         {
@@ -126,13 +115,6 @@ void Game::gameLoop()
                     {
                         while(piece_set == false)
                         {
-                            for(int i =0; i <4; i++)
-                            {
-                                int blox = ((tetro.current_location_x + tetro.current_tetro[i][0] ) * 32);
-                                int bloy = (tetro.current_location_y + tetro.current_tetro[i][1]) * 32;
-                                imageBlitter(blox,bloy,live_block,screen);
-                                SDL_UpdateRect(screen,0,0,0,0);
-                            }
                             if(tetro.moveTetro('d', board) == false)
                             {
                                 piece_set = true;
@@ -140,7 +122,7 @@ void Game::gameLoop()
                         }
 
                     }
-                    pressflag = true;
+                    genBoard(board, tetro);
                     break;
                 case SDLK_DOWN:
                     if(tetro.moveTetro('d', board) == false)
@@ -148,23 +130,21 @@ void Game::gameLoop()
                         piece_set = true;
                     }
                     keydown_mark = SDL_GetTicks();
-                    pressflag = true;
                     break;
                 case SDLK_LEFT:
                     tetro.moveTetro('l', board);
                     keydown_mark = SDL_GetTicks();
-                    pressflag = true;
-
                     break;
                 case SDLK_RIGHT:
                     tetro.moveTetro('r', board);
                     keydown_mark = SDL_GetTicks();
-                    pressflag = true;
                     break;
                 case SDLK_z:
                     tetro.rotateTetro(board);
-                    pressflag = true;
+                case SDLK_ESCAPE:
+                    pause = pause * -1;
                 }
+                genBoard(board, tetro);
 
             }
 
@@ -226,7 +206,7 @@ void Game::gameLoop()
             {
                 piece_set = true;
             }
-            pressflag = true;
+            genBoard(board, tetro);
             time_mark = (SDL_GetTicks() + (gravity * 2));
         }
     }

@@ -14,7 +14,7 @@
 
 const int SCREEN_WIDTH = 384;
 const int SCREEN_HEIGHT = 768;
-const int SCREEN_BPP = 32;
+const int SCREEN_BPP = 16;
 
 class Game
 {
@@ -40,7 +40,9 @@ public:
     int gravity = 1000;
     int time_mark = 0;
     int line_mark = 0;
+    int keydown_mark = 0;
     int preview[4][2];
+    int pause = 1;
     std::string str_stat;
 
 
