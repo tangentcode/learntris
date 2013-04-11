@@ -14,7 +14,7 @@
 
 const int SCREEN_WIDTH = 384;
 const int SCREEN_HEIGHT = 768;
-const int SCREEN_BPP = 16;
+const int SCREEN_BPP = 32;
 
 class Game
 {

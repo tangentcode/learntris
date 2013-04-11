@@ -3,7 +3,7 @@
 SDL_Surface* Game::load_image(std::string filename)
 {
     SDL_Surface* loadedImage = NULL;
-    loadedImage = SDL_DisplayFormat( SDL_LoadBMP( filename.c_str()) );
+    loadedImage = SDL_ConvertSurface((SDL_DisplayFormat( SDL_LoadBMP( filename.c_str()) )), screen->format, screen->flags) ;
     return loadedImage;
 }
 
@@ -213,7 +213,7 @@ Game::Game()
     screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_HWSURFACE);
     background = load_image( "media/background.bmp" );
     live_block = load_image( "media/live.bmp" );
-    wall = load_image( "media/wall.bmp" );
+    wall = load_image( "media/wall.tet" );
     dead_block = load_image("media/dead.bmp");
     HUD = load_image("media/HUD.bmp");
     SDL_WM_SetCaption( "learntris", NULL );
