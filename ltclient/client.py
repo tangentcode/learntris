@@ -19,6 +19,7 @@ class BIOS(object):
     def __init__(self, path):
         self.game = None
         self.connect(path)
+        self.game.expect('> ')
 
     def connect(self, path):
         """
@@ -35,15 +36,19 @@ class BIOS(object):
         :: *lines -> IO()
         Send lines to the REPL.
         """
-        map(self.game.sendline, lines)
+        for line in lines:
+            self.game.sendline(line)
+            self.game.expect(line)
 
     def next(self):
         """
-        :: String
-        read a string from the repl.
+        :: [String]
+        read a series of lines from the repl.
         """
-        self.game.expect('> ')
-        return self.game.before
+        self.game.expect('> ', timeout=10)
+        lines = self.game.before.split("\r\n")
+        lines = [line.strip() for line in lines]
+        return [line for line in lines if line] # remove blanks
 
     @property
     def connected(self):
