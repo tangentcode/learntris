@@ -213,7 +213,7 @@ Game::Game()
     screen = SDL_SetVideoMode( 384, 736, SCREEN_BPP, SDL_HWSURFACE);
     background = load_image( "media/background.bmp" );
     live_block = load_image( "media/live.bmp" );
-    wall = load_image( "media/wall.tet" );
+    wall = load_image( "media/wall.bmp" );
     dead_block = load_image("media/dead.bmp");
     HUD = load_image("media/HUD.bmp");
     SDL_WM_SetCaption( "learntris", NULL );
