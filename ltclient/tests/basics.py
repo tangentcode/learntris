@@ -4,10 +4,17 @@ Test of basic interaction with the game.
 import time, unittest
 from ltclient import client
 
+EMPTYROW = ( '. . . . . . . . . .' )
+JUNKROWS = [ 't t t . s l l . z j' ,
+             '. t o o s s l z z j' ,
+             '. . o o . s l z j j' ,
+             'i i i i . . i i i i' ]
+
 class BiosTest(unittest.TestCase):
 
     def setUp(self):
         self.bios = client.connect()
+        self.maxDiff = None
         
     def test_q(self):
         """
@@ -24,8 +31,17 @@ class BiosTest(unittest.TestCase):
         p : should print the current game state
         """
         self.bios.send('p')
-        self.assertEquals(['. . . . . . . . . .'] * 22, self.bios.next())
+        self.assertEquals([EMPTYROW] * 22, self.bios.next())
 
+    def test_g(self):
+        """
+        g (given) : should read the game state
+        """
+        given = (18 * [EMPTYROW] + JUNKROWS)
+        self.bios.send('g')
+        self.bios.send(*given)
+        self.bios.send('p')
+        self.assertEquals(given, self.bios.next())
 
 if __name__=="__main__":
     unittest.main()
