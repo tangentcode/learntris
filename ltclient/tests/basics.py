@@ -1,5 +1,5 @@
 """
-Basic interaction with the game.
+Test of basic interaction with the game.
 """
 import time, unittest
 from ltclient import client
@@ -14,6 +14,10 @@ class BiosTest(unittest.TestCase):
             if self.bios.connected: time.sleep(0.1)
         self.failIf(self.bios.connected,
                     "Disconnect failed. Did you implement the 'q' command?")
+
+    def test_p(self):
+        self.bios.send('p')
+        self.assertEquals(['. . . . . . . . . .'] * 22, self.bios.next())
 
 if __name__=="__main__":
     unittest.main()
