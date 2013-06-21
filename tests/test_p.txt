@@ -1,4 +1,4 @@
-TEST: Tests the 'p' (print state) comand
+TEST: Tests the 'p' (print state) command
 
 INPUT
 
