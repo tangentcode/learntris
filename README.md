@@ -3,6 +3,8 @@ Learntris 2
 
 Learntris is a project started for the [/r/learnprogramming](http://reddit.com/r/learnprogramming) community, to let developers learn to make a game like Tetris in a test-driven way. Learntris provides a test harness and a simple console-based protocol that makes it easy to check if you're going in the right direction, and that your implementation is correct.
 
+Learntris 2 was intended to replace the [original Learntris](https://github.com/LearnProgramming/learntris), given its clunkiness and limitations.
+
 Usage
 ==========
 
