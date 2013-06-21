@@ -6,4 +6,5 @@ INPUT
 
 OUTPUT
 
-$dup-line 22 . . . . . . . . . .
+> . . . . . . . . . . # todo: we need to get rid of the > for input
+$dup-line 21 . . . . . . . . . .

@@ -1,6 +1,6 @@
 import sys, os, glob, subprocess
 
-class Test:
+class Test(object):
 	def __init__(self):
 		self.desc = ""
 		self.input = []
@@ -8,6 +8,13 @@ class Test:
 
 	def __repr__(self):
 		return "<Test: " + self.desc + ">"
+
+class TestFailure(Exception):
+	def __init__(self, msg):
+		self.msg = msg
+
+	def __str__(self):
+		return self.msg
 
 def parse_line_data(line):
 	spl = line.lstrip().split(" ")
@@ -32,9 +39,9 @@ def parse_test(test_file):
 
 		for line in fp:
 			n += 1
-			sline = line.strip()
 			if '#' in line:
 				line = line[:line.find('#')] # strip comments
+			sline = line.strip()
 
 			if sline == "":
 				continue # skip empty lines
@@ -54,29 +61,40 @@ def parse_test(test_file):
 	return test
 
 def spawn(program_name):
-	return None
+	program = subprocess.Popen([program_name], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+	return program
 
 def run_test(program, test):
-	print "test:", test
-	print "in:"
-	print test.input
-	print "out:"
-	print test.output
+	# write input
+	for line in test.input:
+		program.stdin.write(line + "\n")
+	# write and compare output
+	for line in test.output:
+		ln = program.stdout.readline() # todo: timeout?
+		ln = ln.rstrip() # chomp newlines/whitespace
+		if line != ln:
+			program.terminate()
+			raise TestFailure("Output mismatch: expected '%s', got '%s'" % (line, ln))
+
+	program.terminate()
+	return True
 
 def run(program_name):
-	for test in glob.glob("tests/*.txt"):
+	for i,test in enumerate(glob.glob("tests/*.txt")):
 		program = spawn(program_name)
 		test_obj = parse_test(test)
-		run_test(program, test_obj)
+		print "Running test %d: %s" % (i+1, test_obj.desc)
+		if run_test(program, test_obj):
+			print "Test %d passed" % (i+1)
 
 def main():
 	program_name = "tetris.exe"
 	if len(sys.argv) == 2:
 		program_name = sys.argv[1]
 
-	# if not os.path.exists(program_name):
-	# 	print "Error: The tetris program ('%s') doesn't exist." % program_name
-	# 	sys.exit(1)
+	if not os.path.exists(program_name):
+		print "Error: The tetris program ('%s') doesn't exist." % program_name
+		sys.exit(1)
 
 	run(program_name)
 
