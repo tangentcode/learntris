@@ -1,3 +1,4 @@
+from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, glob, subprocess
 
 class Test(object):
@@ -83,9 +84,9 @@ def run(program_name):
 	for i,test in enumerate(glob.glob("tests/*.txt")):
 		program = spawn(program_name)
 		test_obj = parse_test(test)
-		print "Running test %d: %s" % (i+1, test_obj.desc)
+		print("Running test %d: %s" % (i+1, test_obj.desc))
 		if run_test(program, test_obj):
-			print "Test %d passed" % (i+1)
+			print("Test %d passed" % (i+1))
 
 def main():
 	program_name = "tetris.exe"
@@ -93,7 +94,7 @@ def main():
 		program_name = sys.argv[1]
 
 	if not os.path.exists(program_name):
-		print "Error: The tetris program ('%s') doesn't exist." % program_name
+		print("Error: The tetris program ('%s') doesn't exist." % program_name)
 		sys.exit(1)
 
 	run(program_name)
