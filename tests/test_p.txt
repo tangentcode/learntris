@@ -1,0 +1,9 @@
+TEST: Tests the 'p' (print state) command
+
+INPUT
+
+> p
+
+OUTPUT
+
+$dup-line 22 . . . . . . . . . .
