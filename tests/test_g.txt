@@ -1,7 +1,5 @@
 TEST: Tests the 'g' (give state) command
 
-INPUT
-
 > g
 > $dup-line 18 . . . . . . . . . .
 > t t t . s l l . z j
@@ -11,7 +9,7 @@ INPUT
 
 > p
 
-OUTPUT
+# output
 
 $dup-line 18 . . . . . . . . . .
 t t t . s l l . z j
