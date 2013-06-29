@@ -4,11 +4,10 @@ import sys, os, glob, subprocess
 class Test(object):
 	def __init__(self):
 		self.desc = ""
-		self.input = []
-		self.output = []
+		self.seq = [] # sequence of commands
 
 	def __repr__(self):
-		return "<Test: " + self.desc + ">"
+		return "<Test: %s, %d commands>" %  (self.desc, len(self.seq))
 
 class TestFailure(Exception):
 	def __init__(self, msg):
@@ -34,8 +33,6 @@ def parse_test(test_file):
 	# todo: fragile
 	test = Test()
 	with open(test_file, "r") as fp:
-		onInput = False
-		onOutput = False
 		n = 0
 
 		for line in fp:
@@ -46,19 +43,13 @@ def parse_test(test_file):
 
 			if sline == "":
 				continue # skip empty lines
-			elif sline == "INPUT":
-				onInput = True
-			elif sline == "OUTPUT":
-				onInput = False
-				onOutput = True
-			elif not onInput and not onOutput and sline.startswith("TEST: "):
+			elif sline.startswith("TEST: "):
 				test.desc = sline[len("TEST: "):]
-			elif onInput and sline[0] == '>':
-				test.input.extend(parse_line_data(sline[2:]))
-			elif onInput:
-				raise SyntaxError("Can't parse line %d - unknown line: %s" % (n, line))
-			elif onOutput:
-				test.output.extend(parse_line_data(sline))
+			elif sline[0] == '>':
+				# input
+				test.seq.extend(('in', line) for line in parse_line_data(sline[1:].lstrip()))
+			else:
+				test.seq.extend(('out', line) for line in parse_line_data(sline))
 	return test
 
 def spawn(program_name):
@@ -66,16 +57,20 @@ def spawn(program_name):
 	return program
 
 def run_test(program, test):
-	# write input
-	for line in test.input:
-		program.stdin.write(line + "\n")
-	# write and compare output
-	for line in test.output:
-		ln = program.stdout.readline() # todo: timeout?
-		ln = ln.rstrip() # chomp newlines/whitespace
-		if line != ln:
+	for command in test.seq:
+		if command[0] == "in":
+			# write input
+			program.stdin.write(command[1] + "\n")
+		elif command[0] == "out":
+			# write and compare output
+			ln = program.stdout.readline() # todo: timeout?
+			ln = ln.rstrip() # chomp newlines/whitespace
+			if command[1] != ln:
+				program.terminate()
+				raise TestFailure("Output mismatch: expected '%s', got '%s'" % (command[1], ln))
+		else:
 			program.terminate()
-			raise TestFailure("Output mismatch: expected '%s', got '%s'" % (line, ln))
+			raise Exception("Unknown command: " + command)
 
 	program.terminate()
 	return True
