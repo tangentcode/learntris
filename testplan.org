@@ -28,6 +28,7 @@ testing the game, no the protocol implementation.
 * basic i/o
 ** establish a command loop and a way to exit
 
+#+name: io.q
 #+begin_src
 > q
 #+end_src
@@ -39,6 +40,7 @@ Matrix is the official term for the 10 \times 22 grid of cells.
 The playing area is only 10 \times 20 but there are 2 extra lines
 above where new tetriminos form.
 
+#+name: io.p
 #+begin_src
 > p
 # 1 2 3 4 5 6 7 8 9 ( first column, hidden by the #, is 0
@@ -91,6 +93,7 @@ This test does a couple things.
 
 - student must figure out how to parse a decimal number
 
+#+name: io.cell
 #+begin_src
 > ! 00 00 r
 > ! 09 00 g
@@ -127,6 +130,7 @@ b . . . . . . . . o # 21
 
 ** establish a way to set and clear the entire matrix
 
+#+name: io.matrix
 #+begin_src
 > g
 > . . . . . . . . . . # 0
@@ -209,6 +213,7 @@ m m m r r b b y y . # 21
 - clearing the board clears the score
 - 999,999 is the highest possible tetris score.
 
+#+name: io.score
 #+begin_src
 > ? s
 0
@@ -229,6 +234,7 @@ m m m r r b b y y . # 21
   - the ui should not mention this up front. it's better for students to learn to value feedback from tests.
 - introduces the concept of state in the parser ( =! s= vs =s= )
 
+#+name: rule.clear
 #+begin_src
 > ? s
 0
@@ -297,6 +303,7 @@ m y o . c r g c m y # 13
 
 I spawns in a 4 x 4 grid:
 
+#+name: shape.I
 #+begin_src
 > I
 > t
@@ -309,6 +316,7 @@ c c c c
 
 *** Introduce multiple commands on one line.
 
+#+name: io.multi
 #+begin_src
 > I t q
 . . . .
@@ -321,6 +329,7 @@ c c c c
 
 The O spawns in a 4 \times 3 grid:
 
+#+name: shape.O
 #+begin_src
 > O t q
 . y y .
@@ -332,6 +341,7 @@ The O spawns in a 4 \times 3 grid:
 
 The Z and others fit in 3x3 grids
 
+#+name: shape.Z
 #+begin_src
 > Z t q
 r r .
@@ -341,6 +351,7 @@ r r .
 
 *** The S (green)
 
+#+name: shape.S
 #+begin_src
 > S t
 . g g
@@ -350,6 +361,7 @@ g g .
 
 *** The J (blue)
 
+#+name: shape.J
 #+begin_src
 > J t
 b . .
@@ -359,6 +371,7 @@ b b b
 
 *** The L (orange)
 
+#+name: shape.L
 #+begin_src
 > L t
 . . o
@@ -368,6 +381,7 @@ o o o
 
 *** The T (magenta)
 
+#+name: shape.T
 #+begin_src
 > T t
 . m .
@@ -379,16 +393,12 @@ m m m
 ** TODO introduce rotation systems (and the SRS in particular)
   reference http://tetrisconcept.net/wiki/SRS
 
-#+begin_src
-
-#+end_src
-
 ** TODO legal issues
 - they like to send DCMA notices apparently... http://en.wikipedia.org/wiki/The_Tetris_Company
 - but that's for a market where games are actually sold.
 
 ** COMMENT new test template
-#+begin_src
+##+begin_src
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
