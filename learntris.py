@@ -25,7 +25,8 @@ def parse_line_data(line):
             arg = ' '.join(spl[2:])
             return [arg] * n
         else:
-            raise SyntaxError("Unknown command '%s' with line: %s" % (spl[0], line))
+            raise SyntaxError("Unknown command '%s' with line: %s"
+                              % (spl[0], line))
 
     return [line]
 
@@ -69,8 +70,9 @@ def run_test(program, test):
             ln = ln.rstrip() # chomp newlines/whitespace
             if command[1] != ln:
                 program.terminate()
-                raise TestFailure("Output mismatch: expected '%s', got '%s'"
-				  % (command[1], ln))
+                raise TestFailure(
+                    "Output mismatch: expected '%s', got '%s'"
+                    % (command[1], ln))
         else:
             program.terminate()
             raise Exception("Unknown command: " + command)
@@ -92,7 +94,8 @@ def main():
         program_name = sys.argv[1]
 
     if not os.path.exists(program_name):
-        print("Error: The tetris program ('%s') doesn't exist." % program_name)
+        print("Error: The tetris program ('%s') doesn't exist."
+              % program_name)
         sys.exit(1)
 
     run(program_name)
