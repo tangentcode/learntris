@@ -1,5 +1,0 @@
-#!/bin/sh
-# ~/p here is the path to picolisp
-# there's probably a better way to do this.
-
-~/p/pil learntris.l -main
