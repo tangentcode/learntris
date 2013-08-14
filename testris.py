@@ -102,7 +102,7 @@ def run_test(program, test):
     program.terminate()
     return True
 
-def run(program_name):
+def run_tests(program_name):
     for i,test in enumerate(glob.glob("tests/*.txt")):
         program = spawn(program_name)
         test_obj = parse_test(test)
@@ -110,19 +110,23 @@ def run(program_name):
         if run_test(program, test_obj):
             print("Test %d passed" % (i+1))
 
+def find_learntris():
+    default = "./learntris"
+    path = sys.argv[1] if len(sys.argv) == 2 else default
+    if os.path.exists(path):
+        result = path
+    else:
+        result = None
+        if path == default:
+            print(__doc__)
+        else:
+            print("Error: ('%s') not found." % path)
+    return result
+
+
 def main():
-    program_name = "./learntris"
-    if len(sys.argv) == 2:
-        program_name = sys.argv[1]
-
-    if not os.path.exists(program_name):
-        print("Error: No learntris implementation found ('%s')."
-              % program_name)
-        print("-" * 64)
-        print(__doc__)
-        sys.exit(1)
-
-    run(program_name)
+    path = find_learntris()
+    run_tests(path)
 
 if __name__ == '__main__':
     main()
