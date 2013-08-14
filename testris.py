@@ -145,7 +145,7 @@ def find_learntris():
 
 def main():
     path = find_learntris()
-    run_tests(path)
+    if path: run_tests(path)
 
 if __name__ == '__main__':
     main()
