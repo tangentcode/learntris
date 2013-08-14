@@ -21,7 +21,7 @@ will be replaced with instructions for implementing your
 first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
-import sys, os, glob, subprocess
+import sys, os, glob, subprocess, difflib, pprint, time
 
 class Test(object):
     def __init__(self):
@@ -37,6 +37,9 @@ class TestFailure(Exception):
 
     def __str__(self):
         return self.msg
+
+class TimeoutFailure(TestFailure):
+    pass
 
 def parse_line_data(line):
     spl = line.lstrip().split(" ")
@@ -73,33 +76,49 @@ def parse_test(test_file):
                 test.seq.extend(('in', line) for line in
 				parse_line_data(sline[1:].lstrip()))
             else:
-                test.seq.extend(('out', line) for line in parse_line_data(sline))
+                test.seq.extend(('out', line)
+                                for line in parse_line_data(sline))
     return test
 
 def spawn(program_name):
-    program = subprocess.Popen([program_name],
-			       stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    return program
+    return subprocess.Popen([program_name],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE)
+
+
+def await_results(program, timeout_seconds=5):
+    """
+    This polls the child program until it finishes
+    executing. If it takes more than =timeout_seconds=,
+    kill the program and raise a TimeoutFailure.
+    """
+    countdown = timeout_seconds * 10
+    while program.poll() is None and countdown > 0:
+        time.sleep(0.1) # seep for 1/10 of a second
+        countdown -= 1
+    if countdown == 0:
+        program.kill()
+        raise TimeoutFailure()
+    else: pass
 
 def run_test(program, test):
-    for command in test.seq:
-        if command[0] == "in":
-            # write input
-            program.stdin.write(command[1] + "\n")
-        elif command[0] == "out":
-            # write and compare output
-            ln = program.stdout.readline() # todo: timeout?
-            ln = ln.rstrip() # chomp newlines/whitespace
-            if command[1] != ln:
-                program.terminate()
-                raise TestFailure(
-                    "Output mismatch: expected '%s', got '%s'"
-                    % (command[1], ln))
-        else:
-            program.terminate()
-            raise Exception("Unknown command: " + command)
+    # separate the test script into input and output lines:
+    given    = [cmd[1] for cmd in test.seq if cmd[0] == 'in']
+    expected = [cmd[1] for cmd in test.seq if cmd[0] == 'out']
 
-    program.terminate()
+    # send all the input lines:
+    for cmd in given:
+        program.stdin.write(cmd + "\n")
+
+    # let the program do its thing:
+    await_results(program)
+
+    # read all the actual output lines, and compare to expected:
+    actual = program.stdout.read()
+    diff = list(difflib.Differ().compare(actual, expected))
+    if diff:
+        raise TestFailure('output mismatch: %s'
+                          % pprint.pformat(diff))
     return True
 
 def run_tests(program_name):
