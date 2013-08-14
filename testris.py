@@ -1,9 +1,24 @@
 #!/usr/bin/env python
 """
-This is the test runner for learntris.
+Testris is the test runner for Learntris. Learntris is 
+the part *you* write, in whatever language you prefer.
 
-  Usage: ./testris.py [/path/to/your-implementation.]
+If you're seeing this message when you tried to run
+testris.py, it means testris can't find your code!
 
+Your first step is to write a *console-mode* program
+(one that does absolutely nothing!) and tell testris
+where to find it:
+
+    ./testris.py [/path/to/learntris]
+
+The path should refer to a physical file on disk, so if
+you need command line arguments, create a wrapper program.
+The default path is "./learntris".
+
+Once testris is able to launch your program, this message
+will be replaced with instructions for implementing your
+first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, glob, subprocess
