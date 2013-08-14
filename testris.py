@@ -114,9 +114,10 @@ def run_test(program, test):
     await_results(program)
 
     # read all the actual output lines, and compare to expected:
-    actual = program.stdout.read()
-    diff = list(difflib.Differ().compare(actual, expected))
-    if diff:
+    actual = [line for line in program.stdout.read().split("\n") if line]
+
+    if actual != expected:
+        diff = list(difflib.Differ().compare(actual, expected))
         raise TestFailure('output mismatch: %s'
                           % pprint.pformat(diff))
     return True
