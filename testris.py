@@ -122,7 +122,7 @@ def run_test(program, test):
     return True
 
 def run_tests(program_name):
-    for i,test in enumerate(glob.glob("tests/*.txt")):
+    for i,test in enumerate(sorted(glob.glob("tests/*.txt"))):
         program = spawn(program_name)
         test_obj = parse_test(test)
         print("Running test %d: %s" % (i+1, test_obj.desc))
