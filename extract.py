@@ -40,7 +40,7 @@ class CuteLittleStateMachine:
         assert self.next_name != self.prev_name, \
             "missing or duplicate name for test on line {0}".format(self.lineno)
         self.count += 1
-        self.io = open("tests/test{0:03}.py".format(self.count), 'w')
+        self.io = open("tests/test{0:03}.txt".format(self.count), 'w')
         self.prev_name = self.next_name
 
     def on_test_name(self, line):
