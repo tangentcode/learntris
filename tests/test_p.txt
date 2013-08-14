@@ -1,4 +1,0 @@
-TEST: Tests the 'p' (print state) command
-
-> p
-$dup-line 22 . . . . . . . . . .
