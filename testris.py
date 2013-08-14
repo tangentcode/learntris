@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+"""
+This is the test runner for learntris.
+
+  Usage: ./testris.py [/path/to/your-implementation.]
+
+"""
 from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, glob, subprocess
 
@@ -89,13 +96,15 @@ def run(program_name):
             print("Test %d passed" % (i+1))
 
 def main():
-    program_name = "tetris.exe"
+    program_name = "./learntris"
     if len(sys.argv) == 2:
         program_name = sys.argv[1]
 
     if not os.path.exists(program_name):
-        print("Error: The tetris program ('%s') doesn't exist."
+        print("Error: No learntris implementation found ('%s')."
               % program_name)
+        print("-" * 64)
+        print(__doc__)
         sys.exit(1)
 
     run(program_name)
