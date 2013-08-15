@@ -22,6 +22,7 @@ first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, glob, subprocess, difflib, pprint, time
+import extract
 
 class Test(object):
     def __init__(self):
@@ -41,45 +42,21 @@ class TestFailure(Exception):
 class TimeoutFailure(TestFailure):
     pass
 
-def parse_line_data(line):
-    spl = line.lstrip().split(" ")
-    if spl[0][0] == '$':
-        if spl[0][1:] == "dup-line":
-            # duplicate line N times
-            n = int(spl[1])
-            arg = ' '.join(spl[2:])
-            return [arg] * n
-        else:
-            raise SyntaxError("Unknown command '%s' with line: %s"
-                              % (spl[0], line))
 
-    return [line]
-
-def parse_test(test_file):
-    # todo: fragile
-    test = Test()
-    with open(test_file, "r") as fp:
-        n = 0
-
-        for line in fp:
-            n += 1
-            if '#' in line:
-                line = line[:line.find('#')] # strip comments
-            sline = line.strip()
-
-            if sline == "":
-                continue # skip empty lines
-            elif sline.startswith("TEST: "):
-                test.desc = sline[len("TEST: "):]
-            elif sline[0] == '>':
-                # input
-                test.seq.extend(('in', line) for line in
-				parse_line_data(sline[1:].lstrip()))
-            else:
-                test.seq.extend(('out', line)
-                                for line in parse_line_data(sline))
-    return test
-
+def parse_test(lines):
+    """
+    :: [Str] -> [(Op, Str)] , where Op in { 'in', 'out' }
+    """
+    for line in lines:
+        if '#' in line:                # strip comments
+            line = line[:line.find('#')]
+        sline = line.strip()
+        if sline == "":                # skip empty lines
+            pass
+        elif sline[0] == '>':          # input to send
+            yield ('in', sline[1:].strip())
+        else:                          # expected output
+            yield ('out', sline)
 
 def spawn(program_name):
     return subprocess.Popen([program_name],
@@ -103,10 +80,10 @@ def await_results(program, timeout_seconds=2):
     else: pass
 
 
-def run_test(program, test):
+def run_test(program, opcodes):
     # separate the test script into input and output lines:
-    given    = [cmd[1] for cmd in test.seq if cmd[0] == 'in']
-    expected = [cmd[1] for cmd in test.seq if cmd[0] == 'out']
+    given    = [op[1] for op in opcodes if op[0] == 'in']
+    expected = [op[1] for op in opcodes if op[0] == 'out']
 
     # send all the input lines:
     print("---- sending commands ----")
@@ -115,6 +92,10 @@ def run_test(program, test):
         program.stdin.write(cmd + "\n")
 
     # let the program do its thing:
+    print("---- expected results ----")
+    for line in expected:
+        print(line)
+
     print("---- awaiting results ----")
     await_results(program)
 
@@ -123,17 +104,21 @@ def run_test(program, test):
 
     if actual != expected:
         diff = list(difflib.Differ().compare(actual, expected))
-        raise TestFailure('output mismatch: %s'
+        raise TestFailure('output mismatch:\n%s'
                           % pprint.pformat(diff))
-    return True
 
 def run_tests(program_name):
-    for i,test in enumerate(sorted(glob.glob("tests/*.txt"))):
+    for i, test in enumerate(extract.tests()):
         program = spawn(program_name)
-        test_obj = parse_test(test)
-        print("Running test %d: %s" % (i+1, test_obj.desc))
-        if run_test(program, test_obj):
+        opcodes = list(parse_test(test.lines))
+        print("Running test %d: %s" % (i+1, test.name))
+        try:
+            run_test(program, opcodes)
             print("Test %d passed" % (i+1))
+        except (TimeoutFailure, TestFailure) as e:
+            print("Test %d failed: %s" % (i+1, e))
+            break
+        print("\n") # add 2 blank lines between tests
 
 def find_learntris():
     default = "./learntris"
