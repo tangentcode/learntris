@@ -96,7 +96,7 @@ above where new tetriminos form.
 > . . . o . b g . . . # 19
 > . m r r o o b y y . # 20
 > m m m r r b b y y . # 21
-> pq
+> p
 . . . . . . . . . . # 0
 . . . . . . . . . . # 1
 . . . . . . . . . . # 2
@@ -119,6 +119,7 @@ c . . o . g g . . . # 18
 . . . o . b g . . . # 19
 . m r r o o b y y . # 20
 m m m r r b b y y . # 21
+> q
 #+end_src
 
 ** and a way to clear the matrix (c)
@@ -150,7 +151,8 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > . . . o . b g . . . # 19
 > . m r r o o b y y . # 20
 > m m m r r b b y y . # 21
-> cpq
+> c
+> p
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -173,68 +175,8 @@ This is the same as the previous test, but it adds a c command to clear it befor
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-#+end_src
-
-** establish a way to set an individual cell
-
-This test does a couple things.
-
-- establishes the coordinate system
-
-- nudges student to consider the matrix as a random-access array of color values
-
-  (From what I can tell, students are often taught to think of classes and objects before simple data types,
-   and tend to want to implement the state of the game as a container for tetramino objects, but this will
-   lead to complications later on.)
-
-- establishes the palette
-| . | empty   |
-| r | red     |
-| g | green   |
-| b | blue    |
-| o | orange  |
-| c | cyan    |
-| m | magenta |
-| y | yellow  |
-
-- student must figure out how to parse a decimal number
-
-#+name: io.cell
-#+begin_src
-> ! 00 00 r
-> ! 09 00 g
-> ! 00 21 b
-> ! 09 21 o
-> ! 06 11 y
-> ! 05 11 c
-> ! 04 11 m
-> p
-r . . . . . . . . g #  0
-. . . . . . . . . . #  1
-. . . . . . . . . . #  2
-. . . . . . . . . . #  3
-. . . . . . . . . . #  4
-. . . . . . . . . . #  5
-. . . . . . . . . . #  6
-. . . . . . . . . . #  7
-. . . . . . . . . . #  8
-. . . . . . . . . . #  9
-. . . . . . . . . . # 10
-. . . . m c y . . . # 11
-. . . . . . . . . . # 12
-. . . . . . . . . . # 13
-. . . . . . . . . . # 14
-. . . . . . . . . . # 15
-. . . . . . . . . . # 16
-. . . . . . . . . . # 17
-. . . . . . . . . . # 18
-. . . . . . . . . . # 19
-. . . . . . . . . . # 20
-b . . . . . . . . o # 21
 > q
 #+end_src
-
-
 * basic game ideas
 ** establish protocol to set and query the score
 
@@ -242,15 +184,24 @@ b . . . . . . . . o # 21
 - clearing the board clears the score
 - 999,999 is the highest possible tetris score.
 
-#+name: io.score
+#+name: io.score.a
 #+begin_src
-> ? s
+> ?s
 0
-> ! s 9999999
-> ? s
+#+end_src
+
+#+name: io.score.b
+#+begin_src
+> !s 9999999
+> ?s
 9999999
+#+end_src
+
+#+name: io.score.c
+#+begin_src
+> !s 9999999
 > c
-> ? s
+> ?s
 0
 > q
 #+end_src
@@ -265,7 +216,7 @@ b . . . . . . . . o # 21
 
 #+name: rule.clear
 #+begin_src
-> ? s
+> ?s
 0
 > g
 > . . . . . . . . . . # 0
@@ -453,7 +404,6 @@ m m m
 > q
 #+end_src
 
-
 * summary of the command language
 
 (upper case letters are stand for numbers)
@@ -469,4 +419,66 @@ m m m
 | s         | step                   |
 | t         | show falling tetramino |
 | ;         | separate commands      |
+
+
+
+* -- advanced stuff / maybe later ------------------------------
+* establish a way to set an individual cell
+
+This test does a couple things.
+
+- establishes the coordinate system
+
+- nudges student to consider the matrix as a random-access array of color values
+
+  (From what I can tell, students are often taught to think of classes and objects before simple data types,
+   and tend to want to implement the state of the game as a container for tetramino objects, but this will
+   lead to complications later on.)
+
+- establishes the palette
+| . | empty   |
+| r | red     |
+| g | green   |
+| b | blue    |
+| o | orange  |
+| c | cyan    |
+| m | magenta |
+| y | yellow  |
+
+- student must figure out how to parse a decimal number
+
+#+name: io.cell
+#+begin_src
+> ! 00 00 r
+> ! 09 00 g
+> ! 00 21 b
+> ! 09 21 o
+> ! 06 11 y
+> ! 05 11 c
+> ! 04 11 m
+> p
+r . . . . . . . . g #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . m c y . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . . . . . . . # 20
+b . . . . . . . . o # 21
+> q
+#+end_src
 
