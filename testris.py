@@ -109,10 +109,13 @@ def run_test(program, test):
     expected = [cmd[1] for cmd in test.seq if cmd[0] == 'out']
 
     # send all the input lines:
+    print("---- sending commands ----")
     for cmd in given:
+        print(cmd)
         program.stdin.write(cmd + "\n")
 
     # let the program do its thing:
+    print("---- awaiting results ----")
     await_results(program)
 
     # read all the actual output lines, and compare to expected:
