@@ -69,6 +69,114 @@ above where new tetriminos form.
 > q
 #+end_src
 
+** establish a way to set the entire matrix (g)
+
+#+name: io.g
+#+begin_src
+> g
+> . . . . . . . . . . # 0
+> . . . . . . . . . . # 1
+> . . . . . . . . . . # 2
+> . . . . . . . . . . # 3
+> m m m m m m m m m m # 4
+> b b b b b b b b b b # 5
+> c c c c c c c c c c # 6
+> g g g g g g g g g g # 7
+> y y y y y y y y y y # 8
+> o o o o o o o o o o # 9
+> r r r r r r r r r r # 10
+> . . . . . . . . . . # 11
+> . . . . . . . . . . # 12
+> . . . . . . . . . . # 13
+> . . . . . . . . . . # 14
+> c . . . . . . . . . # 15
+> c . . . . . . . . . # 16
+> c. . .  . g . . . . # 17
+> c . . o . g g . . . # 18
+> . . . o . b g . . . # 19
+> . m r r o o b y y . # 20
+> m m m r r b b y y . # 21
+> p
+. . . . . . . . . . # 0
+. . . . . . . . . . # 1
+. . . . . . . . . . # 2
+. . . . . . . . . . # 3
+m m m m m m m m m m # 4
+b b b b b b b b b b # 5
+c c c c c c c c c c # 6
+g g g g g g g g g g # 7
+y y y y y y y y y y # 8
+o o o o o o o o o o # 9
+r r r r r r r r r r # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+c . . . . . . . . . # 15
+c . . . . . . . . . # 16
+c. . .  . g . . . . # 17
+c . . o . g g . . . # 18
+. . . o . b g . . . # 19
+. m r r o o b y y . # 20
+m m m r r b b y y . # 21
+#+end_src
+
+** and a way to clear the matrix (c)
+
+This is the same as the previous test, but it adds a c command to clear it before the print.
+
+#+name: io.c
+#+begin_src
+> g
+> . . . . . . . . . . # 0
+> . . . . . . . . . . # 1
+> . . . . . . . . . . # 2
+> . . . . . . . . . . # 3
+> m m m m m m m m m m # 4
+> b b b b b b b b b b # 5
+> c c c c c c c c c c # 6
+> g g g g g g g g g g # 7
+> y y y y y y y y y y # 8
+> o o o o o o o o o o # 9
+> r r r r r r r r r r # 10
+> . . . . . . . . . . # 11
+> . . . . . . . . . . # 12
+> . . . . . . . . . . # 13
+> . . . . . . . . . . # 14
+> c . . . . . . . . . # 15
+> c . . . . . . . . . # 16
+> c. . .  . g . . . . # 17
+> c . . o . g g . . . # 18
+> . . . o . b g . . . # 19
+> . m r r o o b y y . # 20
+> m m m r r b b y y . # 21
+> c
+> p
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . . . . . . . # 20
+. . . . . . . . . . # 21
+> q
+#+end_src
+
 ** establish a way to set an individual cell
 
 This test does a couple things.
@@ -125,83 +233,6 @@ r . . . . . . . . g #  0
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 b . . . . . . . . o # 21
-> q
-#+end_src
-
-** establish a way to set and clear the entire matrix
-
-#+name: io.matrix
-#+begin_src
-> g
-> . . . . . . . . . . # 0
-> . . . . . . . . . . # 1
-> . . . . . . . . . . # 2
-> . . . . . . . . . . # 3
-> m m m m m m m m m m # 4
-> b b b b b b b b b b # 5
-> c c c c c c c c c c # 6
-> g g g g g g g g g g # 7
-> y y y y y y y y y y # 8
-> o o o o o o o o o o # 9
-> r r r r r r r r r r # 10
-> . . . . . . . . . . # 11
-> . . . . . . . . . . # 12
-> . . . . . . . . . . # 13
-> . . . . . . . . . . # 14
-> c . . . . . . . . . # 15
-> c . . . . . . . . . # 16
-> c. . .  . g . . . . # 17
-> c . . o . g g . . . # 18
-> . . . o . b g . . . # 19
-> . m r r o o b y y . # 20
-> m m m r r b b y y . # 21
-> p
-. . . . . . . . . . # 0
-. . . . . . . . . . # 1
-. . . . . . . . . . # 2
-. . . . . . . . . . # 3
-m m m m m m m m m m # 4
-b b b b b b b b b b # 5
-c c c c c c c c c c # 6
-g g g g g g g g g g # 7
-y y y y y y y y y y # 8
-o o o o o o o o o o # 9
-r r r r r r r r r r # 10
-. . . . . . . . . . # 11
-. . . . . . . . . . # 12
-. . . . . . . . . . # 13
-. . . . . . . . . . # 14
-c . . . . . . . . . # 15
-c . . . . . . . . . # 16
-c. . .  . g . . . . # 17
-c . . o . g g . . . # 18
-. . . o . b g . . . # 19
-. m r r o o b y y . # 20
-m m m r r b b y y . # 21
-> c
-> p
-. . . . . . . . . . #  0
-. . . . . . . . . . #  1
-. . . . . . . . . . #  2
-. . . . . . . . . . #  3
-. . . . . . . . . . #  4
-. . . . . . . . . . #  5
-. . . . . . . . . . #  6
-. . . . . . . . . . #  7
-. . . . . . . . . . #  8
-. . . . . . . . . . #  9
-. . . . . . . . . . # 10
-. . . . . . . . . . # 11
-. . . . . . . . . . # 12
-. . . . . . . . . . # 13
-. . . . . . . . . . # 14
-. . . . . . . . . . # 15
-. . . . . . . . . . # 16
-. . . . . . . . . . # 17
-. . . . . . . . . . # 18
-. . . . . . . . . . # 19
-. . . . . . . . . . # 20
-. . . . . . . . . . # 21
 > q
 #+end_src
 
@@ -440,7 +471,4 @@ m m m
 | s         | step                   |
 | t         | show falling tetramino |
 | ;         | separate commands      |
-
-
-
 
