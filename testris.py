@@ -80,13 +80,14 @@ def parse_test(test_file):
                                 for line in parse_line_data(sline))
     return test
 
+
 def spawn(program_name):
     return subprocess.Popen([program_name],
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
 
 
-def await_results(program, timeout_seconds=5):
+def await_results(program, timeout_seconds=2):
     """
     This polls the child program until it finishes
     executing. If it takes more than =timeout_seconds=,
@@ -98,8 +99,9 @@ def await_results(program, timeout_seconds=5):
         countdown -= 1
     if countdown == 0:
         program.kill()
-        raise TimeoutFailure()
+        raise TimeoutFailure("<program timed out>")
     else: pass
+
 
 def run_test(program, test):
     # separate the test script into input and output lines:
