@@ -96,7 +96,7 @@ above where new tetriminos form.
 > . . . o . b g . . . # 19
 > . m r r o o b y y . # 20
 > m m m r r b b y y . # 21
-> p
+> pq
 . . . . . . . . . . # 0
 . . . . . . . . . . # 1
 . . . . . . . . . . # 2
@@ -150,8 +150,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > . . . o . b g . . . # 19
 > . m r r o o b y y . # 20
 > m m m r r b b y y . # 21
-> c
-> p
+> cpq
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -174,7 +173,6 @@ This is the same as the previous test, but it adds a c command to clear it befor
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-> q
 #+end_src
 
 ** establish a way to set an individual cell
