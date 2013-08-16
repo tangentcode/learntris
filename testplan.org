@@ -184,29 +184,24 @@ This is the same as the previous test, but it adds a c command to clear it befor
 - clearing the board clears the score
 - 999,999 is the highest possible tetris score.
 
-#+name: io.score.a
+score register:
+
+#+name: io.score.?s
 #+begin_src
 > ?s
 0
 >q
 #+end_src
 
-#+name: io.score.b
+number of lines register:
+
+#+name: io.score.?n
 #+begin_src
-> !s 9999999
-> ?s
-9999999
-> q
+> ?n
+0
+>q
 #+end_src
 
-#+name: io.score.c
-#+begin_src
-> !s 9999999
-> c
-> ?s
-0
-> q
-#+end_src
 
 ** establish the line-clearing mechanic
 
@@ -231,7 +226,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > . . . . . . . . . . # 7
 > . . . . . . . . . . # 8
 > . . . . . . . . . . # 9
-> m c r g . y m c o b # 10
+> m c r g b y m c o b # 10
 > . . . . . . . . . . # 11
 > . . . . . . . . . . # 12
 > m y o . c r g c m y # 13
@@ -243,7 +238,6 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > . . . . . . . . . . # 19
 > . . . . . . . . . . # 20
 > . . . . . . . . . . # 21
-> ! 04 10 g
 > s
 > p
 . . . . . . . . . . #  0
@@ -268,6 +262,11 @@ m y o . c r g c m y # 13
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+> ?n
+1
+> ?s
+100
+> s
 > q
 #+end_src
 
@@ -484,3 +483,21 @@ b . . . . . . . . o # 21
 > q
 #+end_src
 
+* explicitly set registers
+
+#+name: io.score.b
+#+begin_src
+> !s 9999999
+> ?s
+9999999
+> q
+#+end_src
+
+#+name: io.score.c
+#+begin_src
+> !s 9999999
+> c
+> ?s
+0
+> q
+#+end_src
