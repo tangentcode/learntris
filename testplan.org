@@ -1,39 +1,14 @@
 #+title: learntris test suite
 
-* guidelines
-
-- The tests should focus only on behavior, and avoid /overtly/ influencing implementation decisions.
-- The tests should guide the student to consider different scenarios before settling on a design.
-- As a by-product of implementing the protocol game, will incrementally develop a recursive descent parser for the test language.
-- The test runner should enable students to visualize the state of their program.
-- As each test is introduced, all the old tests continue to run, unless explicitly removed.
-
-* TODO generate the correct test syntax from this file
-
-I want it to be as easy as possible to implement the protocol.
-
-These tests show the > but it's not actually a prompt, and
-comments (# to end of line) are not actually sent.
-
-The tests should never send bad input, because this is about
-testing the game, no the protocol implementation.
-
-* invariants (tests that always run)
-** before each test
-- subprocess must have launched correctly
-
-** after each test
-- no further output on stdout
-
-* basic i/o
-** establish a command loop and a way to exit
+* DONE [4/4] basic i/o
+** DONE establish a command loop and a way to exit
 
 #+name: io.q
 #+begin_src
 > q
 #+end_src
 
-** establish a way to print the matrix (p)
+** DONE establish a way to print the matrix (p)
 
 Matrix is the official term for the 10 \times 22 grid of cells.
 
@@ -69,7 +44,7 @@ above where new tetriminos form.
 > q
 #+end_src
 
-** establish a way to set the entire matrix (g)
+** DONE establish a way to set the entire matrix (g)
 
 #+name: io.g
 #+begin_src
@@ -122,7 +97,7 @@ m m m r r b b y y . # 21
 > q
 #+end_src
 
-** and a way to clear the matrix (c)
+** DONE and a way to clear the matrix (c)
 
 This is the same as the previous test, but it adds a c command to clear it before the print.
 
@@ -177,12 +152,9 @@ This is the same as the previous test, but it adds a c command to clear it befor
 . . . . . . . . . . # 21
 > q
 #+end_src
-* basic game ideas
-** establish protocol to set and query the score
 
-- student must look slightly further ahead when parsing to distinguish =? xx yy= and =? s=
-- clearing the board clears the score
-- 999,999 is the highest possible tetris score.
+* DONE [3/4] basic game ideas
+** DONE establish protocol to set and query the score
 
 score register:
 
@@ -202,15 +174,7 @@ number of lines register:
 >q
 #+end_src
 
-
-** establish the line-clearing mechanic
-
-- demonstrate a scenario in which the 'list of tetraminos' is not useful
-- introduce the concept of tick as bunit of time, and /step/ (=s=) as the command to cause it
-  - if students clear the line without waiting for the =s= command, it causes a regression in the previous test
-  - the ui should not mention this up front. it's better for students to learn to value feedback from tests.
-- introduces the concept of state in the parser ( =! s= vs =s= )
-
+** DONE establish the line-clearing mechanic
 #+name: rule.clear
 #+begin_src
 > ?s
@@ -270,32 +234,8 @@ m y o . c r g c m y # 13
 > q
 #+end_src
 
-** introduce the tetraminos
-*** The I (cyan)
-
-- these are chosen random, so we need to set them
-- capital letters
-- math = tetromino or tetramino, like domino. The Tetris Company calls them Tetriminos\trade
-- introduce =t= and =;=
-- students will have to map the tetraminos to their proper colors colors
-- the grid sizes are different because of rotation
-  - these are the Super Rotation System (SRS) spawn states
-  - but do thing at a time
-
-I spawns in a 4 x 4 grid:
-
-#+name: shape.I
-#+begin_src
-> I
-> t
-. . . .
-c c c c
-. . . .
-. . . .
-> q
-#+end_src
-
-*** Introduce multiple commands on one line.
+** DONE [7/7] introduce the tetraminos
+*** DONE The I (cyan)
 
 #+name: io.multi
 #+begin_src
@@ -306,7 +246,7 @@ c c c c
 . . . .
 #+end_src
 
-*** The O (yellow)
+*** DONE The O (yellow)
 
 The O spawns in a 4 \times 3 grid:
 
@@ -318,7 +258,7 @@ The O spawns in a 4 \times 3 grid:
 . . . .
 #+end_src
 
-*** The Z (red)
+*** DONE The Z (red)
 
 The Z and others fit in 3x3 grids
 
@@ -330,7 +270,7 @@ r r .
 . . .
 #+end_src
 
-*** The S (green)
+*** DONE The S (green)
 
 #+name: shape.S
 #+begin_src
@@ -340,7 +280,7 @@ g g .
 . . .
 #+end_src
 
-*** The J (blue)
+*** DONE The J (blue)
 
 #+name: shape.J
 #+begin_src
@@ -350,7 +290,7 @@ b b b
 . . .
 #+end_src
 
-*** The L (orange)
+*** DONE The L (orange)
 
 #+name: shape.L
 #+begin_src
@@ -360,7 +300,7 @@ o o o
 . . .
 #+end_src
 
-*** The T (magenta)
+*** DONE The T (magenta)
 
 #+name: shape.T
 #+begin_src
@@ -370,134 +310,5 @@ m m m
 . . .
 #+end_src
 
+** TODO introduce super rotation system
 
-** TODO introduce rotation systems (and the SRS in particular)
-  reference http://tetrisconcept.net/wiki/SRS
-
-** TODO legal issues
-- they like to send DCMA notices apparently... http://en.wikipedia.org/wiki/The_Tetris_Company
-- but that's for a market where games are actually sold.
-
-** COMMENT new test template
-##+begin_src
-. . . . . . . . . . #  0
-. . . . . . . . . . #  1
-. . . . . . . . . . #  2
-. . . . . . . . . . #  3
-. . . . . . . . . . #  4
-. . . . . . . . . . #  5
-. . . . . . . . . . #  6
-. . . . . . . . . . #  7
-. . . . . . . . . . #  8
-. . . . . . . . . . #  9
-. . . . . . . . . . # 10
-. . . . . . . . . . # 11
-. . . . . . . . . . # 12
-. . . . . . . . . . # 13
-. . . . . . . . . . # 14
-. . . . . . . . . . # 15
-. . . . . . . . . . # 16
-. . . . . . . . . . # 17
-. . . . . . . . . . # 18
-. . . . . . . . . . # 19
-. . . . . . . . . . # 20
-. . . . . . . . . . # 21
-> q
-#+end_src
-
-* summary of the command language
-
-(upper case letters are stand for numbers)
-
-| cmd       | args                   |
-|-----------+------------------------|
-| q         | quit                   |
-| p         | print                  |
-| c         | clear                  |
-| g         | given                  |
-| ! XX YY C | set (x,y) to color     |
-| ? s       | read score             |
-| s         | step                   |
-| t         | show falling tetramino |
-| ;         | separate commands      |
-
-
-
-* -- advanced stuff / maybe later ------------------------------
-* establish a way to set an individual cell
-
-This test does a couple things.
-
-- establishes the coordinate system
-
-- nudges student to consider the matrix as a random-access array of color values
-
-  (From what I can tell, students are often taught to think of classes and objects before simple data types,
-   and tend to want to implement the state of the game as a container for tetramino objects, but this will
-   lead to complications later on.)
-
-- establishes the palette
-| . | empty   |
-| r | red     |
-| g | green   |
-| b | blue    |
-| o | orange  |
-| c | cyan    |
-| m | magenta |
-| y | yellow  |
-
-- student must figure out how to parse a decimal number
-
-#+name: io.cell
-#+begin_src
-> ! 00 00 r
-> ! 09 00 g
-> ! 00 21 b
-> ! 09 21 o
-> ! 06 11 y
-> ! 05 11 c
-> ! 04 11 m
-> p
-r . . . . . . . . g #  0
-. . . . . . . . . . #  1
-. . . . . . . . . . #  2
-. . . . . . . . . . #  3
-. . . . . . . . . . #  4
-. . . . . . . . . . #  5
-. . . . . . . . . . #  6
-. . . . . . . . . . #  7
-. . . . . . . . . . #  8
-. . . . . . . . . . #  9
-. . . . . . . . . . # 10
-. . . . m c y . . . # 11
-. . . . . . . . . . # 12
-. . . . . . . . . . # 13
-. . . . . . . . . . # 14
-. . . . . . . . . . # 15
-. . . . . . . . . . # 16
-. . . . . . . . . . # 17
-. . . . . . . . . . # 18
-. . . . . . . . . . # 19
-. . . . . . . . . . # 20
-b . . . . . . . . o # 21
-> q
-#+end_src
-
-* explicitly set registers
-
-#+name: io.score.b
-#+begin_src
-> !s 9999999
-> ?s
-9999999
-> q
-#+end_src
-
-#+name: io.score.c
-#+begin_src
-> !s 9999999
-> c
-> ?s
-0
-> q
-#+end_src
