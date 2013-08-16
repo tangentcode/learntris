@@ -188,6 +188,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 #+begin_src
 > ?s
 0
+>q
 #+end_src
 
 #+name: io.score.b
@@ -195,6 +196,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > !s 9999999
 > ?s
 9999999
+> q
 #+end_src
 
 #+name: io.score.c
