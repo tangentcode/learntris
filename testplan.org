@@ -334,7 +334,7 @@ r r .
 
 #+name: shape.S
 #+begin_src
-> S t
+> S t q
 . g g
 g g .
 . . .
@@ -344,7 +344,7 @@ g g .
 
 #+name: shape.J
 #+begin_src
-> J t
+> J t q
 b . .
 b b b
 . . .
@@ -354,7 +354,7 @@ b b b
 
 #+name: shape.L
 #+begin_src
-> L t
+> L t q
 . . o
 o o o
 . . .
@@ -364,7 +364,7 @@ o o o
 
 #+name: shape.T
 #+begin_src
-> T t
+> T t q
 . m .
 m m m
 . . .
