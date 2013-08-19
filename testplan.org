@@ -153,7 +153,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > q
 #+end_src
 
-* DONE [3/4] basic game ideas
+* DONE [4/4] basic game ideas
 ** DONE establish protocol to set and query the score
 
 score register:
@@ -253,9 +253,8 @@ The O spawns in a 4 \times 3 grid:
 #+name: shape.O
 #+begin_src
 > O t q
-. y y .
-. y y .
-. . . .
+y y
+y y
 #+end_src
 
 *** DONE The Z (red)
@@ -310,7 +309,7 @@ m m m
 . . .
 #+end_src
 
-** TODO introduce (simplified) super rotation system
+** DONE [7/7] introduce (simplified) super rotation system
 
 Clockwise only. No wall-kicks. For each test, four rotations should bring it back to the staring position.
 
@@ -347,132 +346,128 @@ The O looks the same in all orientations.
 #+name: clockwise.O
 #+begin_src
 > O ) t
-. y y .
-. y y .
-. . . .
-> ) t q
-. y y .
-. y y .
-. . . .
+y y
+y y
 > ) t
-. y y .
-. y y .
-. . . .
+y y
+y y
+> ) t
+y y
+y y
 > ) t q
-. y y .
-. y y .
-. . . .
+y y
+y y
 #+end_src
 
-*** TODO The Z (red)
+*** DONE The Z (red)
 
 The Z and others fit in 3x3 grids
 
 #+name: clockwise.Z
 #+begin_src
-> Z t q
+> Z t
 r r .
 . r r
 . . .
 > ) t
-r r .
+. . r
 . r r
-. . .
+. r .
 > ) t
+. . .
 r r .
 . r r
-. . .
 > ) t q
+. r .
 r r .
-. r r
-. . .
+r . .
 #+end_src
 
-*** TODO The S (green)
+*** DONE The S (green)
 
 #+name: clockwise.S
 #+begin_src
-> S t q
+> S t ; ) t ; ) t ; ) t q
 . g g
 g g .
 . . .
-> ) t
+
+. g .
+. g g
+. . g
+
+. . .
 . g g
 g g .
-. . .
-> ) t
-. g g
+
+g . .
 g g .
-. . .
-> ) t q
-. g g
-g g .
-. . .
+. g .
 #+end_src
 
-*** TODO The J (blue)
+*** DONE The J (blue)
 
 #+name: clockwise.J
 #+begin_src
-> J t q
+> J t ; ) t ; ) t ; ) t q
 b . .
 b b b
 . . .
-> ) t
-b . .
-b b b
+
+. b b
+. b .
+. b .
+
 . . .
-> ) t
-b . .
 b b b
-. . .
-> ) t q
-b . .
-b b b
-. . .
+. . b
+
+. b .
+. b .
+b b .
 #+end_src
 
-*** TODO The L (orange)
+*** DONE The L (orange)
 
 #+name: clockwise.L
 #+begin_src
-> L ) t
+> L t ; ) t ; ) t ; ) t q
 . . o
 o o o
 . . .
-> ) t
-. . o
-o o o
+
+. o .
+. o .
+. o o
+
 . . .
-> ) t
-. . o
 o o o
-. . .
-> ) t q
-. . o
-o o o
-. . .
+o . .
+
+o o .
+. o .
+. o .
 #+end_src
 
-*** TODO The T (magenta)
+*** DONE The T (magenta)
 
 #+name: clockwise.T
 #+begin_src
-> T ) t
+> T t ; ) t ; ) t ; ) t ; q
 . m .
 m m m
 . . .
-> ) t
+
 . m .
-m m m
-. . .
-> ) t
+. m m
 . m .
-m m m
+
 . . .
-> ) t q
+m m m
 . m .
-m m m
-. . .
+
+. m .
+m m .
+. m .
 #+end_src
 
