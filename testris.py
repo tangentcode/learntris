@@ -47,12 +47,14 @@ def parse_test(lines):
     """
     :: [Str] -> [(Op, Str)] , where Op in { 'in', 'out' }
     """
+    while lines and lines[-1].strip() == "": lines.pop()
     for line in lines:
-        if '#' in line:                # strip comments
+        if line.startswith('#'): continue
+        if '#' in line:                # strip trailing comments
             line = line[:line.find('#')]
         sline = line.strip()
-        if sline == "":                # skip empty lines
-            pass
+        if sline == "":
+            yield ('out', sline)
         elif sline[0] == '>':          # input to send
             yield ('in', sline[1:].strip())
         else:                          # expected output
@@ -100,8 +102,8 @@ def run_test(program, opcodes):
     await_results(program)
 
     # read all the actual output lines, and compare to expected:
-    actual = [line for line in program.stdout.read().split("\n") if line]
-
+    actual = [line.strip() for line in program.stdout.read().split("\n")]
+    while actual and actual[-1] == "": actual.pop()
     if actual != expected:
         diff = list(difflib.Differ().compare(actual, expected))
         raise TestFailure('output mismatch:\n%s'
