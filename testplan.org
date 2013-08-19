@@ -237,7 +237,7 @@ m y o . c r g c m y # 13
 ** DONE [7/7] introduce the tetraminos
 *** DONE The I (cyan)
 
-#+name: io.multi
+#+name: shape.I
 #+begin_src
 > I t q
 . . . .
@@ -310,5 +310,169 @@ m m m
 . . .
 #+end_src
 
-** TODO introduce super rotation system
+** TODO introduce (simplified) super rotation system
+
+Clockwise only. No wall-kicks. For each test, four rotations should bring it back to the staring position.
+
+*** DONE The I (cyan)
+
+#+name: clockwise.I
+#+begin_src
+> I ) t
+. . c .
+. . c .
+. . c .
+. . c .
+> ) t
+. . . .
+. . . .
+c c c c
+. . . .
+> ) t
+. c . .
+. c . .
+. c . .
+. c . .
+> ) t q
+. . . .
+c c c c
+. . . .
+. . . .
+#+end_src
+
+*** DONE The O (yellow)
+
+The O looks the same in all orientations.
+
+#+name: clockwise.O
+#+begin_src
+> O ) t
+. y y .
+. y y .
+. . . .
+> ) t q
+. y y .
+. y y .
+. . . .
+> ) t
+. y y .
+. y y .
+. . . .
+> ) t q
+. y y .
+. y y .
+. . . .
+#+end_src
+
+*** TODO The Z (red)
+
+The Z and others fit in 3x3 grids
+
+#+name: clockwise.Z
+#+begin_src
+> Z t q
+r r .
+. r r
+. . .
+> ) t
+r r .
+. r r
+. . .
+> ) t
+r r .
+. r r
+. . .
+> ) t q
+r r .
+. r r
+. . .
+#+end_src
+
+*** TODO The S (green)
+
+#+name: clockwise.S
+#+begin_src
+> S t q
+. g g
+g g .
+. . .
+> ) t
+. g g
+g g .
+. . .
+> ) t
+. g g
+g g .
+. . .
+> ) t q
+. g g
+g g .
+. . .
+#+end_src
+
+*** TODO The J (blue)
+
+#+name: clockwise.J
+#+begin_src
+> J t q
+b . .
+b b b
+. . .
+> ) t
+b . .
+b b b
+. . .
+> ) t
+b . .
+b b b
+. . .
+> ) t q
+b . .
+b b b
+. . .
+#+end_src
+
+*** TODO The L (orange)
+
+#+name: clockwise.L
+#+begin_src
+> L ) t
+. . o
+o o o
+. . .
+> ) t
+. . o
+o o o
+. . .
+> ) t
+. . o
+o o o
+. . .
+> ) t q
+. . o
+o o o
+. . .
+#+end_src
+
+*** TODO The T (magenta)
+
+#+name: clockwise.T
+#+begin_src
+> T ) t
+. m .
+m m m
+. . .
+> ) t
+. m .
+m m m
+. . .
+> ) t
+. m .
+m m m
+. . .
+> ) t q
+. m .
+m m m
+. . .
+#+end_src
 
