@@ -10,11 +10,14 @@ Your first step is to write a *console-mode* program
 (one that does absolutely nothing!) and tell testris
 where to find it:
 
-    ./testris.py [/path/to/learntris]
+    ./testris.py [/path/to/learntris] [arguments]
 
 The path should refer to a physical file on disk, so if
 you need command line arguments, create a wrapper program.
 The default path is "./learntris".
+
+You can pass extra arguments that will be passed to the
+guest learntris program.
 
 Once testris is able to launch your program, this message
 will be replaced with instructions for implementing your
@@ -60,8 +63,8 @@ def parse_test(lines):
         else:                          # expected output
             yield ('out', sline)
 
-def spawn(program_name):
-    return subprocess.Popen([program_name],
+def spawn(program_args):
+    return subprocess.Popen(program_args,
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
 
@@ -109,9 +112,9 @@ def run_test(program, opcodes):
         raise TestFailure('output mismatch:\n%s'
                           % pprint.pformat(diff))
 
-def run_tests(program_name):
+def run_tests(program_args):
     for i, test in enumerate(extract.tests()):
-        program = spawn(program_name)
+        program = spawn(program_args)
         opcodes = list(parse_test(test.lines))
         print("Running test %d: %s" % (i+1, test.name))
         try:
@@ -124,21 +127,20 @@ def run_tests(program_name):
 
 def find_learntris():
     default = "./learntris"
-    path = sys.argv[1] if len(sys.argv) == 2 else default
-    if os.path.exists(path):
-        result = path
+    program_args = sys.argv[1:] if len(sys.argv) >= 2 else default
+    if os.path.exists(program_args[0]):
+        return program_args
+
+    if program_args[0] == default:
+        print(__doc__)
     else:
-        result = None
-        if path == default:
-            print(__doc__)
-        else:
-            print("Error: ('%s') not found." % path)
-    return result
+        print("Error: ('%s') not found." % program_args[0])
+    return None
 
 
 def main():
-    path = find_learntris()
-    if path: run_tests(path)
+    program_args = find_learntris()
+    if program_args: run_tests(program_args)
 
 if __name__ == '__main__':
     main()
