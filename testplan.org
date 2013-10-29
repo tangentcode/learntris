@@ -506,7 +506,7 @@ Use upper case letters.
 #+end_src
 
 **** TODO the L
-#+name: spawn.O
+#+name: spawn.L
 #+begin_src
 > cLPq
 . . . . . o . . . . #  0
@@ -735,7 +735,7 @@ Use upper case letters.
 
 **** TODO v
 
-#+name: nudge.>
+#+name: nudge.v
 #+begin_src
 > cTvPq
 . . . . . . . . . . #  0
@@ -876,7 +876,7 @@ m m m . . . . . . . #  1
 
 **** TODO it changes based on the orientation, though
 
-#+name: wall.right
+#+name: wall.right?
 #+begin_src
 > T ) >>>> > Pq
 . . . . . . . . . M #  0

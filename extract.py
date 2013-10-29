@@ -80,7 +80,7 @@ class TestReaderStateMachine:
     def on_test_name(self, line):
         self.next_name = line.split(":")[1].strip()
         assert self.next_name not in self.test_names, (
-            "duplicate name {0:r} on line {0}"
+            "duplicate name {0!r} on line {1}"
             .format(self.next_name, self.lineno))
         self.test_names.append(self.next_name)
 
