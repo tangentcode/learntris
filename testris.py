@@ -127,7 +127,7 @@ def run_tests(program_args):
 
 def find_learntris():
     default = "./learntris"
-    program_args = sys.argv[1:] if len(sys.argv) >= 2 else default
+    program_args = sys.argv[1:] if len(sys.argv) >= 2 else [default]
     if os.path.exists(program_args[0]):
         return program_args
 
