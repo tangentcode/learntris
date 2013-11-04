@@ -66,7 +66,7 @@ above where new tetriminos form.
 > . . . . . . . . . . # 14
 > c . . . . . . . . . # 15
 > c . . . . . . . . . # 16
-> c. . .  . g . . . . # 17
+> c . . . . g . . . . # 17
 > c . . o . g g . . . # 18
 > . . . o . b g . . . # 19
 > . m r r o o b y y . # 20
@@ -89,7 +89,7 @@ r r r r r r r r r r # 10
 . . . . . . . . . . # 14
 c . . . . . . . . . # 15
 c . . . . . . . . . # 16
-c. . .  . g . . . . # 17
+c . . . . g . . . . # 17
 c . . o . g g . . . # 18
 . . . o . b g . . . # 19
 . m r r o o b y y . # 20
@@ -153,7 +153,7 @@ This is the same as the previous test, but it adds a c command to clear it befor
 > q
 #+end_src
 
-* DONE [4/6] basic game ideas
+* DONE [5/6] basic game ideas
 ** DONE establish protocol to set and query the score
 
 score register:
@@ -230,7 +230,6 @@ m y o . c r g c m y # 13
 1
 > ?s
 100
-> s
 > q
 #+end_src
 
@@ -471,13 +470,12 @@ m m .
 . m .
 #+end_src
 
-** TODO implement movement
-
-*** TODO [0/7] draw a shape in the matrix at the spawn point.
+** TODO [3/4] implement movement
+*** DONE [7/7] draw a shape in the matrix at the spawn point.
 
 Use upper case letters.
 
-**** TODO the O
+**** DONE the O
 #+name: spawn.O
 #+begin_src
 > cOPq
@@ -505,12 +503,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the L
+**** DONE the L
 #+name: spawn.L
 #+begin_src
 > cLPq
-. . . . . o . . . . #  0
-. . . o o o . . . . #  1
+. . . . . O . . . . #  0
+. . . O O O . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -533,12 +531,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the J
+**** DONE the J
 #+name: spawn.J
 #+begin_src
 > cJPq
-. . . b . . . . . . #  0
-. . . b b b . . . . #  1
+. . . B . . . . . . #  0
+. . . B B B . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -561,12 +559,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the Z
+**** DONE the Z
 #+name: spawn.Z
 #+begin_src
 > cZPq
-. . . r r . . . . . #  0
-. . . . r r . . . . #  1
+. . . R R . . . . . #  0
+. . . . R R . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -589,12 +587,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the S
+**** DONE the S
 #+name: spawn.S
 #+begin_src
 > cSPq
-. . . . g g . . . . #  0
-. . . g g . . . . . #  1
+. . . . G G . . . . #  0
+. . . G G . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -617,12 +615,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the I
+**** DONE the I
 #+name: spawn.I
 #+begin_src
 > cIPq
 . . . . . . . . . . #  0
-. . . c c c c . . . #  1
+. . . C C C C . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -645,12 +643,12 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO the T
+**** DONE the T
 #+name: spawn.T
 #+begin_src
 > cTPq
-. . . . m . . . . . #  0
-. . . m m m . . . . #  1
+. . . . M . . . . . #  0
+. . . M M M . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -673,15 +671,14 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-
-*** TODO [0/3] basic left/right/down movement ( < v > )
-**** TODO <
+*** DONE [3/3] basic left/right/down movement ( < v > )
+**** DONE <
 
 #+name: nudge.<
 #+begin_src
 > cT<Pq
-. . . m . . . . . . #  0
-. . m m m . . . . . #  1
+. . . M . . . . . . #  0
+. . M M M . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -704,13 +701,13 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO >
+**** DONE >
 
 #+name: nudge.>
 #+begin_src
 > cT>Pq
-. . . . . m . . . . #  0
-. . . . m m m . . . #  1
+. . . . . M . . . . #  0
+. . . . M M M . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -733,14 +730,14 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO v
+**** DONE v
 
 #+name: nudge.v
 #+begin_src
 > cTvPq
 . . . . . . . . . . #  0
-. . . . m . . . . . #  1
-. . . m m m . . . . #  2
+. . . . M . . . . . #  1
+. . . M M M . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
 . . . . . . . . . . #  5
@@ -762,17 +759,15 @@ Use upper case letters.
 . . . . . . . . . . # 21
 #+end_src
 
+*** DONE [6/6] collision detection for the floor and walls
+**** DONE left wall
 
-*** TODO [0/5] collision detection
-
-**** TODO left wall
-
-#+name: wall.left
+#+name: collide.left-wall
 #+begin_src
 # nudging <<< should put T on the left wall
 > cT<<<P
-. m . . . . . . . . #  0
-m m m . . . . . . . #  1
+. M . . . . . . . . #  0
+M M M . . . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -795,8 +790,8 @@ m m m . . . . . . . #  1
 . . . . . . . . . . # 21
 # nudging again should do nothing:
 > <Pq
-. m . . . . . . . . #  0
-m m m . . . . . . . #  1
+. M . . . . . . . . #  0
+M M M . . . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -819,15 +814,14 @@ m m m . . . . . . . #  1
 . . . . . . . . . . # 21
 #+end_src
 
+**** DONE right wall
 
-**** TODO right wall
-
-#+name: wall.right
+#+name: collide.right-wall
 #+begin_src
 # nudging >>>> should put T on the right wall
 > cT>>>>P
-. . . . . . . . m . #  0
-. . . . . . . m m m #  1
+. . . . . . . . M . #  0
+. . . . . . . M M M #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -850,8 +844,8 @@ m m m . . . . . . . #  1
 . . . . . . . . . . # 21
 # nudging again should do nothing:
 > >Pq
-. . . . . . . . m . #  0
-. . . . . . . m m m #  1
+. . . . . . . . M . #  0
+. . . . . . . M M M #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
@@ -874,11 +868,11 @@ m m m . . . . . . . #  1
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO it changes based on the orientation, though
+**** DONE it changes based on the orientation, though
 
-#+name: wall.right?
+#+name: collide.right-wall-2
 #+begin_src
-> T ) >>>> > Pq
+> T ( >>>> > Pq
 . . . . . . . . . M #  0
 . . . . . . . . M M #  1
 . . . . . . . . . M #  2
@@ -903,84 +897,147 @@ m m m . . . . . . . #  1
 . . . . . . . . . . # 21
 #+end_src
 
-**** TODO floor
-**** TODO collide with blocks
+**** DONE floor
 
-#+name: rule.collide,blocks
+#+name: collide.floor
 #+begin_src
-> g
+> cT vvvv vvvv vvvv vvvv vvvv v Pq
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
 . . . . . . . . . . #  5
-. . . . g . . . . . #  6
-. . . . g g . . . . #  7
-. . . . . g . . . . #  8
-. . . . . o . . . . #  9
-. . . o o o . . . . # 10
-. . . c . . . . . . # 11
-. . . c . . . . . . # 12
-. . . c . . . . . . # 13
-. . . c . . . . . . # 14
-. . . m . . . . . . # 15
-. . . m m . . . . . # 16
-. . . m . . . . . . # 17
-. . . r . . . . . . # 18
-. . r r . b . . . . # 19
-y y r g g b . m . . # 20
-y y g g b b m m m . # 21
-> T P
-. . . . M . . . . . #  0
-. . . M M M . . . . #  1
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . M . . . . . # 20
+. . . M M M . . . . # 21
+#+end_src
+**** DONE hard drop to floor (V)
+#+name: drop.floor
+#+begin_src
+> TVpq
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
 . . . . . . . . . . #  4
 . . . . . . . . . . #  5
-. . . . g . . . . . #  6
-. . . . g g . . . . #  7
-. . . . . g . . . . #  8
-. . . . . o . . . . #  9
-. . . o o o . . . . # 10
-. . . c . . . . . . # 11
-. . . c . . . . . . # 12
-. . . c . . . . . . # 13
-. . . c . . . . . . # 14
-. . . m . . . . . . # 15
-. . . m m . . . . . # 16
-. . . m . . . . . . # 17
-. . . r . . . . . . # 18
-. . r r . b . . . . # 19
-y y r g g b . m . . # 20
-y y g g b b m m m . # 21
-> >>vvvvvvvv
-. . . . M . . . . . #  0
-. . . M M M . . . . #  1
-. . . . . . . . . . #  2
-. . . . . . . . . . #  3
-. . . . . . . . . . #  4
-. . . . . . . . . . #  5
-. . . . g . . . . . #  6
-. . . . g g . . . . #  7
-. . . . . g . . . . #  8
-. . . . . o . . . . #  9
-. . . o o o . . . . # 10
-. . . c . . . . . . # 11
-. . . c . . . . . . # 12
-. . . c . . . . . . # 13
-. . . c . . . . . . # 14
-. . . m . . . . . . # 15
-. . . m m . . . . . # 16
-. . . m . . . . . . # 17
-. . . r . . . . . . # 18
-. . r r . b . . . . # 19
-y y r g g b . m . . # 20
-y y g g b b m m m . # 21
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . m . . . . . # 20
+. . . m m m . . . . # 21
 #+end_src
 
+**** DONE hard drop to floor - rotated
+#+name: drop.floor.rotated
+#+begin_src
+> T)V pq
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . m . . . . . # 19
+. . . . m m . . . . # 20
+. . . . m . . . . . # 21
+#+end_src
 
-*** TODO gravity during step
-*** TODO hard drops
+*** TODO [1/4] collision detection for other blocks
+**** DONE plain drop
+#+name: drop.collide
+#+begin_src
+> TV ZV pq
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . r r . . . . . # 18
+. . . . r r . . . . # 19
+. . . . m . . . . . # 20
+. . . m m m . . . . # 21
+#+end_src
 
-** TODO clearing lines
+**** TODO rotated drop
+#+name: drop.collide.rotated
+#+begin_src
+> TV Z)<V pq
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . r . . . . . # 18
+. . . r r . . . . . # 19
+. . . r m . . . . . # 20
+. . . m m m . . . . # 21
+#+end_src
+
+**** TODO test collision with blocks on left side
+**** TODO test collision with blocks on right side
+
