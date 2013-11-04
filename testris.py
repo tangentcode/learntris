@@ -24,7 +24,7 @@ will be replaced with instructions for implementing your
 first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
-import sys, os, glob, subprocess, difflib, pprint, time
+import sys, os, glob, subprocess, difflib, pprint, time, threading
 import extract
 
 class Test(object):
@@ -69,44 +69,50 @@ def spawn(program_args, use_shell):
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
 
-
-def await_results(program, timeout_seconds=2):
+def await_results(childproc, cmds, timeout_seconds=2):
     """
-    This polls the child program until it finishes
-    executing. If it takes more than =timeout_seconds=,
-    kill the program and raise a TimeoutFailure.
+    This runs the child process until it finishes executing,
+    *or* until =timeout_seconds= have passed, in which case it
+    kills the process and raises a =TimeoutFailure=.
+
+    Return value is (stdout_data, stderr_data), from Popen.communicate().
+
+    Timeout logic adapted from:
+    http://stackoverflow.com/questions/1191374/subprocess-with-timeout
     """
-    countdown = timeout_seconds * 10
-    while program.poll() is None and countdown > 0:
-        time.sleep(0.1) # seep for 1/10 of a second
-        countdown -= 1
-    if countdown == 0:
-        program.kill()
-        raise TimeoutFailure("<program timed out>")
-    else: pass
+    result = []
+    def job():
+        result.extend(childproc.communicate(cmds))
 
+    thread = threading.Thread(target=job)
+    thread.start()
+    thread.join(timeout_seconds)
 
-def run_test(program, opcodes):
+    if thread.is_alive():
+        childproc.kill()
+        raise TimeoutFailure("<childproc timed out>")
+    else:
+        return result
+
+def run_test(childproc, opcodes):
     # separate the test script into input and output lines:
     given    = [op[1] for op in opcodes if op[0] == 'in']
     expected = [op[1] for op in opcodes if op[0] == 'out']
 
     # send all the input lines:
     print("---- sending commands ----")
-    for cmd in given:
-        print(cmd)
-        program.stdin.write(cmd + "\n")
+    cmds = '\n'.join(given) + '\n'
 
-    # let the program do its thing:
+    # let the childproc do its thing:
     print("---- expected results ----")
     for line in expected:
         print(line)
 
     print("---- awaiting results ----")
-    await_results(program)
+    out_text, _ = await_results(childproc, cmds)
 
-    # read all the actual output lines, and compare to expected:
-    actual = [line.strip() for line in program.stdout.read().split("\n")]
+    # compare output lines to expected:
+    actual = [line.strip() for line in out_text.split("\n")]
     while actual and actual[-1] == "": actual.pop()
     if actual != expected:
         diff = list(difflib.Differ().compare(actual, expected))
