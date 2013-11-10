@@ -6,6 +6,11 @@
 #+name: io.q
 #+begin_src
 > q
+= q : quit
+: The 'q' command instructs learntris to quit.
+:
+: Learntris should not produce any output unless
+: explicitly instructed to do so.
 #+end_src
 
 ** DONE establish a way to print the matrix (p)
@@ -42,6 +47,22 @@ above where new tetriminos form.
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 > q
+= p : print
+: The 'p' command instructs learntris to print the state
+: of the Matrix, the rectangular array of cells in which
+: blocks can appear.
+: 
+: The Matrix is 10 cells wide and 22 cells deep, although
+: the top two rows are used only for spawning new Tetraminos.
+:
+: At the start of the game, the Matrix should be empty.
+: The 'p' command should indicate empty cells with the
+: '.' character.
+:
+: Cells should be separated by spaces.
+:
+: Lines should be separated by the standard end of line
+: sequence on your operating system (python's "\n").
 #+end_src
 
 ** DONE establish a way to set the entire matrix (g)
@@ -95,11 +116,27 @@ c . . o . g g . . . # 18
 . m r r o o b y y . # 20
 m m m r r b b y y . # 21
 > q
+= g : given
+: The 'g' command instructs learntris to read 22 lines
+: of text from the standard input stream, and use the
+: characters on these lines to populate some internal
+: representation of the Matrix.
+:
+: The letter 'g' is a mnemonic for the word 'given', as
+: in: "given the following matrix...."
+:
+: The input format should be identical to the output
+: produced by the 'p' command.
+:
+: The letters used in the representation correspond to
+: the set of colors used for blocks in the game:
+:
+: . = empty (black)     b = blue         c = cyan
+: g = green             m = magenta      o = orange
+: r = red               y = yellow
 #+end_src
 
 ** DONE and a way to clear the matrix (c)
-
-This is the same as the previous test, but it adds a c command to clear it before the print.
 
 #+name: io.c
 #+begin_src
@@ -151,6 +188,8 @@ This is the same as the previous test, but it adds a c command to clear it befor
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 > q
+= c : clear
+: The 'c' command instructs learntris to clear the matrix.
 #+end_src
 
 * DONE [5/6] basic game ideas
@@ -163,6 +202,11 @@ score register:
 > ?s
 0
 >q
+= ?s : query 's' register (score)
+: The '?s' command instructs learntris to display the
+: current score as a decimal number.
+:
+: Initially, the score should be zero.
 #+end_src
 
 number of lines register:
@@ -172,6 +216,11 @@ number of lines register:
 > ?n
 0
 >q
+= ?s : query 'n' register (number of cleared lines)
+: The '?n' command instructs learntris to display the
+: number of lines that have been cleared.
+:
+: Initially, this number should be zero.
 #+end_src
 
 ** DONE establish the line-clearing mechanic
@@ -231,6 +280,19 @@ m y o . c r g c m y # 13
 > ?s
 100
 > q
+= s : step
+: The 's' command instructs learntris to execute one step
+: of the simulation.
+:
+: If the matrix contains an unbroken row of blocks, (or
+: in other words, a row that contain no empty cells), then
+: the 's' command should:
+: 
+: 1. Clear the row (replacing each block with an empty cell)
+: 2. Increment the 'n' register by 1.
+: 3. Increment the 's' register by 100.
+:
+: This is only an initial 
 #+end_src
 
 ** DONE [7/7] introduce the tetraminos
