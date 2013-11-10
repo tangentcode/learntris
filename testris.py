@@ -24,7 +24,7 @@ will be replaced with instructions for implementing your
 first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
-import sys, os, glob, subprocess, difflib, pprint, time
+import sys, os, subprocess, difflib, pprint, time
 import extract
 
 class Test(object):
@@ -47,21 +47,19 @@ class TimeoutFailure(TestFailure):
 
 
 def parse_test(lines):
-    """
-    :: [Str] -> [(Op, Str)] , where Op in { 'in', 'out' }
-    """
-    while lines and lines[-1].strip() == "": lines.pop()
+    while lines and lines[-1].strip() == "":
+        lines.pop()
+    opcodes = {'in': [], 'out': []}
     for line in lines:
         if line.startswith('#'): continue
         if '#' in line:                # strip trailing comments
             line = line[:line.find('#')]
         sline = line.strip()
-        if sline == "":
-            yield ('out', sline)
-        elif sline[0] == '>':          # input to send
-            yield ('in', sline[1:].strip())
+        if sline.startswith('>'):      # input to send
+            opcodes['in'].append(sline[1:].lstrip())
         else:                          # expected output
-            yield ('out', sline)
+            opcodes['out'].append(sline)
+    return opcodes
 
 def spawn(program_args, use_shell):
     return subprocess.Popen(program_args,
@@ -87,36 +85,33 @@ def await_results(program, timeout_seconds=2):
 
 
 def run_test(program, opcodes):
-    # separate the test script into input and output lines:
-    given    = [op[1] for op in opcodes if op[0] == 'in']
-    expected = [op[1] for op in opcodes if op[0] == 'out']
-
     # send all the input lines:
     print("---- sending commands ----")
-    for cmd in given:
+    for cmd in opcodes['in']:
         print(cmd)
         program.stdin.write(cmd + "\n")
 
     # let the program do its thing:
     print("---- expected results ----")
-    for line in expected:
+    for line in opcodes['out']:
         print(line)
 
     print("---- awaiting results ----")
     await_results(program)
 
-    # read all the actual output lines, and compare to expected:
+    # read all the actual output lines and compare to expected:
     actual = [line.strip() for line in program.stdout.read().split("\n")]
-    while actual and actual[-1] == "": actual.pop()
-    if actual != expected:
-        diff = list(difflib.Differ().compare(actual, expected))
+    while actual and actual[-1] == "":
+        actual.pop()
+    if actual != opcodes['out']:
+        diff = list(difflib.Differ().compare(actual, opcodes['out']))
         raise TestFailure('output mismatch:\n%s'
                           % pprint.pformat(diff))
 
 def run_tests(program_args, use_shell):
     for i, test in enumerate(extract.tests()):
         program = spawn(program_args, use_shell)
-        opcodes = list(parse_test(test.lines))
+        opcodes = parse_test(test.lines)
         print("Running test %d: %s" % (i+1, test.name))
         try:
             run_test(program, opcodes)
