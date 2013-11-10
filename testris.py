@@ -49,13 +49,22 @@ class TimeoutFailure(TestFailure):
 def parse_test(lines):
     while lines and lines[-1].strip() == "":
         lines.pop()
-    opcodes = {'in': [], 'out': []}
+    opcodes = {
+        'title': None,
+        'doc': [],
+        'in': [],
+        'out': [],
+    }
     for line in lines:
         if line.startswith('#'): continue
         if '#' in line:                # strip trailing comments
             line = line[:line.find('#')]
         sline = line.strip()
-        if sline.startswith('>'):      # input to send
+        if sline.startswith('='):      # test title
+            opcodes['title'] = sline[2:]
+        elif sline.startswith(':'):    # test description
+            opcodes['doc'].append(sline)
+        elif sline.startswith('>'):    # input to send
             opcodes['in'].append(sline[1:].lstrip())
         else:                          # expected output
             opcodes['out'].append(sline)
@@ -86,16 +95,13 @@ def await_results(program, timeout_seconds=2):
 
 def run_test(program, opcodes):
     # send all the input lines:
+    print(opcodes['title'])
     print("---- sending commands ----")
     for cmd in opcodes['in']:
         print(cmd)
         program.stdin.write(cmd + "\n")
 
     # let the program do its thing:
-    print("---- expected results ----")
-    for line in opcodes['out']:
-        print(line)
-
     print("---- awaiting results ----")
     await_results(program)
 
@@ -104,6 +110,9 @@ def run_test(program, opcodes):
     while actual and actual[-1] == "":
         actual.pop()
     if actual != opcodes['out']:
+        print('\n'.join(opcodes['doc']))
+        print("---- expected results ----")
+        print('\n'.join(opcodes['out']))
         diff = list(difflib.Differ().compare(actual, opcodes['out']))
         raise TestFailure('output mismatch:\n%s'
                           % pprint.pformat(diff))
