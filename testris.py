@@ -129,14 +129,12 @@ def run_tests(program_args, use_shell):
 def find_learntris():
     default = "./learntris"
     program_args = sys.argv[1:] if len(sys.argv) >= 2 else [default]
-    use_shell = False
     if "--shell" in program_args: # --shell option
-        use_shell = True
         program_args.remove("--shell")
-    if os.path.exists(program_args[0]):
-        return (program_args, use_shell)
-
-    if program_args[0] == default:
+        return (program_args, True)
+    elif os.path.exists(program_args[0]):
+        return (program_args, False)
+    elif program_args[0] == default:
         print(__doc__)
     else:
         print("Error: ('%s') not found." % program_args[0])
