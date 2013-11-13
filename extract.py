@@ -35,6 +35,7 @@ following format:
 """
 from __future__ import print_function
 from collections import namedtuple
+import os
 
 TestDescription = namedtuple("TestDescription", ['name', 'lines'])
 
@@ -108,11 +109,13 @@ class TestReaderStateMachine:
         map(self, open(path))
         return self.tests
 
-def tests(path='testplan.org'):
+def tests(path=None):
     """
     Convenience function to instantiate a TestReaderStateMatchine
     and invoke .extract_tests on the given path.
     """
+    if path is None:
+        path = os.path.join(os.path.dirname(__file__), 'testplan.org')
     return TestReaderStateMachine().extract_tests(path)
 
 if __name__=="__main__":
