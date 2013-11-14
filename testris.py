@@ -113,9 +113,8 @@ def run_test(program, opcodes):
         print('\n'.join(opcodes['doc']))
         print("---- expected results ----")
         print('\n'.join(opcodes['out']))
-        diff = list(difflib.Differ().compare(actual, opcodes['out']))
-        raise TestFailure('output mismatch:\n%s'
-                          % pprint.pformat(diff))
+        diff = '\n'.join(list(difflib.Differ().compare(actual, opcodes['out'])))
+        raise TestFailure('output mismatch:\n' + diff)
 
 def run_tests(program_args, use_shell):
     for i, test in enumerate(extract.tests()):
