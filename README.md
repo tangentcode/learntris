@@ -38,7 +38,17 @@ The first section involves setting up a simple communication
 protocol so the tests can run your code, and the rest focus
 on the game itself.
 
-**Click Here to Begin**
+**Getting Started**
 
-*Except of course you can't yet, because I haven't written it. 
-Stay tuned. -- @tangentstorm*
+The first step is to clone or forth this repo and run `testris.py`.
+You will need a recent version of python, preferably python3.2 or later.
+(Python is *only* for the test runner. You can use any language you want to
+write your implementation.)
+
+The output of `testris.py` will tell you what needs to be done at every
+step alonge the way. Just keep running it, and do what it tells you to do.
+
+If you get stuck, please come us in #learnprogramming on irc.freenode.net, or
+post a question to [/r/lpmc](http://reddit.comr/r/lpmc/) at reddit, and we'll
+try to help you sort it out.
+
