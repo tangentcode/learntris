@@ -106,7 +106,7 @@ class TestReaderStateMachine:
         Generates a sequence of TestDescription named tuples:
         Format is: (name:Str, lines:[Str])
         """
-        map(self, open(path))
+        for line in open(path): self(line)
         return self.tests
 
 def tests(path=None):
@@ -119,6 +119,7 @@ def tests(path=None):
     return TestReaderStateMachine().extract_tests(path)
 
 if __name__=="__main__":
+    if not os.path.exists('tests'): os.mkdir('tests')
     for i, test in enumerate(tests()):
         path = "tests/test{0:03}.txt".format(i)
         print("generating '{0}' in {1}"
