@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Testris is the test runner for Learntris. Learntris is 
+Testris is the test runner for Learntris. Learntris is
 the part *you* write, in whatever language you prefer.
 
 If you're seeing this message when you tried to run
@@ -99,14 +99,15 @@ def run_test(program, opcodes):
     print("---- sending commands ----")
     for cmd in opcodes['in']:
         print(cmd)
-        program.stdin.write(cmd + "\n")
+        program.stdin.write((cmd + "\n").encode('utf-8'))
 
     # let the program do its thing:
     print("---- awaiting results ----")
     await_results(program)
 
     # read all the actual output lines and compare to expected:
-    actual = [line.strip() for line in program.stdout.read().split("\n")]
+    actual = [line.strip() for line in
+              program.stdout.read().decode('utf-8').split("\n")]
     while actual and actual[-1] == "":
         actual.pop()
     if actual != opcodes['out']:
