@@ -1103,7 +1103,7 @@ M M M . . . . . . . #  1
 **** TODO test collision with blocks on left side
 #+name: collide.left-block
 #+begin_src
-> J ) << V Z ) vvvvvvvvvvvvvvvvv < pq
+> J ) << V Z ) vvvvvvvvvvvvvvvvv < Pq
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1121,9 +1121,9 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 14
 . . . . . . . . . . # 15
 . . . . . . . . . . # 16
-. . . . . r . . . . # 17
-. . . . r r . . . . # 18
-. . b b r . . . . . # 19
+. . . . . R . . . . # 17
+. . . . R R . . . . # 18
+. . b b R . . . . . # 19
 . . b . . . . . . . # 20
 . . b . . . . . . . # 21
 #+end_src
