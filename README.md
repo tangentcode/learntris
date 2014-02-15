@@ -1,4 +1,4 @@
-The LearnTris Challenge
+The Learntris Challenge
 =======================
 
 This repository contains a series of automated tests that
@@ -34,13 +34,9 @@ will need to solve in order to implement the game.
 The tests themselves are written in python, but you are free
 to implement your game in any language you like.
 
-The first section involves setting up a simple communication
-protocol so the tests can run your code, and the rest focus
-on the game itself.
-
 **Getting Started**
 
-The first step is to clone or forth this repo and run `testris.py`.
+The first step is to clone or fork this repo and run `testris.py`.
 You will need a recent version of python, preferably python3.2 or later.
 (Python is *only* for the test runner. You can use any language you want to
 write your implementation.)
