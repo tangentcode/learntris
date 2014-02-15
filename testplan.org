@@ -1131,14 +1131,14 @@ M M M . . . . . . . #  1
 **** TODO test collision with blocks on right side
 #+name: collide.right-block
 #+begin_src
-> I)>V I)>V I)>V I)>V T)>vvvv> pq
+> I)>V I)>V I)>V I)>V T)>vvvv> Pq
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
 . . . . . . . . . . #  3
-. . . . . m . . . . #  4
-. . . . . m m . . . #  5
-. . . . . m c . . . #  6
+. . . . . M . . . . #  4
+. . . . . M M . . . #  5
+. . . . . M c . . . #  6
 . . . . . . c . . . #  7
 . . . . . . c . . . #  8
 . . . . . . c . . . #  9
