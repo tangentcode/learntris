@@ -44,7 +44,7 @@ write your implementation.)
 The output of `testris.py` will tell you what needs to be done at every
 step alonge the way. Just keep running it, and do what it tells you to do.
 
-If you get stuck, please come us in #learnprogramming on irc.freenode.net, or
+If you get stuck, please come join us in #learnprogramming on irc.freenode.net, or
 post a question to [/r/lpmc](http://reddit.com/r/lpmc/) at reddit, and we'll
 try to help you sort it out.
 
