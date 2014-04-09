@@ -44,6 +44,8 @@ write your implementation.)
 The output of `testris.py` will tell you what needs to be done at every
 step alonge the way. Just keep running it, and do what it tells you to do.
 
+The wiki here has a couple pages on [Getting Set Up](https://github.com/LearnProgramming/learntris/wiki/Getting-Set-Up) and [Understanding the Test Results](https://github.com/LearnProgramming/learntris/wiki/Understanding-the-Test-results).
+
 If you get stuck, please come join us in #learnprogramming on irc.freenode.net, or
 post a question to [/r/lpmc](http://reddit.com/r/lpmc/) at reddit, and we'll
 try to help you sort it out.
