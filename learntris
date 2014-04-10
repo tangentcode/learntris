@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
 height = 22
 width = 10
+# Intializes $table to all '.'.
 $table = Array.new(height) { Array.new(width, '.')}
 
+# Prints each element of $table separated by a space.
+# Each row is separated by a newline character.
 def print_table
 	$table.each do |row|
 		row.each_with_index do |c, index|
@@ -15,18 +18,32 @@ def print_table
 	end
 end
 
+# Accepts certain characters as commands:
+# p: prints current table
+# q: exits program
+# g: reads input and updates table
 def handle_command(c)
 	if c == 'p'
 		print_table
 	elsif c == 'q'
 		exit
+	elsif c == 'g'
+		update_table
+	end
+end
+
+# Updates table from input
+def update_table
+	$table.each_index do |i|
+		$table[i] = gets.split(" ")
 	end
 end
 
 def main
-	#print "Enter a command: " 
-	c = gets.chomp
-	handle_command(c)
+	while true do 
+		c = gets.chomp
+		handle_command(c)
+	end
 end
 
 main
