@@ -19,29 +19,71 @@ def print_table
 end
 
 # Accepts certain characters as commands:
+# String => nil
 # p: prints current table
 # q: exits program
 # g: reads input and updates table
+# ?n: print number of cleared lines
+# ?s: print score
+# s: checks for complete lines and removes them
 def handle_command(c)
 	if c == 'p'
 		print_table
 	elsif c == 'q'
 		exit
 	elsif c == 'g'
-		update_table
+		read_table
 	elsif c == 'c'
 		init_table
 	elsif c == "?s"
 		puts $score
 	elsif c == "?n"
 		puts $cleared_lines
+	elsif c == "s"
+		update_table
 	end
 end
 
-# Updates table from input
-def update_table
+# Read table from input
+def read_table
 	$table.each_index do |i|
 		$table[i] = gets.split(" ")
+	end
+end
+
+# Return true if line is unbroken
+# (in other words, the row does not contain
+# a ".")
+# array => boolean
+def unbroken?(line)
+	line.each do |c|
+		if c == "."
+			return false
+		end
+	end
+	return true
+end
+
+# Takes an line and fills it with the 
+# same character (defaults ".")
+# array [char] => nil
+def clear(line, c=".")
+	line.each_index do |i|
+		line[i] = c
+	end
+end
+
+# Checks each row for a complete line.
+# If one is found, it is removed and replaced
+# with an empty line (filled with "."), and
+# increments n by 1, and s by 100
+def update_table
+	$table.each do |row|
+		if unbroken?(row)
+			clear(row)
+			$cleared_lines += 1
+			$score += 100
+		end
 	end
 end
 
