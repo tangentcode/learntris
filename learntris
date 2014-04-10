@@ -31,6 +31,8 @@ def handle_command(c)
 		update_table
 	elsif c == 'c'
 		init_table
+	elsif c == "?s"
+		puts $score
 	end
 end
 
@@ -41,14 +43,18 @@ def update_table
 	end
 end
 
+# Entry point for script
 def main
 	# Height and width of table
 	$height = 22
 	$width = 10
+	$score = 0
 
 	# Initialize table
 	init_table
 
+	# Loop forever and gets input
+	# ('q' quits the loop)
 	while true do 
 		c = gets.chomp
 		handle_command(c)
