@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+height = 22
+width = 10
+$table = Array.new(height) { Array.new(width, '.')}
+$command = ARGV[0]
+
+def print_table
+	$table.each do |row|
+		row.each_with_index do |c, index|
+			if index != 0
+				print ' '
+			end
+			print c
+		end
+		print "\n"
+	end
+end
+
+def handle_command(c)
+	if c == 'p'
+		print_table
+	elsif c == 'q'
+		exit
+	end
+end
+
+def main
+	handle_command($command)
+end
+
+main
+
