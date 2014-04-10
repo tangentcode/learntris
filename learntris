@@ -2,7 +2,6 @@
 height = 22
 width = 10
 $table = Array.new(height) { Array.new(width, '.')}
-$command = ARGV[0]
 
 def print_table
 	$table.each do |row|
@@ -25,7 +24,9 @@ def handle_command(c)
 end
 
 def main
-	handle_command($command)
+	#print "Enter a command: " 
+	c = gets.chomp
+	handle_command(c)
 end
 
 main
