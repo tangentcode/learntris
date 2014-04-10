@@ -33,6 +33,8 @@ def handle_command(c)
 		init_table
 	elsif c == "?s"
 		puts $score
+	elsif c == "?n"
+		puts $cleared_lines
 	end
 end
 
@@ -49,6 +51,7 @@ def main
 	$height = 22
 	$width = 10
 	$score = 0
+	$cleared_lines = 0
 
 	# Initialize table
 	init_table
