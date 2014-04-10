@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-height = 22
-width = 10
 # Intializes $table to all '.'.
-$table = Array.new(height) { Array.new(width, '.')}
+def init_table
+	$table = Array.new($height) { Array.new($width, '.')}
+end
 
 # Prints each element of $table separated by a space.
 # Each row is separated by a newline character.
@@ -29,6 +29,8 @@ def handle_command(c)
 		exit
 	elsif c == 'g'
 		update_table
+	elsif c == 'c'
+		init_table
 	end
 end
 
@@ -40,6 +42,13 @@ def update_table
 end
 
 def main
+	# Height and width of table
+	$height = 22
+	$width = 10
+
+	# Initialize table
+	init_table
+
 	while true do 
 		c = gets.chomp
 		handle_command(c)
