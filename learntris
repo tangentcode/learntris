@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "./tetromino.rb"
 # Intializes $table to all '.'.
 def init_table
 	$table = Array.new($height) { Array.new($width, '.')}
@@ -42,22 +43,11 @@ def handle_command(c)
 		puts $cleared_lines
 	when "s"
 		update_table
+	when *Tetromino.types
+		$active_tetromino = Tetromino.new(c)
+	when "t"
+		puts $active_tetromino.to_s
 	end
-	#if c == 'p'
-		#print_table
-	#elsif c == 'q'
-		#exit
-	#elsif c == 'g'
-		#read_table
-	#elsif c == 'c'
-		#init_table
-	#elsif c == "?s"
-		#puts $score
-	#elsif c == "?n"
-		#puts $cleared_lines
-	#elsif c == "s"
-		#update_table
-	#end
 end
 
 # Read table from input
@@ -106,6 +96,11 @@ end
 # Inserts a tetromino onto the board
 def add_to_board(board, tet, loc)
 	
+end
+
+# Sets the active tetromino
+def set_active_tetromino(type)
+	$active_tetromino = Tetromino.new(type)
 end
 
 # Entry point for script
