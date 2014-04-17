@@ -66,8 +66,6 @@ def parse_test(lines):
             opcodes['doc'].append(sline)
         elif sline.startswith('>'):    # input to send
             opcodes['in'].append(sline[1:].lstrip())
-        elif sline == '':              # ignore blank lines
-            pass
         else:                          # expected output
             opcodes['out'].append(sline)
     return opcodes
