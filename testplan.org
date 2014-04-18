@@ -1,5 +1,10 @@
 #+title: learntris test suite
 
+# This file is created with org-mode, an awesome outliner and
+# personal information manager for emacs. In org-mode, this file
+# will appear as a foldable outline, but if you don't want to use
+# emacs, it's fine to just edit it by hand.
+
 * DONE [4/4] basic i/o
 ** DONE establish a command loop and a way to exit
 
@@ -193,9 +198,8 @@ m m m r r b b y y . # 21
 #+end_src
 
 * DONE [5/5] basic game ideas
-** DONE establish protocol to set and query the score
-
-score register:
+** DONE [2/2] establish protocol to set and query the score
+*** DONE score register:
 
 #+name: io.score.?s
 #+begin_src
@@ -209,14 +213,14 @@ score register:
 : Initially, the score should be zero.
 #+end_src
 
-number of lines register:
+*** DONE number of lines register:
 
 #+name: io.score.?n
 #+begin_src
 > ?n
 0
 >q
-= ?s : query 'n' register (number of cleared lines)
+= ?n : query 'n' register (number of cleared lines)
 : The '?n' command instructs learntris to display the
 : number of lines that have been cleared.
 :
@@ -452,11 +456,12 @@ c c c c
 c c c c
 . . . .
 . . . .
+= ) : clockwise rotation
+: The ')' command rotates the actiev tetramino 90 degrees clockwise.
+: Here we see the I tetramino rotating clockwise within its bounding box.
 #+end_src
 
 *** DONE The O (yellow)
-
-The O looks the same in all orientations.
 
 #+name: clockwise.O
 #+begin_src
@@ -472,11 +477,11 @@ y y
 > ) t q
 y y
 y y
+= O rotation
+: The O looks the same in all orientations.
 #+end_src
 
 *** DONE The Z (red)
-
-The Z and others fit in 3x3 grids
 
 #+name: clockwise.Z
 #+begin_src
@@ -496,6 +501,8 @@ r r .
 . r .
 r r .
 r . .
+= Z Rotation
+: The Z rotates within its 3x3 grid.
 #+end_src
 
 *** DONE The S (green)
@@ -518,6 +525,10 @@ g g .
 g . .
 g g .
 . g .
+= ; : newlines and S rotation
+: You should be getting the hang of rotation now.
+: Here we see the new ';' command, which emits a newline
+: simply to make the output a little more readable.
 #+end_src
 
 *** DONE The J (blue)
@@ -540,6 +551,10 @@ b b b
 . b .
 . b .
 b b .
+= J Rotation
+: No surprises here.
+: Maybe this is a good time to look over your code
+: and see if there's something you ought to clean up?
 #+end_src
 
 *** DONE The L (orange)
@@ -562,6 +577,8 @@ o . .
 o o .
 . o .
 . o .
+= L Rotation
+: Yep. Another rotating tetramino.
 #+end_src
 
 *** DONE The T (magenta)
@@ -584,17 +601,16 @@ m m m
 . m .
 m m .
 . m .
+= T Rotation
+: Last one!
 #+end_src
 
 ** DONE [4/4] implement movement
 *** DONE [7/7] draw a shape in the matrix at the spawn point.
-
-Use upper case letters.
-
 **** DONE the O
 #+name: spawn.O
 #+begin_src
-> cOPq
+> c O P q
 . . . . Y Y . . . . #  0
 . . . . Y Y . . . . #  1
 . . . . . . . . . . #  2
@@ -617,12 +633,21 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= P : Print Matrix with active Tetramino
+: Now it's time to place the active tetramino in the matrix.
+: The 'P' command should print the matrix just like 'p' does,
+: but in addition, it should show the active tetramino.
+:
+: Note that the active tetramino is drawn with upper case
+: letters, so we can distinguish it from the settled blocks.
+:
+: Here we see the O tetramino in its initial spawn location.
 #+end_src
 
 **** DONE the L
 #+name: spawn.L
 #+begin_src
-> cLPq
+> c L P q
 . . . . . O . . . . #  0
 . . . O O O . . . . #  1
 . . . . . . . . . . #  2
@@ -645,6 +670,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn location for L
+: This is how the L Tetramino spawns.
 #+end_src
 
 **** DONE the J
@@ -673,6 +700,12 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn location for J
+: Here's the spawn location for J.
+: 
+: Notice that there are no spaces between the commands
+: this time. We said earlier that commands may be separated
+: by spaces or newlines, but we never said they *had* to be.
 #+end_src
 
 **** DONE the Z
@@ -701,6 +734,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn Location for Z
+: This is where the Z spawns.
 #+end_src
 
 **** DONE the S
@@ -729,6 +764,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn Location for S
+: This is where the S spawns.
 #+end_src
 
 **** DONE the I
@@ -757,6 +794,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn Location for I
+: This is where the I spawns.
 #+end_src
 
 **** DONE the T
@@ -785,6 +824,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Spawn Location for T
+: And finally, this is where the T spawns.
 #+end_src
 
 *** DONE [3/3] basic left/right/down movement ( < v > )
@@ -815,6 +856,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= It's just a step to the left...
+: The '<' command nudges the active tetramino one cell to the left.
 #+end_src
 
 **** DONE >
@@ -844,6 +887,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= ... And then a jump to the right.
+: The '>' command nudges the tetramino one cell the right.
 #+end_src
 
 **** DONE v
@@ -873,6 +918,8 @@ Use upper case letters.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Onward, young Tetramino
+: The 'v' command nudges the active tetramino downward by one cell.
 #+end_src
 
 *** DONE [6/6] collision detection for the floor and walls
@@ -928,6 +975,10 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Hitting The Wall
+: Three '<' commands should place a freshly spawned T tetramino
+: against the left side of the well. But it should go no further,
+: no matter how many more '<' commands get sent.
 #+end_src
 
 **** DONE right wall
@@ -982,6 +1033,9 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Hitting the Other Wall
+: Look out! It seems that crafty T tetramino is trying to escape
+: on the right side of the well! Let's teach it a lesson, shall we?
 #+end_src
 
 **** DONE it changes based on the orientation, though
@@ -1011,13 +1065,20 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
+= Smashing its Head Against the Wall
+: This T appears to have rotated counter-clockwise
+: with the '(' command, and then attempted once again
+: to plow its way through the right side of the well.
+:
+: It get an extra '>' in with this strategy, but
+: there can be no compromise.
 #+end_src
 
 **** DONE floor
 
 #+name: collide.floor
 #+begin_src
-> cT vvvv vvvv vvvv vvvv vvvv v Pq
+> cT vvvv vvvv vvvv vvvv vvvv vvvv Pq
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1040,7 +1101,15 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . M . . . . . # 20
 . . . M M M . . . . # 21
+= Oh, how the Mighty have Fallen...
+: Once upon a time, a T tetramino spawned at the
+: top of the well, and used the 'v' command to
+: move down by one cell 24 times. Sadly, it was
+: unable to burrow into the earth and spent the
+: remainder of its life standing on its head at
+: the bottom of a well.
 #+end_src
+
 **** DONE hard drop to floor (V)
 #+name: drop.floor
 #+begin_src
@@ -1067,6 +1136,12 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . m . . . . . # 20
 . . . m m m . . . . # 21
+= Taking the plunge.
+: This one dove head first into the floor,
+: using the 'V' command to trigger a hard drop.
+:
+: Note that we're printing with 'p' this time.
+: There's no walking away from a hard drop.
 #+end_src
 
 **** DONE hard drop to floor - rotated
@@ -1095,10 +1170,15 @@ M M M . . . . . . . #  1
 . . . . m . . . . . # 19
 . . . . m m . . . . # 20
 . . . . m . . . . . # 21
+= Rotate and Hard drop.
+: Aside from demonstrating the astonishing grace
+: and agility of your average tetramino as it plunges
+: sideways to its doom, this test double checks that 
+: your collision detection holds up under rotation.
 #+end_src
 
 *** DONE [4/4] collision detection for other blocks
-**** DONE plain drop
+**** DONE hard drop collisions
 #+name: drop.collide
 #+begin_src
 > TV ZV pq
@@ -1124,6 +1204,13 @@ M M M . . . . . . . #  1
 . . . . r r . . . . # 19
 . . . . m . . . . . # 20
 . . . m m m . . . . # 21
+= Block Collisions
+: Here we have our first test of collision detection
+: between a falling piece and a block already in the well.
+:
+: When the second hard drop is issued, the Z tetramino
+: should collide with the remains of the T and come to
+: a complete halt.
 #+end_src
 
 **** DONE rotated drop
@@ -1152,6 +1239,10 @@ M M M . . . . . . . #  1
 . . . r r . . . . . # 19
 . . . r m . . . . . # 20
 . . . m m m . . . . # 21
+= Rotated Collision
+: Same situation, but the Z rotates clockwise first,
+: and then takes one step to the left. Now when it falls,
+: it should fit together nicely with the remains of the T.
 #+end_src
 
 **** DONE test collision with blocks on left side
@@ -1180,6 +1271,10 @@ M M M . . . . . . . #  1
 . . b b R . . . . . # 19
 . . b . . . . . . . # 20
 . . b . . . . . . . # 21
+= Sideways Block Collisions 1
+: Here we've hard-drapped a J off to the left side a bit, then
+: spawned a Z and manually moved it down next to the fallen blocks.
+: The '<' commands should have no effect.
 #+end_src
 
 **** DONE test collision with blocks on right side
@@ -1208,4 +1303,178 @@ M M M . . . . . . . #  1
 . . . . . . c . . . # 19
 . . . . . . c . . . # 20
 . . . . . . c . . . # 21
+= Sideways Block Collisions 2
+: Here's another scenario. That rascally T tetramino
+: is attempting to pass through a tower of cyan blocks.
+: Alas, his big head gets in the way... Or at least it
+: would, if this test were passing...
 #+end_src
+
+* DONE [2/2] screenflow
+** DONE Title screen
+#+name: screenflow.title
+#+begin_src
+> @ p
+Learntris (c) 1992 Tetraminex, Inc.
+Press start button to begin.
+> ! p
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . . . . . . . # 20
+. . . . . . . . . . # 21
+= The Title Screen
+: Legal says we need a title screen with a copyright notice.
+: It should show up when you first turn on the game, but for
+: the tests, they're fine as long as there's some way to get
+: to it.
+: 
+: Here's what we came up with: the '@' command takes you to
+: the title screen, where the 'p' command prints out the main
+: menu. Then '!' to simulate the start button should take you
+: to the game.
+#+end_src
+
+
+
+
+** DONE Pause Menu
+#+name: screenflow.pause
+#+begin_src
+> ! p
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . . . . . . . # 20
+. . . . . . . . . . # 21
+> ! p
+Paused
+Press start button to continue.
+> ! p
+. . . . . . . . . . #  0
+. . . . . . . . . . #  1
+. . . . . . . . . . #  2
+. . . . . . . . . . #  3
+. . . . . . . . . . #  4
+. . . . . . . . . . #  5
+. . . . . . . . . . #  6
+. . . . . . . . . . #  7
+. . . . . . . . . . #  8
+. . . . . . . . . . #  9
+. . . . . . . . . . # 10
+. . . . . . . . . . # 11
+. . . . . . . . . . # 12
+. . . . . . . . . . # 13
+. . . . . . . . . . # 14
+. . . . . . . . . . # 15
+. . . . . . . . . . # 16
+. . . . . . . . . . # 17
+. . . . . . . . . . # 18
+. . . . . . . . . . # 19
+. . . . . . . . . . # 20
+. . . . . . . . . . # 21
+= The Pause Menu
+: Wow, that title screen you whipped up was a huge hit upstairs.
+: They loved pressing that start button, and they want to show 
+: it off in the brochures. So now they're asking for a pause
+: screen that pops up when the '!' command gets issued in-game.
+: Sending '!' again should unpause.
+#+end_src
+
+* DONE The Next Test
+#+name: learntris.end
+#+begin_src
+> q
+(Something Awesome)
+= The Next Test
+: Congratualations! Your learntris implementation passes all
+: existing tests, and you've even created and passed a few of
+: your own.
+:
+: Take a moment to pat yourself on the back for making it this far. :)
+:
+: Now it's time for the real test...
+:
+: Take a look at what you've built so far. Is this everything
+: you'd want to see in a video game? Or is it missing a thing
+: or two?
+:
+: This test case contradicts the very first one, so the only way
+: to make it pass is to delete it, or replace it with something
+: better. The choice is yours.
+:
+: Either way, you will need to open up testplan.org and search
+: for the test named 'learntris.end'.
+#+end_src
+
+
+* NOTE How to add a new test.
+
+- Think of a situation that needs to be tested.
+- Think of the commands you would need to issue to make that situation happen.
+- Write a new test that shows the expected behavior.
+
+Here is the test format (remove the leading ':  ' from each line, and also the comments on the right).
+
+:  #+name: test.name                    <- must be unique!
+:  #+begin_src                          <- marks start of test
+:  # other lines with # are comments    <- comment
+:  > o                                  <- '>' indicates an input line
+:  output                               <- anything besides (#, >, :, or =)
+:  more output                           | is expected output.
+:  > q                                  <- always send the quit command!
+:  = my very own test                   <- this is the title for the test
+:  : This is where I describe the test. <- ':' indicates a line of description
+:  : Here's another descriptive line.    | these lines show up when a test fails.
+:  #+end_src                            <- marks end of test
+
+* TODO [0/1] Ideas for more tests
+
+- [ ] Game over conditions.
+- [ ] Better scoring.
+- [ ] Some or all of the [[http://tetrisconcept.net/wiki/SRS][Super Rotation System]]
+  - [ ] Wall Kicks
+  - [ ] Floor Kicks
+  - [ ] T-Spins
+- [ ] The [[http://tetris.wikia.com/wiki/Ghost_piece][Ghost Piece]] (preview of where the tetramino will land)
+- [ ] The [[http://tetris.wikia.com/wiki/Hold_piece][Hold Piece]] (swap out the active tetramino)
+- [ ] Test how and when the game speeds up as you progress.
+- [ ] A high score system.
+- [ ] Rules for when a tetramino becomes part of the well.
+
+... Or come up with your own rules and make the game your own. :)
+
