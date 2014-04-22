@@ -90,7 +90,6 @@ def await_results(program, timeout_seconds=2):
     if countdown == 0:
         program.kill()
         raise TimeoutFailure("<program timed out>")
-    else: pass
 
 
 def run_test(program, opcodes):
@@ -100,6 +99,12 @@ def run_test(program, opcodes):
     for cmd in opcodes['in']:
         print(cmd)
         program.stdin.write((cmd + "\n").encode('utf-8'))
+        # in python3, subprocess opens stdin in binary mode: http://hg.python.org/cpython/file/c9cb931b20f4/Lib/subprocess.py#l828
+        # with a default bufsize, which for binary mode is io.DEFAULT_BUFFER_SIZE (4096): https://docs.python.org/3.3/library/functions.html#open
+        # we can't use line buffering because, even though the subprocess docs don't say so
+        # and no error is thrown when you try, line buffering is only for text mode
+        # so, instead, we flush
+        program.stdin.flush()
 
     # let the program do its thing:
     print("---- awaiting results ----")
