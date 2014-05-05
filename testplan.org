@@ -346,7 +346,7 @@ y y
 y y
 > q
 = O : The O Tetramino
-: The 2x2 matrix is called the O tetramino, and in the game
+: The 2x2 square is called the O tetramino, and in the game
 : it should be colored yellow.
 :
 : Note that while the I tetramino appeared inside a 4x4
