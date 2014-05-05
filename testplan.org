@@ -54,13 +54,13 @@ above where new tetriminos form.
 > q
 = p : print
 : The 'p' command instructs learntris to print the state
-: of the Matrix, the rectangular array of cells in which
+: of the matrix, the rectangular array of cells in which
 : blocks can appear.
 :
-: The Matrix is 10 cells wide and 22 cells deep, although
+: The matrix is 10 cells wide and 22 cells deep, although
 : the top two rows are used only for spawning new Tetraminos.
 :
-: At the start of the game, the Matrix should be empty.
+: At the start of the game, the matrix should be empty.
 : The 'p' command should indicate empty cells with the
 : '.' character.
 :
@@ -125,7 +125,7 @@ m m m r r b b y y . # 21
 : The 'g' command instructs learntris to read 22 lines
 : of text from the standard input stream, and use the
 : characters on these lines to populate some internal
-: representation of the Matrix.
+: representation of the matrix.
 :
 : The letter 'g' is a mnemonic for the word 'given', as
 : in: "given the following matrix...."
@@ -336,7 +336,7 @@ c c c c
 
 *** DONE The O (yellow)
 
-The O spawns in a 4 \times 3 grid:
+The O spawns in a 4 \times 3 matrix:
 
 #+name: shape.O
 #+begin_src
@@ -356,7 +356,7 @@ y y
 
 *** DONE The Z (red)
 
-The Z and others fit in 3x3 grids
+The Z and others fit in 3x3 matrices.
 
 #+name: shape.Z
 #+begin_src
@@ -365,7 +365,7 @@ r r .
 . r r
 . . .
 = Z : The Z Tetramino
-: The Z Tetramino is colored red and inhabits a 3x3 grid.
+: The Z Tetramino is colored red and inhabits a 3x3 matrix.
 :
 : Notice that in this test, the commands are all issued on
 : a single line. This helps keep the test descriptions
@@ -388,7 +388,7 @@ r r .
 g g .
 . . .
 = S : The S Tetramino.
-: The green S tetramino inhabits a 3x3 grid. It is a mirror image of the Z.
+: The green S tetramino inhabits a 3x3 matrix. It is a mirror image of the Z.
 #+end_src
 
 *** DONE The J (blue)
@@ -457,7 +457,7 @@ c c c c
 . . . .
 . . . .
 = ) : clockwise rotation
-: The ')' command rotates the actiev tetramino 90 degrees clockwise.
+: The ')' command rotates the active tetramino 90 degrees clockwise.
 : Here we see the I tetramino rotating clockwise within its bounding box.
 #+end_src
 
@@ -502,7 +502,7 @@ r r .
 r r .
 r . .
 = Z Rotation
-: The Z rotates within its 3x3 grid.
+: The Z rotates within its 3x3 matrix.
 #+end_src
 
 *** DONE The S (green)
@@ -888,7 +888,7 @@ m m .
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 = ... And then a jump to the right.
-: The '>' command nudges the tetramino one cell the right.
+: The '>' command nudges the tetramino one cell to the right.
 #+end_src
 
 **** DONE v
@@ -977,7 +977,7 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 21
 = Hitting The Wall
 : Three '<' commands should place a freshly spawned T tetramino
-: against the left side of the well. But it should go no further,
+: against the left side of the matrix. But it should go no further,
 : no matter how many more '<' commands get sent.
 #+end_src
 
@@ -1035,7 +1035,7 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 21
 = Hitting the Other Wall
 : Look out! It seems that crafty T tetramino is trying to escape
-: on the right side of the well! Let's teach it a lesson, shall we?
+: on the right side of the matrix! Let's teach it a lesson, shall we?
 #+end_src
 
 **** DONE it changes based on the orientation, though
@@ -1068,7 +1068,7 @@ M M M . . . . . . . #  1
 = Smashing its Head Against the Wall
 : This T appears to have rotated counter-clockwise
 : with the '(' command, and then attempted once again
-: to plow its way through the right side of the well.
+: to plow its way through the right side of the matrix.
 :
 : It get an extra '>' in with this strategy, but
 : there can be no compromise.
@@ -1474,7 +1474,7 @@ Here is the test format (remove the leading ':  ' from each line, and also the c
 - [ ] The [[http://tetris.wikia.com/wiki/Hold_piece][Hold Piece]] (swap out the active tetramino)
 - [ ] Test how and when the game speeds up as you progress.
 - [ ] A high score system.
-- [ ] Rules for when a tetramino becomes part of the well.
+- [ ] Rules for when a tetramino becomes part of the matrix.
 
 ... Or come up with your own rules and make the game your own. :)
 
