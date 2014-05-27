@@ -1317,7 +1317,7 @@ M M M . . . . . . . #  1
 > @ p
 Learntris (c) 1992 Tetraminex, Inc.
 Press start button to begin.
-> ! p
+> ! p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1384,7 +1384,7 @@ Press start button to begin.
 > ! p
 Paused
 Press start button to continue.
-> ! p
+> ! p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
