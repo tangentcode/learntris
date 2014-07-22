@@ -1358,7 +1358,7 @@ Press start button to begin.
 ** DONE Pause Menu
 #+name: screenflow.pause
 #+begin_src
-> ! p
+> p
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
