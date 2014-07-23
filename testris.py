@@ -122,7 +122,25 @@ def run_test(program, opcodes):
         diff = '\n'.join(list(difflib.Differ().compare(actual, opcodes['out'])))
         raise TestFailure('output mismatch:\n' + diff)
 
+
+def check_wait_for_input(program):
+    time.sleep(0.1)
+    if program.poll() is None:
+        # program still alive, probably accepting input
+        program.kill()
+        return True
+    else:
+        return False
+
+
 def run_tests(program_args, use_shell):
+    print("Running Test 0: check if program reads from stdin")
+    program = spawn(program_args, use_shell)
+    if not check_wait_for_input(program):
+        print("Test 0 failed: Your program should read data on stdin")
+        return
+    print("Test 0 passed\n\n")
+
     for i, test in enumerate(extract.tests()):
         program = spawn(program_args, use_shell)
         opcodes = parse_test(test.lines)
