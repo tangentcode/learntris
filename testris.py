@@ -151,8 +151,21 @@ def find_learntris():
 
 
 def main():
-    program_args = find_learntris()
-    if program_args: run_tests(program_args[0], program_args[1])
+    cmdline = find_learntris(); cmd=cmdline[0][0]
+    if cmd:
+        try: run_tests(*cmdline)
+        except PermissionError as e:
+            print()
+            print(e)
+            print("Couldn't run %r due to a permission error." % cmd)
+            print("Make sure your program is marked as an executable.")
+        except BrokenPipeError as e:
+            print()
+            print(e)
+            print("%r quit before reading any input." % cmd)
+            print("Make sure you are reading commands from standard input,")
+            print("not trying to take arguments from the command line.")
+
 
 if __name__ == '__main__':
     main()
