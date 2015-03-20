@@ -42,7 +42,7 @@ You will need a recent version of python, preferably python3.2 or later.
 write your implementation.)
 
 The output of `testris.py` will tell you what needs to be done at every
-step alonge the way. Just keep running it, and do what it tells you to do.
+step along the way. Just keep running it, and do what it tells you to do.
 
 The wiki here has a couple pages on [Getting Set Up](https://github.com/LearnProgramming/learntris/wiki/Getting-Set-Up) and [Understanding the Test Results](https://github.com/LearnProgramming/learntris/wiki/Understanding-the-Test-results).
 

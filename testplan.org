@@ -1415,6 +1415,38 @@ Press start button to continue.
 : Sending '!' again should unpause.
 #+end_src
 
+**** DONE test game over from top collision
+#+name: gameover
+#+begin_src
+> I)>V I)>V I)>V I)>V I)>V T)>>V Pq
+. . . . . m . . . . #  0
+. . . . . m m . . . #  1
+. . . . . m c . . . #  2
+. . . . . . c . . . #  3
+. . . . . . c . . . #  4
+. . . . . . c . . . #  5
+. . . . . . c . . . #  6
+. . . . . . c . . . #  7
+. . . . . . c . . . #  8
+. . . . . . c . . . #  9
+. . . . . . c . . . # 10
+. . . . . . c . . . # 11
+. . . . . . c . . . # 12
+. . . . . . c . . . # 13
+. . . . . . c . . . # 14
+. . . . . . c . . . # 15
+. . . . . . c . . . # 16
+. . . . . . c . . . # 17
+. . . . . . c . . . # 18
+. . . . . . c . . . # 19
+. . . . . . c . . . # 20
+. . . . . . c . . . # 21
+Game Over
+= The Game Over Screen
+: The T tetramino couldn't escape the top 2 tetramino 
+: spawning rows. Your game is over!
+#+end_src
+
 * DONE The Next Test
 #+name: learntris.end
 #+begin_src
@@ -1464,7 +1496,7 @@ Here is the test format (remove the leading ':  ' from each line, and also the c
 
 * TODO [0/1] Ideas for more tests
 
-- [ ] Game over conditions.
+- [x] Game over conditions.
 - [ ] Better scoring.
 - [ ] Some or all of the [[http://tetrisconcept.net/wiki/SRS][Super Rotation System]]
   - [ ] Wall Kicks
