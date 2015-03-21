@@ -24,7 +24,7 @@ will be replaced with instructions for implementing your
 first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
-import sys, os, subprocess, difflib, pprint, time
+import sys, os, subprocess, difflib, pprint, time, traceback
 import extract
 
 class Test(object):
@@ -145,26 +145,39 @@ def find_learntris():
         return (program_args, False)
     elif program_args[0] == default:
         print(__doc__)
+        raise FileNotFoundError(default)
     else:
-        print("Error: ('%s') not found." % program_args[0])
-    return None
+        raise FileNotFoundError("%s" % program_args[0])
 
 
 def main():
-    cmdline = find_learntris(); cmd=cmdline[0][0]
-    if cmd:
-        try: run_tests(*cmdline)
+    try: cmdline, use_shell = find_learntris()
+    except FileNotFoundError as e:
+        print('File not found:', e)
+    else:
+        cmd = cmdline[0]
+        try: run_tests(cmdline, use_shell)
         except PermissionError as e:
-            print()
-            print(e)
+            print(); print(e)
             print("Couldn't run %r due to a permission error." % cmd)
             print("Make sure your program is marked as an executable.")
         except BrokenPipeError as e:
-            print()
-            print(e)
+            print(); print(e)
             print("%r quit before reading any input." % cmd)
             print("Make sure you are reading commands from standard input,")
             print("not trying to take arguments from the command line.")
+        except Exception as e:
+            print('-'*50)
+            traceback.print_exc()
+            print('-'*50)
+            print("Oh no! Testris encountered an unexpected problem while")
+            print("attempting to run your program. Please report the above")
+            print("traceback in the issue tracker, so that we can help you")
+            print("with the problem and provide a better error message in")
+            print("the future.")
+            print()
+            print("  https://github.com/LearnProgramming/learntris/issues")
+            print()
 
 
 if __name__ == '__main__':
