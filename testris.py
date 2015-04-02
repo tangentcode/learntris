@@ -27,6 +27,10 @@ from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, subprocess, difflib, pprint, time, traceback
 import extract
 
+if sys.version_info.major < 3:
+    class FileNotFoundError(IOError):
+        pass
+
 class Test(object):
     def __init__(self):
         self.desc = ""
