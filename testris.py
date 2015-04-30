@@ -24,7 +24,7 @@ will be replaced with instructions for implementing your
 first feature.
 """
 from __future__ import print_function # let's keep it 3.x compatible
-import sys, os, subprocess, difflib, pprint, time, traceback
+import sys, os, errno, subprocess, difflib, pprint, time, traceback
 import extract
 
 if sys.version_info.major < 3:
@@ -160,17 +160,22 @@ def main():
         print('File not found:', e)
     else:
         cmd = cmdline[0]
-        try: run_tests(cmdline, use_shell)
-        except PermissionError as e:
-            print(); print(e)
-            print("Couldn't run %r due to a permission error." % cmd)
-            print("Make sure your program is marked as an executable.")
-        except BrokenPipeError as e:
-            print(); print(e)
-            print("%r quit before reading any input." % cmd)
-            print("Make sure you are reading commands from standard input,")
-            print("not trying to take arguments from the command line.")
-        except Exception as e:
+        try:
+            try:
+                run_tests(cmdline, use_shell)
+            except EnvironmentError as e:
+                if e.errno in [errno.EPERM, errno.EACCES]:
+                    print(); print(e)
+                    print("Couldn't run %r due to a permission error." % cmd)
+                    print("Make sure your program is marked as an executable.")
+                elif e.errno == errno.EPIPE:
+                    print(); print(e)
+                    print("%r quit before reading any input." % cmd)
+                    print("Make sure you are reading commands from standard input,")
+                    print("not trying to take arguments from the command line.")
+                else:
+                    raise
+        except:
             print('-'*50)
             traceback.print_exc()
             print('-'*50)
