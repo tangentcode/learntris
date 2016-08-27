@@ -85,6 +85,7 @@ class Game(Frame):
                    "Right": ">",
                    "Down": "v",
                    "Up": "V",
+                   "r": ")",
                    "Escape": "!"}
 
         if key in key_map:
