@@ -677,7 +677,7 @@ m m .
 **** DONE the J
 #+name: spawn.J
 #+begin_src
-> cJPq
+> c J P q
 . . . B . . . . . . #  0
 . . . B B B . . . . #  1
 . . . . . . . . . . #  2
@@ -702,16 +702,12 @@ m m .
 . . . . . . . . . . # 21
 = Spawn location for J
 : Here's the spawn location for J.
-: 
-: Notice that there are no spaces between the commands
-: this time. We said earlier that commands may be separated
-: by spaces or newlines, but we never said they *had* to be.
 #+end_src
 
 **** DONE the Z
 #+name: spawn.Z
 #+begin_src
-> cZPq
+> c Z P q
 . . . R R . . . . . #  0
 . . . . R R . . . . #  1
 . . . . . . . . . . #  2
@@ -741,7 +737,7 @@ m m .
 **** DONE the S
 #+name: spawn.S
 #+begin_src
-> cSPq
+> c S P q
 . . . . G G . . . . #  0
 . . . G G . . . . . #  1
 . . . . . . . . . . #  2
@@ -771,7 +767,7 @@ m m .
 **** DONE the I
 #+name: spawn.I
 #+begin_src
-> cIPq
+> c I P q
 . . . . . . . . . . #  0
 . . . C C C C . . . #  1
 . . . . . . . . . . #  2
@@ -801,7 +797,7 @@ m m .
 **** DONE the T
 #+name: spawn.T
 #+begin_src
-> cTPq
+> c T P q
 . . . . M . . . . . #  0
 . . . M M M . . . . #  1
 . . . . . . . . . . #  2
@@ -833,7 +829,7 @@ m m .
 
 #+name: nudge.<
 #+begin_src
-> cT<Pq
+> c T < P q
 . . . M . . . . . . #  0
 . . M M M . . . . . #  1
 . . . . . . . . . . #  2
@@ -864,7 +860,7 @@ m m .
 
 #+name: nudge.>
 #+begin_src
-> cT>Pq
+> c T > P q
 . . . . . M . . . . #  0
 . . . . M M M . . . #  1
 . . . . . . . . . . #  2
@@ -895,7 +891,7 @@ m m .
 
 #+name: nudge.v
 #+begin_src
-> cTvPq
+> c T v P q
 . . . . . . . . . . #  0
 . . . . M . . . . . #  1
 . . . M M M . . . . #  2
@@ -928,7 +924,7 @@ m m .
 #+name: collide.left-wall
 #+begin_src
 # nudging <<< should put T on the left wall
-> cT<<<P
+> c T < < < P
 . M . . . . . . . . #  0
 M M M . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -952,7 +948,7 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 # nudging again should do nothing:
-> <Pq
+> < P q
 . M . . . . . . . . #  0
 M M M . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -986,7 +982,7 @@ M M M . . . . . . . #  1
 #+name: collide.right-wall
 #+begin_src
 # nudging >>>> should put T on the right wall
-> cT>>>>P
+> c T > > > > P
 . . . . . . . . M . #  0
 . . . . . . . M M M #  1
 . . . . . . . . . . #  2
@@ -1010,7 +1006,7 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 # nudging again should do nothing:
-> >Pq
+> > P q
 . . . . . . . . M . #  0
 . . . . . . . M M M #  1
 . . . . . . . . . . #  2
@@ -1042,7 +1038,7 @@ M M M . . . . . . . #  1
 
 #+name: collide.right-wall-2
 #+begin_src
-> T ( >>>> > Pq
+> T ( > > > > > P q
 . . . . . . . . . M #  0
 . . . . . . . . M M #  1
 . . . . . . . . . M #  2
@@ -1078,7 +1074,7 @@ M M M . . . . . . . #  1
 
 #+name: collide.floor
 #+begin_src
-> cT vvvv vvvv vvvv vvvv vvvv vvvv Pq
+> c T v v v v v v v v v v v v v v v v v v v v v v v v P q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1113,7 +1109,7 @@ M M M . . . . . . . #  1
 **** DONE hard drop to floor (V)
 #+name: drop.floor
 #+begin_src
-> TVpq
+> T V p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1147,7 +1143,7 @@ M M M . . . . . . . #  1
 **** DONE hard drop to floor - rotated
 #+name: drop.floor.rotated
 #+begin_src
-> T)V pq
+> T ) V p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1181,7 +1177,7 @@ M M M . . . . . . . #  1
 **** DONE hard drop collisions
 #+name: drop.collide
 #+begin_src
-> TV ZV pq
+> T V Z V p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1216,7 +1212,7 @@ M M M . . . . . . . #  1
 **** DONE rotated drop
 #+name: drop.collide.rotated
 #+begin_src
-> TV Z)<V pq
+> T V Z ) < V p q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1248,7 +1244,7 @@ M M M . . . . . . . #  1
 **** DONE test collision with blocks on left side
 #+name: collide.left-block
 #+begin_src
-> J ) << V Z ) vvvvvvvvvvvvvvvvv < Pq
+> J ) < < V Z ) v v v v v v v v v v v v v v v v v < P q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1280,7 +1276,7 @@ M M M . . . . . . . #  1
 **** DONE test collision with blocks on right side
 #+name: collide.right-block
 #+begin_src
-> I)>V I)>V I)>V I)>V T)>vvvv> Pq
+> I ) > V I ) > V I ) > V I ) > V T ) > v v v v > P q
 . . . . . . . . . . #  0
 . . . . . . . . . . #  1
 . . . . . . . . . . #  2
@@ -1418,7 +1414,7 @@ Press start button to continue.
 **** DONE test game over from top collision
 #+name: gameover
 #+begin_src
-> I)>V I)>V I)>V I)>V I)>V T)>>V Pq
+> I ) > V I ) > V I ) > V I ) > V I ) > V T ) > > V P q
 . . . . . m . . . . #  0
 . . . . . m m . . . #  1
 . . . . . m c . . . #  2

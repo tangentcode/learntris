@@ -1,4 +1,5 @@
 from tkinter import *
+import testris
 
 COLORS = {"m": "#f0f",
           "y": "#ff0",
@@ -14,35 +15,16 @@ BOARD_HEIGHT = 22
 CANVAS_WIDTH = BOARD_WIDTH * TILE_SIZE
 CANVAS_HEIGHT = BOARD_HEIGHT * TILE_SIZE
 
-TEST_MATRIX = [row.split() for row in \
-[". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . . . . . .",
- ". . . . . y y . . .",
- ". . . . . y y . . .",
- ". . . . . . m . . .",
- ". . . . . . m m . .",
- ". . . . . . m c . .",
- ". . . . . . . c . .",
- ". . . . . . . c . .",
- ". . . . . . . c . ."]]
-
 class Game(Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, process):
         super().__init__(parent)
         self.parent = parent
+        self.process = process
+
         self.init_ui()
+
+        self.emit("T")
+        self.redraw()
         
     def init_ui(self):
         self.parent.title("Learntris")
@@ -51,8 +33,43 @@ class Game(Frame):
         self.canvas = Canvas(self)
         self.canvas.pack(fill=BOTH, expand=1)
 
-        matrix = ['mmmyyy', 'ccyooo', 'rrrrrr']
-        self.draw_matrix(TEST_MATRIX)
+        self.bind_all("<Key>", self.key_pressed)
+
+    def read_row(self):
+        # read and parse a single row from a matrix
+        return self.process.stdout.readline().decode("utf-8").rstrip().lower().split(" ")
+
+    def get_matrix(self):
+        # obtain the current matrix from learntris
+        self.emit("P", update_ui=False)
+        return [self.read_row() for _ in range(22)]
+
+    def redraw(self):
+        self.canvas.delete(ALL) # clear the canvas
+        self.draw_matrix(self.get_matrix())
+
+    def emit(self, command, update_ui=True):
+        print(">", command)
+
+        # send command to the learntris process
+        self.process.stdin.write(bytes(command + "\n", "utf-8"))
+        self.process.stdin.flush()
+
+        if update_ui:
+            # update the UI
+            self.redraw()
+
+    def key_pressed(self, event):
+        key = event.keysym
+
+        key_map = {"Left": "<",
+                   "Right": ">",
+                   "Down": "v",
+                   "Up": "V",
+                   "Escape": "!"}
+
+        if key in key_map:
+            self.emit(key_map[key])
 
     def draw_matrix(self, matrix):
         for y,row in enumerate(matrix):
@@ -63,8 +80,13 @@ class Game(Frame):
                                              fill=COLORS[t], width=1)
 
 def main():
+    # spawn the learntris program
+    program_args, use_shell = testris.find_learntris()
+    process = testris.spawn(program_args, use_shell)
+
+    # set up the GUI, hand off the process to it
     root = Tk()
-    game = Game(root)
+    game = Game(root, process)
     root.geometry("%dx%d" % (CANVAS_WIDTH, CANVAS_HEIGHT))
     root.mainloop()
 
