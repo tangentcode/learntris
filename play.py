@@ -1,4 +1,5 @@
 from tkinter import *
+import string, random
 import testris
 
 COLORS = {"m": "#f0f", # magenta
@@ -16,6 +17,12 @@ BOARD_HEIGHT = 22
 
 CANVAS_WIDTH = BOARD_WIDTH * TILE_SIZE
 CANVAS_HEIGHT = BOARD_HEIGHT * TILE_SIZE
+
+def has_active_tetramino(matrix):
+    # active tetraminos are denoted by uppercase letters
+    # in the learntris output matrix (given by 'P').
+
+    return any(any(c in string.ascii_uppercase for c in row) for row in matrix)
 
 class Game(Frame):
     def __init__(self, parent, process):
@@ -39,7 +46,7 @@ class Game(Frame):
 
     def read_row(self):
         # read and parse a single row from a matrix
-        return self.process.stdout.readline().decode("utf-8").rstrip().lower().split(" ")
+        return self.process.stdout.readline().decode("utf-8").rstrip().split(" ")
 
     def get_matrix(self):
         # obtain the current matrix from learntris
@@ -48,7 +55,17 @@ class Game(Frame):
 
     def redraw(self):
         self.canvas.delete(ALL) # clear the canvas
-        self.draw_matrix(self.get_matrix())
+        self.draw_matrix(self.update())
+
+    def update(self):
+        matrix = self.get_matrix()
+
+        if not has_active_tetramino(matrix):
+            # emit a random tetramino, then re-fetch the matrix
+            self.emit(random.choice("IOZSJLT"), update_ui=False)
+            matrix = self.get_matrix()
+
+        return matrix
 
     def emit(self, command, update_ui=True):
         print(">", command)
@@ -79,7 +96,7 @@ class Game(Frame):
                 x_pos = x*TILE_SIZE
                 y_pos = y*TILE_SIZE
                 self.canvas.create_rectangle(x_pos, y_pos, x_pos+TILE_SIZE, y_pos+TILE_SIZE,
-                                             fill=COLORS[t], width=1)
+                                             fill=COLORS[t.lower()], width=1)
 
 def main():
     # spawn the learntris program
