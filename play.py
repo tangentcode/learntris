@@ -1,12 +1,14 @@
 from tkinter import *
 import testris
 
-COLORS = {"m": "#f0f",
-          "y": "#ff0",
-          "c": "#0ff",
-          "o": "#ffa500",
-          "r": "#f00",
-          ".": "#000"}
+COLORS = {"m": "#f0f", # magenta
+          "y": "#ff0", # yellow
+          "c": "#0ff", # cyan
+          "o": "#ffa500", # orange
+          "r": "#f00", # red
+          "g": "#0f0", # green
+          "b": "#00f", # blue
+          ".": "#000"} # black
 
 TILE_SIZE = 16
 BOARD_WIDTH = 10
