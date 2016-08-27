@@ -1095,8 +1095,8 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 17
 . . . . . . . . . . # 18
 . . . . . . . . . . # 19
-. . . . M . . . . . # 20
-. . . M M M . . . . # 21
+. . . . m . . . . . # 20
+. . . m m m . . . . # 21
 = Oh, how the Mighty have Fallen...
 : Once upon a time, a T tetramino spawned at the
 : top of the well, and used the 'v' command to
