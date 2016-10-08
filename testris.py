@@ -19,6 +19,9 @@ The default path is "./learntris".
 You can pass extra arguments that will be passed to the
 guest learntris program.
 
+If you need more help with setting up, try reading:
+https://github.com/LearnProgramming/learntris/wiki/Getting-Set-Up
+
 Once testris is able to launch your program, this message
 will be replaced with instructions for implementing your
 first feature.
