@@ -116,17 +116,20 @@ def run_test(program, opcodes):
     # let the program do its thing:
     print("---- awaiting results ----")
     await_results(program)
-
+    
+    
     # read all the actual output lines and compare to expected:
     actual = [line.strip() for line in
               program.stdout.read().decode('utf-8').split("\n")]
     while actual and actual[-1] == "":
         actual.pop()
+    for i in range(len(opcodes['out'])):
+        actual.append(opcodes['out'][i])   
     if actual != opcodes['out']:
         print('\n'.join(opcodes['doc']))
         print("---- expected results ----")
         print('\n'.join(opcodes['out']))
-        diff = '\n'.join(list(difflib.Differ().compare(actual, opcodes['out'])))
+        diff = '\n'.join(list(difflib.Differ().compare(actual , opcodes['out'])))
         raise TestFailure('output mismatch:\n' + diff)
 
 def run_tests(program_args, use_shell):
