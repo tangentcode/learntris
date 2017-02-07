@@ -1,0 +1,18 @@
+mute's learntris v0.2
+
+To be done:
+-scoring (added)
+-hard dropping (added)
+-preview blocks (added)
+-menu
+-sound effects
+-gravity (added)
+-movement autorepeat (added)
+-2 way rotation (I'm lazy)
+
+Controls:
+
+Up - Hard Drop
+Left, Right, Down - Movement
+Z - Rotate
+
