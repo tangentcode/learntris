@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+require "./tetromino.rb"
+# Intializes $table to all '.'.
+def init_table
+	$table = Array.new($height) { Array.new($width, '.')}
+end
+
+# Prints each element of $table separated by a space.
+# Each row is separated by a newline character.
+def print_table
+	$table.each do |row|
+		row.each_with_index do |c, index|
+			if index != 0
+				print ' '
+			end
+			print c
+		end
+		print "\n"
+	end
+end
+
+# Accepts certain characters as commands:
+# String => nil
+# p: prints current table
+# q: exits program
+# g: reads input and updates table
+# ?n: print number of cleared lines
+# ?s: print score
+# s: checks for complete lines and removes them
+def handle_command(c)
+	case c
+	when "p"
+		print_table
+	when "q"
+		exit
+	when "g"
+		read_table
+	when "c"
+		init_table
+	when "?s"
+		puts $score
+	when "?n"
+		puts $cleared_lines
+	when "s"
+		update_table
+	when *Tetromino.types
+		$active_tetromino = Tetromino.new(c)
+	when "t"
+		puts $active_tetromino.to_s
+	end
+end
+
+# Read table from input
+def read_table
+	$table.each_index do |i|
+		$table[i] = gets.split(" ")
+	end
+end
+
+# Return true if line is unbroken
+# (in other words, the row does not contain
+# a ".")
+# array => boolean
+def unbroken?(line)
+	line.each do |c|
+		if c == "."
+			return false
+		end
+	end
+	return true
+end
+
+# Takes an line and fills it with the 
+# same character (defaults ".")
+# array [char] => nil
+def clear(line, c=".")
+	line.each_index do |i|
+		line[i] = c
+	end
+end
+
+# Checks each row for a complete line.
+# If one is found, it is removed and replaced
+# with an empty line (filled with "."), and
+# increments n by 1, and s by 100
+def update_table
+	$table.each do |row|
+		if unbroken?(row)
+			clear(row)
+			$cleared_lines += 1
+			$score += 100
+		end
+	end
+end
+
+# Inserts a tetromino onto the board
+def add_to_board(board, tet, loc)
+	
+end
+
+# Sets the active tetromino
+def set_active_tetromino(type)
+	$active_tetromino = Tetromino.new(type)
+end
+
+# Entry point for script
+def main
+	# Height and width of table
+	$height = 22
+	$width = 10
+	$score = 0
+	$cleared_lines = 0
+
+	# Initialize table
+	init_table
+
+	# Loop forever and gets input
+	# ('q' quits the loop)
+	while true do 
+		inputs = gets.split
+		inputs.each do |c|
+			handle_command(c.strip)
+		end
+	end
+end
+
+if __FILE__ == $0
+	main
+end
+
