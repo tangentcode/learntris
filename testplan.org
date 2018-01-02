@@ -289,7 +289,7 @@ m y o . c r g c m y # 13
 : of the simulation.
 :
 : If the matrix contains an unbroken row of blocks, (or
-: in other words, a row that contain no empty cells), then
+: in other words, a row that contains no empty cells), then
 : the 's' command should:
 :
 : 1. Clear the row (replacing each block with an empty cell)
@@ -375,8 +375,8 @@ r r .
 : You do realize you can do that, right? :)
 :
 : Anyway, from now on, commands may be separated by either
-: newlines or spaces, and your implementation may need
-: to be adjusted accordingly.
+: newlines or spaces. You may need to adjust your
+: implementation accordingly.
 #+end_src
 
 *** DONE The S (green)
@@ -1070,7 +1070,7 @@ M M M . . . . . . . #  1
 : with the '(' command, and then attempted once again
 : to plow its way through the right side of the matrix.
 :
-: It get an extra '>' in with this strategy, but
+: It gets an extra '>' in with this strategy, but
 : there can be no compromise.
 #+end_src
 
