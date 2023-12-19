@@ -29,6 +29,16 @@ first feature.
 import sys, os, errno, subprocess, difflib, pprint, time, traceback
 import extract
 
+# where to write the input to the child program
+# (for cases where stdin is not available)
+INPUT_PATH = os.environ.get("INPUT_PATH", "")
+
+# skip this many lines of input before sending
+# for cases where the language prints a header
+# that can't be suppressed. (e.g. Godot4 - you can turn
+# off the header, but doing so turns off all prints!)
+SKIP_LINES = int(os.environ.get("SKIP_LINES", "0"))
+
 if sys.version_info.major < 3:
     println("Sorry, testris requires Python 3.x.")
     sys.exit(1)
@@ -100,15 +110,23 @@ def await_results(program, timeout_seconds=2):
 
 
 def send_cmds(program, opcodes):
-    for cmd in opcodes['in']:
-        program.stdin.write(cmd + "\n")
-        program.stdin.flush()
+    if INPUT_PATH:
+        cmds = open(INPUT_PATH,"w")
+        for cmd in opcodes['in']:
+            cmds.write(cmd + "\n")
+        cmds.close()
+    else:
+        for cmd in opcodes['in']:
+            program.stdin.write(cmd + "\n")
+            program.stdin.flush()
 
 def run_test(program, opcodes):
     send_cmds(program, opcodes)
     # send all the input lines:
     (actual, errs) = program.communicate(timeout=2)
     actual = [line.strip() for line in actual.splitlines()]
+    actual = actual[SKIP_LINES:]
+    # strip trailing blank lines
     while actual and actual[-1] == "":
         actual.pop()
     if actual != opcodes['out']:
