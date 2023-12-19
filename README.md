@@ -36,7 +36,7 @@ Python will run the tests on your program regardless of what language it is in.
 ## Getting Started
 
 The first step is to git clone or fork this repository and run `testris.py`.
-You will need a recent version of [Python](https://www.python.org/), preferably Python 3.2 or later, but Python 2.x works fine as well.
+You will need a recent version of [Python](https://www.python.org/), preferably Python 3.5 or later.
 (Remember: Python is *only* for the test runner. You can use any language you want to
 write your implementation.)
 
@@ -46,6 +46,6 @@ Please read **[Understanding the Test Results](https://github.com/LearnProgrammi
 
 **Important**: The tests expect you to receive commands as input over [*standard input*](http://www.linfo.org/standard_input.html) (commonly called *stdin*), e.g. via `input()` in Python, `scanf/getline/getchar/etc` in C, and so on. This is *not* the same thing as command-line arguments that you pass via the terminal: it's what you're using when you type in input to a running program.
 
-If you get stuck, please come join us in [our IRC chatroom](https://webchat.freenode.net/?channels=learnprogramming) (links to a Web chat) at `#learnprogramming` on `irc.freenode.net`, and we'll try to help you sort it out.
+If you get stuck, please come join us in [our IRC chatroom](https://web.libera.chat/?channel=#learnprogramming) (links to a Web chat) at `#learnprogramming` on `irc.libera.chat`, and we'll try to help you sort it out.
 
 Good luck, and most importantly: have fun!
