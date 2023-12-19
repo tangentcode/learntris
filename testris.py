@@ -26,13 +26,22 @@ Once testris is able to launch your program, this message
 will be replaced with instructions for implementing your
 first feature.
 """
-from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, errno, subprocess, difflib, pprint, time, traceback
 import extract
 
+# where to write the input to the child program
+# (for cases where stdin is not available)
+INPUT_PATH = os.environ.get("INPUT_PATH", "")
+
+# skip this many lines of input before sending
+# for cases where the language prints a header
+# that can't be suppressed. (e.g. Godot4 - you can turn
+# off the header, but doing so turns off all prints!)
+SKIP_LINES = int(os.environ.get("SKIP_LINES", "0"))
+
 if sys.version_info.major < 3:
-    class FileNotFoundError(IOError):
-        pass
+    println("Sorry, testris requires Python 3.x.")
+    sys.exit(1)
 
 class Test(object):
     def __init__(self):
@@ -80,6 +89,7 @@ def parse_test(lines):
 def spawn(program_args, use_shell):
     return subprocess.Popen(program_args,
                             shell=use_shell,
+                            universal_newlines=True,
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE)
 
@@ -99,48 +109,58 @@ def await_results(program, timeout_seconds=2):
         raise TimeoutFailure("<program timed out>")
 
 
+def send_cmds(program, opcodes):
+    if INPUT_PATH:
+        cmds = open(INPUT_PATH,"w")
+        for cmd in opcodes['in']:
+            cmds.write(cmd + "\n")
+        cmds.close()
+    else:
+        for cmd in opcodes['in']:
+            program.stdin.write(cmd + "\n")
+            program.stdin.flush()
+
 def run_test(program, opcodes):
+    send_cmds(program, opcodes)
     # send all the input lines:
-    print(opcodes['title'])
-    print("---- sending commands ----")
-    for cmd in opcodes['in']:
-        print(cmd)
-        program.stdin.write((cmd + "\n").encode('utf-8'))
-        # in python3, subprocess opens stdin in binary mode: http://hg.python.org/cpython/file/c9cb931b20f4/Lib/subprocess.py#l828
-        # with a default bufsize, which for binary mode is io.DEFAULT_BUFFER_SIZE (4096): https://docs.python.org/3.3/library/functions.html#open
-        # we can't use line buffering because, even though the subprocess docs don't say so
-        # and no error is thrown when you try, line buffering is only for text mode
-        # so, instead, we flush
-        program.stdin.flush()
-
-    # let the program do its thing:
-    print("---- awaiting results ----")
-    await_results(program)
-
-    # read all the actual output lines and compare to expected:
-    actual = [line.strip() for line in
-              program.stdout.read().decode('utf-8').split("\n")]
+    (actual, errs) = program.communicate(timeout=2)
+    actual = [line.strip() for line in actual.splitlines()]
+    actual = actual[SKIP_LINES:]
+    # strip trailing blank lines
     while actual and actual[-1] == "":
         actual.pop()
     if actual != opcodes['out']:
+        print()
+        print("test [%s] failed" % opcodes['title'])
+        print("---- input ----")
+        for cmd in opcodes['in']:
+            print(cmd)
         print('\n'.join(opcodes['doc']))
-        print("---- expected results ----")
-        print('\n'.join(opcodes['out']))
+        #print("---- expected results ----")
+        #print('\n'.join(opcodes['out']))
+        print("---- diff from expected ----")
         diff = '\n'.join(list(difflib.Differ().compare(actual, opcodes['out'])))
-        raise TestFailure('output mismatch:\n' + diff)
+        print(diff)
+        raise TestFailure('output mismatch')
 
 def run_tests(program_args, use_shell):
-    for i, test in enumerate(extract.tests()):
-        program = spawn(program_args, use_shell)
-        opcodes = parse_test(test.lines)
-        print("Running test %d: %s" % (i+1, test.name))
-        try:
+    num_passed = 0
+    try:
+        for i, test in enumerate(extract.tests()):
+            opcodes = parse_test(test.lines)
+            program = spawn(program_args, use_shell)
             run_test(program, opcodes)
-            print("Test %d passed" % (i+1))
-        except (TimeoutFailure, TestFailure) as e:
-            print("Test %d failed: %s" % (i+1, e))
-            break
-        print("\n") # add 2 blank lines between tests
+            # either it passed or threw exception
+            print('.', end='')
+            num_passed += 1
+        else:
+            print()
+            print("All %d tests passed." % num_passed)
+    except (TimeoutFailure, TestFailure) as e:
+        print()
+        print("%d tests passed." % num_passed)
+        print("Test %d [%s] failed." % (i+1, test.name))
+
 
 def find_learntris():
     default = "./learntris"
