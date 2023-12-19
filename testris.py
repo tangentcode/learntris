@@ -26,13 +26,12 @@ Once testris is able to launch your program, this message
 will be replaced with instructions for implementing your
 first feature.
 """
-from __future__ import print_function # let's keep it 3.x compatible
 import sys, os, errno, subprocess, difflib, pprint, time, traceback
 import extract
 
 if sys.version_info.major < 3:
-    class FileNotFoundError(IOError):
-        pass
+    println("Sorry, testris requires Python 3.x.")
+    sys.exit(1)
 
 class Test(object):
     def __init__(self):
