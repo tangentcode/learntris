@@ -1,4 +1,5 @@
 #+title: learntris test suite
+#+tanco-format: 0.2
 #+server: https://tanco.tangentcode.com/
 #+name: learntris-classic
 
@@ -7,27 +8,27 @@
 # will appear as a foldable outline, but if you don't want to use
 # emacs, it's fine to just edit it by hand.
 
-* DONE [4/4] basic i/o
-** DONE establish a command loop and a way to exit
+#+todo: TODO | DONE TEST
 
-#+name: io.q
+* DONE [4/4] basic i/o
+** TEST io.q : quit
+
 #+begin_src
 > q
-= q : quit
-: The 'q' command instructs learntris to quit.
-:
-: Learntris should not produce any output unless
-: explicitly instructed to do so.
 #+end_src
 
-** DONE establish a way to print the matrix (p)
+The 'q' command instructs learntris to quit.
+
+Learntris should not produce any output unless
+explicitly instructed to do so.
+
+** TEST io.p : print
 
 Matrix is the official term for the 10 \times 22 grid of cells.
 
 The playing area is only 10 \times 20 but there are 2 extra lines
 above where new tetriminos form.
 
-#+name: io.p
 #+begin_src
 > p
 # 1 2 3 4 5 6 7 8 9 ( first column, hidden by the #, is 0
@@ -54,27 +55,26 @@ above where new tetriminos form.
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 > q
-= p : print
-: The 'p' command instructs learntris to print the state
-: of the matrix, the rectangular array of cells in which
-: blocks can appear.
-:
-: The matrix is 10 cells wide and 22 cells deep, although
-: the top two rows are used only for spawning new Tetraminos.
-:
-: At the start of the game, the matrix should be empty.
-: The 'p' command should indicate empty cells with the
-: '.' character.
-:
-: Cells should be separated by spaces.
-:
-: Lines should be separated by the standard end of line
-: sequence on your operating system (python's "\n").
 #+end_src
 
-** DONE establish a way to set the entire matrix (g)
+The 'p' command instructs learntris to print the state
+of the matrix, the rectangular array of cells in which
+blocks can appear.
 
-#+name: io.g
+The matrix is 10 cells wide and 22 cells deep, although
+the top two rows are used only for spawning new Tetraminos.
+
+At the start of the game, the matrix should be empty.
+The 'p' command should indicate empty cells with the
+'.' character.
+
+Cells should be separated by spaces.
+
+Lines should be separated by the standard end of line
+sequence on your operating system (python's "\n").
+
+** TEST io.g : given
+
 #+begin_src
 > g
 > . . . . . . . . . . # 0
@@ -123,29 +123,28 @@ c . . o . g g . . . # 18
 . m r r o o b y y . # 20
 m m m r r b b y y . # 21
 > q
-= g : given
-: The 'g' command instructs learntris to read 22 lines
-: of text from the standard input stream, and use the
-: characters on these lines to populate some internal
-: representation of the matrix.
-:
-: The letter 'g' is a mnemonic for the word 'given', as
-: in: "given the following matrix...."
-:
-: The input format should be identical to the output
-: produced by the 'p' command.
-:
-: The letters used in the representation correspond to
-: the set of colors used for blocks in the game:
-:
-: . = empty (black)     b = blue         c = cyan
-: g = green             m = magenta      o = orange
-: r = red               y = yellow
 #+end_src
 
-** DONE and a way to clear the matrix (c)
+The 'g' command instructs learntris to read 22 lines
+of text from the standard input stream, and use the
+characters on these lines to populate some internal
+representation of the matrix.
 
-#+name: io.c
+The letter 'g' is a mnemonic for the word 'given', as
+in: "given the following matrix...."
+
+The input format should be identical to the output
+produced by the 'p' command.
+
+The letters used in the representation correspond to
+the set of colors used for blocks in the game:
+
+. = empty (black)     b = blue         c = cyan
+g = green             m = magenta      o = orange
+r = red               y = yellow
+
+** TEST io.c : clear
+
 #+begin_src
 > g
 > . . . . . . . . . . # 0
@@ -195,42 +194,39 @@ m m m r r b b y y . # 21
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
 > q
-= c : clear
-: The 'c' command instructs learntris to clear the matrix.
 #+end_src
+
+The 'c' command instructs learntris to clear the matrix.
 
 * DONE [5/5] basic game ideas
 ** DONE [2/2] establish protocol to set and query the score
-*** DONE score register:
+*** TEST io.score.s : query 's' register (score)
 
-#+name: io.score.s
 #+begin_src
 > ?s
 0
 >q
-= ?s : query 's' register (score)
-: The '?s' command instructs learntris to display the
-: current score as a decimal number.
-:
-: Initially, the score should be zero.
 #+end_src
 
-*** DONE number of lines register:
+The '?s' command instructs learntris to display the
+current score as a decimal number.
 
-#+name: io.score.n
+Initially, the score should be zero.
+
+*** TEST io.score.n : query 'n' register (number of cleared lines)
+
 #+begin_src
 > ?n
 0
 >q
-= ?n : query 'n' register (number of cleared lines)
-: The '?n' command instructs learntris to display the
-: number of lines that have been cleared.
-:
-: Initially, this number should be zero.
 #+end_src
 
-** DONE establish the line-clearing mechanic
-#+name: rule.clear
+The '?n' command instructs learntris to display the
+number of lines that have been cleared.
+
+Initially, this number should be zero.
+
+** TEST rule.clear : step
 #+begin_src
 > ?s
 0
@@ -286,26 +282,25 @@ m y o . c r g c m y # 13
 > ?s
 100
 > q
-= s : step
-: The 's' command instructs learntris to execute one step
-: of the simulation.
-:
-: If the matrix contains an unbroken row of blocks, (or
-: in other words, a row that contains no empty cells), then
-: the 's' command should:
-:
-: 1. Clear the row (replacing each block with an empty cell)
-: 2. Increment the 'n' register by 1.
-: 3. Increment the 's' register by 100.
-:
-: This is only an initial approximation of the scoring
-: system, but it will do for now.
 #+end_src
 
-** DONE [7/7] introduce the tetraminos
-*** DONE The I (cyan)
+The 's' command instructs learntris to execute one step
+of the simulation.
 
-#+name: shape.I
+If the matrix contains an unbroken row of blocks, (or
+in other words, a row that contains no empty cells), then
+the 's' command should:
+
+1. Clear the row (replacing each block with an empty cell)
+2. Increment the 'n' register by 1.
+3. Increment the 's' register by 100.
+
+This is only an initial approximation of the scoring
+system, but it will do for now.
+
+** DONE [7/7] introduce the tetraminos
+*** TEST shape.I : drawing and selecting the active tetramino
+
 #+begin_src
 > I
 > t
@@ -314,127 +309,120 @@ c c c c
 . . . .
 . . . .
 > q
-= t,I : drawing and selecting the active tetramino
-: At any point in time while the game is running, there
-: should be a single 'active' tetramino that the player
-: is able to control. Normally these are chosen somewhat
-: randomly at runtime, but for automated testing, there
-: needs to be some way to set the active tetramino.
-:
-: There are exactly seven tetraminos and they each have
-: specific names used by mathematicians and players of
-: video games. This one is called the I tetramino, and
-: in the game, it is generally colored cyan.
-:
-: After issuing the 'I' command, the active tetramino
-: should be the 'I' tetramino, and it should be oriented
-: horizontally.
-:
-: In order to verify that the active tetramino is correct,
-: the tests need some way to ask what it looks like. This
-: is the role of the 't' command: it displays the active
-: tetramino.
 #+end_src
 
-*** DONE The O (yellow)
+At any point in time while the game is running, there
+should be a single 'active' tetramino that the player
+is able to control. Normally these are chosen somewhat
+randomly at runtime, but for automated testing, there
+needs to be some way to set the active tetramino.
 
-#+name: shape.O
+There are exactly seven tetraminos and they each have
+specific names used by mathematicians and players of
+video games. This one is called the I tetramino, and
+in the game, it is generally colored cyan.
+
+After issuing the 'I' command, the active tetramino
+should be the 'I' tetramino, and it should be oriented
+horizontally.
+
+In order to verify that the active tetramino is correct,
+the tests need some way to ask what it looks like. This
+is the role of the 't' command: it displays the active
+tetramino.
+
+*** TEST shape.O : The O Tetramino
+
 #+begin_src
 > O
 > t
 y y
 y y
 > q
-= O : The O Tetramino
-: The 2x2 square is called the O tetramino, and in the game
-: it should be colored yellow.
-:
-: Note that while the I tetramino appeared inside a 4x4
-: matrix, the O tetramino's matrix is 2x2. This has to do
-: with rotation, which we will deal with later.
 #+end_src
 
-*** DONE The Z (red)
+The 2x2 square is called the O tetramino, and in the game
+it should be colored yellow.
+
+Note that while the I tetramino appeared inside a 4x4
+matrix, the O tetramino's matrix is 2x2. This has to do
+with rotation, which we will deal with later.
+
+*** TEST shape.Z : The Z Tetramino
 
 The Z and others fit in 3x3 matrices.
 
-#+name: shape.Z
 #+begin_src
 > Z t q
 r r .
 . r r
 . . .
-= Z : The Z Tetramino
-: The Z Tetramino is colored red and inhabits a 3x3 matrix.
-:
-: Notice that in this test, the commands are all issued on
-: a single line. This helps keep the test descriptions
-: readable, and also makes it more convienient to type the
-: commands interactively by hand.
-:
-: You do realize you can do that, right? :)
-:
-: Anyway, from now on, commands may be separated by either
-: newlines or spaces. You may need to adjust your
-: implementation accordingly.
 #+end_src
 
-*** DONE The S (green)
+The Z Tetramino is colored red and inhabits a 3x3 matrix.
 
-#+name: shape.S
+Notice that in this test, the commands are all issued on
+a single line. This helps keep the test descriptions
+readable, and also makes it more convienient to type the
+commands interactively by hand.
+
+You do realize you can do that, right? :)
+
+Anyway, from now on, commands may be separated by either
+newlines or spaces. You may need to adjust your
+implementation accordingly.
+
+*** TEST shape.S : The S Tetramino.
+
 #+begin_src
 > S t q
 . g g
 g g .
 . . .
-= S : The S Tetramino.
-: The green S tetramino inhabits a 3x3 matrix. It is a mirror image of the Z.
 #+end_src
 
-*** DONE The J (blue)
+The green S tetramino inhabits a 3x3 matrix. It is a mirror image of the Z.
 
-#+name: shape.J
+*** TEST shape.J : The J Tetramino
+
 #+begin_src
 > J t q
 b . .
 b b b
 . . .
-= J : The J Tetramino
-: The J tetramino is blue and inhabits a 3x3 matrix. Its default
-: orientation is rotated 90 degrees counter clockwise.
 #+end_src
 
-*** DONE The L (orange)
+The J tetramino is blue and inhabits a 3x3 matrix. Its default
+orientation is rotated 90 degrees counter clockwise.
 
-#+name: shape.L
+*** TEST shape.L : The L Tetramino
+
 #+begin_src
 > L t q
 . . o
 o o o
 . . .
-= L : The L Tetramino
-: The L tetramino is a mirror image of the J. It is colored orange.
 #+end_src
 
-*** DONE The T (magenta)
+The L tetramino is a mirror image of the J. It is colored orange.
 
-#+name: shape.T
+*** TEST shape.T : The T Tetramino
+
 #+begin_src
 > T t q
 . m .
 m m m
 . . .
-= T : The T Tetramino
-: The T is is colored magenta and spawns upside down in a 3x3 matrix.
 #+end_src
+
+The T is is colored magenta and spawns upside down in a 3x3 matrix.
 
 ** DONE [7/7] introduce (simplified) super rotation system
 
 Clockwise only. No wall-kicks. For each test, four rotations should bring it back to the staring position.
 
-*** DONE The I (cyan)
+*** TEST clockwise.I : clockwise rotation
 
-#+name: clockwise.I
 #+begin_src
 > I ) t
 . . c .
@@ -456,14 +444,13 @@ c c c c
 c c c c
 . . . .
 . . . .
-= ) : clockwise rotation
-: The ')' command rotates the active tetramino 90 degrees clockwise.
-: Here we see the I tetramino rotating clockwise within its bounding box.
 #+end_src
 
-*** DONE The O (yellow)
+The ')' command rotates the active tetramino 90 degrees clockwise.
+Here we see the I tetramino rotating clockwise within its bounding box.
 
-#+name: clockwise.O
+*** TEST clockwise.O : O rotation
+
 #+begin_src
 > O ) t
 y y
@@ -477,13 +464,12 @@ y y
 > ) t q
 y y
 y y
-= O rotation
-: The O looks the same in all orientations.
 #+end_src
 
-*** DONE The Z (red)
+The O looks the same in all orientations.
 
-#+name: clockwise.Z
+*** TEST clockwise.Z : Z Rotation
+
 #+begin_src
 > Z t
 r r .
@@ -501,13 +487,12 @@ r r .
 . r .
 r r .
 r . .
-= Z Rotation
-: The Z rotates within its 3x3 matrix.
 #+end_src
 
-*** DONE The S (green)
+The Z rotates within its 3x3 matrix.
 
-#+name: clockwise.S
+*** TEST clockwise.S : newlines and S rotation
+
 #+begin_src
 > S t ; ) t ; ) t ; ) t q
 . g g
@@ -525,15 +510,14 @@ g g .
 g . .
 g g .
 . g .
-= ; : newlines and S rotation
-: You should be getting the hang of rotation now.
-: Here we see the new ';' command, which emits a newline
-: simply to make the output a little more readable.
 #+end_src
 
-*** DONE The J (blue)
+You should be getting the hang of rotation now.
+Here we see the new ';' command, which emits a newline
+simply to make the output a little more readable.
 
-#+name: clockwise.J
+*** TEST clockwise.J : J Rotation
+
 #+begin_src
 > J t ; ) t ; ) t ; ) t q
 b . .
@@ -551,15 +535,14 @@ b b b
 . b .
 . b .
 b b .
-= J Rotation
-: No surprises here.
-: Maybe this is a good time to look over your code
-: and see if there's something you ought to clean up?
 #+end_src
 
-*** DONE The L (orange)
+No surprises here.
+Maybe this is a good time to look over your code
+and see if there's something you ought to clean up?
 
-#+name: clockwise.L
+*** TEST clockwise.L : L Rotation
+
 #+begin_src
 > L t ; ) t ; ) t ; ) t q
 . . o
@@ -577,13 +560,12 @@ o . .
 o o .
 . o .
 . o .
-= L Rotation
-: Yep. Another rotating tetramino.
 #+end_src
 
-*** DONE The T (magenta)
+Yep. Another rotating tetramino.
 
-#+name: clockwise.T
+*** TEST clockwise.T : T Rotation
+
 #+begin_src
 > T t ; ) t ; ) t ; ) t ; q
 . m .
@@ -601,14 +583,13 @@ m m m
 . m .
 m m .
 . m .
-= T Rotation
-: Last one!
 #+end_src
+
+Last one!
 
 ** DONE [4/4] implement movement
 *** DONE [7/7] draw a shape in the matrix at the spawn point.
-**** DONE the O
-#+name: spawn.O
+**** TEST spawn.O : Print Matrix with active Tetramino
 #+begin_src
 > c O P q
 . . . . Y Y . . . . #  0
@@ -633,19 +614,18 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= P : Print Matrix with active Tetramino
-: Now it's time to place the active tetramino in the matrix.
-: The 'P' command should print the matrix just like 'p' does,
-: but in addition, it should show the active tetramino.
-:
-: Note that the active tetramino is drawn with upper case
-: letters, so we can distinguish it from the settled blocks.
-:
-: Here we see the O tetramino in its initial spawn location.
 #+end_src
 
-**** DONE the L
-#+name: spawn.L
+Now it's time to place the active tetramino in the matrix.
+The 'P' command should print the matrix just like 'p' does,
+but in addition, it should show the active tetramino.
+
+Note that the active tetramino is drawn with upper case
+letters, so we can distinguish it from the settled blocks.
+
+Here we see the O tetramino in its initial spawn location.
+
+**** TEST spawn.L : Spawn location for L
 #+begin_src
 > c L P q
 . . . . . O . . . . #  0
@@ -670,12 +650,11 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn location for L
-: This is how the L Tetramino spawns.
 #+end_src
 
-**** DONE the J
-#+name: spawn.J
+This is how the L Tetramino spawns.
+
+**** TEST spawn.J : Spawn location for J
 #+begin_src
 > cJPq
 . . . B . . . . . . #  0
@@ -700,16 +679,15 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn location for J
-: Here's the spawn location for J.
-: 
-: Notice that there are no spaces between the commands
-: this time. We said earlier that commands may be separated
-: by spaces or newlines, but we never said they *had* to be.
 #+end_src
 
-**** DONE the Z
-#+name: spawn.Z
+Here's the spawn location for J.
+
+Notice that there are no spaces between the commands
+this time. We said earlier that commands may be separated
+by spaces or newlines, but we never said they *had* to be.
+
+**** TEST spawn.Z : Spawn Location for Z
 #+begin_src
 > cZPq
 . . . R R . . . . . #  0
@@ -734,12 +712,11 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn Location for Z
-: This is where the Z spawns.
 #+end_src
 
-**** DONE the S
-#+name: spawn.S
+This is where the Z spawns.
+
+**** TEST spawn.S : Spawn Location for S
 #+begin_src
 > cSPq
 . . . . G G . . . . #  0
@@ -764,12 +741,11 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn Location for S
-: This is where the S spawns.
 #+end_src
 
-**** DONE the I
-#+name: spawn.I
+This is where the S spawns.
+
+**** TEST spawn.I : Spawn Location for I
 #+begin_src
 > cIPq
 . . . . . . . . . . #  0
@@ -794,12 +770,11 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn Location for I
-: This is where the I spawns.
 #+end_src
 
-**** DONE the T
-#+name: spawn.T
+This is where the I spawns.
+
+**** TEST spawn.T : Spawn Location for T
 #+begin_src
 > cTPq
 . . . . M . . . . . #  0
@@ -824,14 +799,14 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Spawn Location for T
-: And finally, this is where the T spawns.
 #+end_src
 
-*** DONE [3/3] basic left/right/down movement ( < v > )
-**** DONE <
+And finally, this is where the T spawns.
 
-#+name: nudge.<
+*** DONE [3/3] basic left/right/down movement ( < v > )
+**** TEST nudge.left : It's just a step to the left...
+# migrated from #+name: nudge.<
+
 #+begin_src
 > cT<Pq
 . . . M . . . . . . #  0
@@ -856,13 +831,13 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= It's just a step to the left...
-: The '<' command nudges the active tetramino one cell to the left.
 #+end_src
 
-**** DONE >
+The '<' command nudges the active tetramino one cell to the left.
 
-#+name: nudge.>
+**** TEST nudge.right : ... And then a jump to the right.
+# migrated from #+name: nudge.>
+
 #+begin_src
 > cT>Pq
 . . . . . M . . . . #  0
@@ -887,13 +862,12 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= ... And then a jump to the right.
-: The '>' command nudges the tetramino one cell to the right.
 #+end_src
 
-**** DONE v
+The '>' command nudges the tetramino one cell to the right.
 
-#+name: nudge.v
+**** TEST nudge.v : Onward, young Tetramino
+
 #+begin_src
 > cTvPq
 . . . . . . . . . . #  0
@@ -918,14 +892,13 @@ m m .
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Onward, young Tetramino
-: The 'v' command nudges the active tetramino downward by one cell.
 #+end_src
 
-*** DONE [6/6] collision detection for the floor and walls
-**** DONE left wall
+The 'v' command nudges the active tetramino downward by one cell.
 
-#+name: collide.left-wall
+*** DONE [6/6] collision detection for the floor and walls
+**** TEST collide.left-wall : Hitting The Wall
+
 #+begin_src
 # nudging <<< should put T on the left wall
 > cT<<<P
@@ -975,15 +948,14 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Hitting The Wall
-: Three '<' commands should place a freshly spawned T tetramino
-: against the left side of the matrix. But it should go no further,
-: no matter how many more '<' commands get sent.
 #+end_src
 
-**** DONE right wall
+Three '<' commands should place a freshly spawned T tetramino
+against the left side of the matrix. But it should go no further,
+no matter how many more '<' commands get sent.
 
-#+name: collide.right-wall
+**** TEST collide.right-wall : Hitting the Other Wall
+
 #+begin_src
 # nudging >>>> should put T on the right wall
 > cT>>>>P
@@ -1033,14 +1005,13 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Hitting the Other Wall
-: Look out! It seems that crafty T tetramino is trying to escape
-: on the right side of the matrix! Let's teach it a lesson, shall we?
 #+end_src
 
-**** DONE it changes based on the orientation, though
+Look out! It seems that crafty T tetramino is trying to escape
+on the right side of the matrix! Let's teach it a lesson, shall we?
 
-#+name: collide.right-wall-2
+**** TEST collide.right-wall-2 : Smashing its Head Against the Wall
+
 #+begin_src
 > T ( >>>> > Pq
 . . . . . . . . . M #  0
@@ -1065,18 +1036,17 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= Smashing its Head Against the Wall
-: This T appears to have rotated counter-clockwise
-: with the '(' command, and then attempted once again
-: to plow its way through the right side of the matrix.
-:
-: It gets an extra '>' in with this strategy, but
-: there can be no compromise.
 #+end_src
 
-**** DONE [#B] floor
+This T appears to have rotated counter-clockwise
+with the '(' command, and then attempted once again
+to plow its way through the right side of the matrix.
 
-#+name: collide.floor
+It gets an extra '>' in with this strategy, but
+there can be no compromise.
+
+**** TEST collide.floor : Oh, how the Mighty have Fallen...
+
 #+begin_src
 > cT vvvv vvvv vvvv vvvv vvvv vvvv Pq
 . . . . . . . . . . #  0
@@ -1101,17 +1071,16 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . M . . . . . # 20
 . . . M M M . . . . # 21
-= Oh, how the Mighty have Fallen...
-: Once upon a time, a T tetramino spawned at the
-: top of the well, and used the 'v' command to
-: move down by one cell 24 times. Sadly, it was
-: unable to burrow into the earth and spent the
-: remainder of its life standing on its head at
-: the bottom of a well.
 #+end_src
 
-**** DONE hard drop to floor (V)
-#+name: drop.floor
+Once upon a time, a T tetramino spawned at the
+top of the well, and used the 'v' command to
+move down by one cell 24 times. Sadly, it was
+unable to burrow into the earth and spent the
+remainder of its life standing on its head at
+the bottom of a well.
+
+**** TEST drop.floor : Taking the plunge.
 #+begin_src
 > TVpq
 . . . . . . . . . . #  0
@@ -1136,16 +1105,15 @@ M M M . . . . . . . #  1
 . . . . . . . . . . # 19
 . . . . m . . . . . # 20
 . . . m m m . . . . # 21
-= Taking the plunge.
-: This one dove head first into the floor,
-: using the 'V' command to trigger a hard drop.
-:
-: Note that we're printing with 'p' this time.
-: There's no walking away from a hard drop.
 #+end_src
 
-**** DONE hard drop to floor - rotated
-#+name: drop.floor.rotated
+This one dove head first into the floor,
+using the 'V' command to trigger a hard drop.
+
+Note that we're printing with 'p' this time.
+There's no walking away from a hard drop.
+
+**** TEST drop.floor.rotated : Rotate and Hard drop.
 #+begin_src
 > T)V pq
 . . . . . . . . . . #  0
@@ -1170,16 +1138,15 @@ M M M . . . . . . . #  1
 . . . . m . . . . . # 19
 . . . . m m . . . . # 20
 . . . . m . . . . . # 21
-= Rotate and Hard drop.
-: Aside from demonstrating the astonishing grace
-: and agility of your average tetramino as it plunges
-: sideways to its doom, this test double checks that 
-: your collision detection holds up under rotation.
 #+end_src
 
+Aside from demonstrating the astonishing grace
+and agility of your average tetramino as it plunges
+sideways to its doom, this test double checks that
+your collision detection holds up under rotation.
+
 *** DONE [4/4] collision detection for other blocks
-**** DONE hard drop collisions
-#+name: drop.collide
+**** TEST drop.collide : Block Collisions
 #+begin_src
 > TV ZV pq
 . . . . . . . . . . #  0
@@ -1204,17 +1171,16 @@ M M M . . . . . . . #  1
 . . . . r r . . . . # 19
 . . . . m . . . . . # 20
 . . . m m m . . . . # 21
-= Block Collisions
-: Here we have our first test of collision detection
-: between a falling piece and a block already in the matrix.
-:
-: When the second hard drop is issued, the Z tetramino
-: should collide with the remains of the T and come to
-: a complete halt.
 #+end_src
 
-**** DONE rotated drop
-#+name: drop.collide.rotated
+Here we have our first test of collision detection
+between a falling piece and a block already in the matrix.
+
+When the second hard drop is issued, the Z tetramino
+should collide with the remains of the T and come to
+a complete halt.
+
+**** TEST drop.collide.rotated : Rotated Collision
 #+begin_src
 > TV Z)<V pq
 . . . . . . . . . . #  0
@@ -1239,14 +1205,13 @@ M M M . . . . . . . #  1
 . . . r r . . . . . # 19
 . . . r m . . . . . # 20
 . . . m m m . . . . # 21
-= Rotated Collision
-: Same situation, but the Z rotates clockwise first,
-: and then takes one step to the left. Now when it falls,
-: it should fit together nicely with the remains of the T.
 #+end_src
 
-**** DONE test collision with blocks on left side
-#+name: collide.left-block
+Same situation, but the Z rotates clockwise first,
+and then takes one step to the left. Now when it falls,
+it should fit together nicely with the remains of the T.
+
+**** TEST collide.left-block : Sideways Block Collisions 1
 #+begin_src
 > J ) << V Z ) vvvvvvvvvvvvvvvvv < Pq
 . . . . . . . . . . #  0
@@ -1271,14 +1236,13 @@ M M M . . . . . . . #  1
 . . b b R . . . . . # 19
 . . b . . . . . . . # 20
 . . b . . . . . . . # 21
-= Sideways Block Collisions 1
-: Here we've hard-dropped a J off to the left side a bit, then
-: spawned a Z and manually moved it down next to the fallen blocks.
-: The '<' commands should have no effect.
 #+end_src
 
-**** DONE test collision with blocks on right side
-#+name: collide.right-block
+Here we've hard-dropped a J off to the left side a bit, then
+spawned a Z and manually moved it down next to the fallen blocks.
+The '<' commands should have no effect.
+
+**** TEST collide.right-block : Sideways Block Collisions 2
 #+begin_src
 > I)>V I)>V I)>V I)>V T)>vvvv> Pq
 . . . . . . . . . . #  0
@@ -1303,16 +1267,15 @@ M M M . . . . . . . #  1
 . . . . . . c . . . # 19
 . . . . . . c . . . # 20
 . . . . . . c . . . # 21
-= Sideways Block Collisions 2
-: Here's another scenario. That rascally T tetramino
-: is attempting to pass through a tower of cyan blocks.
-: Alas, his big head gets in the way... Or at least it
-: would, if this test were passing...
 #+end_src
 
+Here's another scenario. That rascally T tetramino
+is attempting to pass through a tower of cyan blocks.
+Alas, his big head gets in the way... Or at least it
+would, if this test were passing...
+
 * DONE [2/2] screenflow
-** DONE Title screen
-#+name: screenflow.title
+** TEST screenflow.title : The Title Screen
 #+begin_src
 > @ p
 Learntris (c) 1992 Tetraminex, Inc.
@@ -1340,23 +1303,22 @@ Press start button to begin.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= The Title Screen
-: Legal says we need a title screen with a copyright notice.
-: It should show up when you first turn on the game, but for
-: the tests, they're fine as long as there's some way to get
-: to it.
-: 
-: Here's what we came up with: the '@' command takes you to
-: the title screen, where the 'p' command prints out the main
-: menu. Then '!' to simulate the start button should take you
-: to the game.
 #+end_src
 
+Legal says we need a title screen with a copyright notice.
+It should show up when you first turn on the game, but for
+the tests, they're fine as long as there's some way to get
+to it.
+
+Here's what we came up with: the '@' command takes you to
+the title screen, where the 'p' command prints out the main
+menu. Then '!' to simulate the start button should take you
+to the game.
 
 
 
-** DONE Pause Menu
-#+name: screenflow.pause
+
+** TEST screenflow.pause : The Pause Menu
 #+begin_src
 > p
 . . . . . . . . . . #  0
@@ -1407,16 +1369,15 @@ Press start button to continue.
 . . . . . . . . . . # 19
 . . . . . . . . . . # 20
 . . . . . . . . . . # 21
-= The Pause Menu
-: Wow, that title screen you whipped up was a huge hit upstairs.
-: They loved pressing that start button, and they want to show 
-: it off in the brochures. So now they're asking for a pause
-: screen that pops up when the '!' command gets issued in-game.
-: Sending '!' again should unpause.
 #+end_src
 
-**** DONE test game over from top collision
-#+name: gameover
+Wow, that title screen you whipped up was a huge hit upstairs.
+They loved pressing that start button, and they want to show
+it off in the brochures. So now they're asking for a pause
+screen that pops up when the '!' command gets issued in-game.
+Sending '!' again should unpause.
+
+**** TEST gameover : The Game Over Screen
 #+begin_src
 > I)>V I)>V I)>V I)>V I)>V T)>>V Pq
 . . . . . m . . . . #  0
@@ -1442,36 +1403,35 @@ Press start button to continue.
 . . . . . . c . . . # 20
 . . . . . . c . . . # 21
 Game Over
-= The Game Over Screen
-: The T tetramino couldn't escape the top 2 tetramino 
-: spawning rows. Your game is over!
 #+end_src
 
-* DONE The Next Test
-#+name: learntris.end
+The T tetramino couldn't escape the top 2 tetramino
+spawning rows. Your game is over!
+
+* TEST learntris.end : The Next Test
 #+begin_src
 > q
 (Something Awesome)
-= The Next Test
-: Congratualations! Your learntris implementation passes all
-: existing tests, and you've even created and passed a few of
-: your own.
-:
-: Take a moment to pat yourself on the back for making it this far. :)
-:
-: Now it's time for the real test...
-:
-: Take a look at what you've built so far. Is this everything
-: you'd want to see in a video game? Or is it missing a thing
-: or two?
-:
-: This test case contradicts the very first one, so the only way
-: to make it pass is to delete it, or replace it with something
-: better. The choice is yours.
-:
-: Either way, you will need to open up testplan.org and search
-: for the test named 'learntris.end'.
 #+end_src
+
+Congratualations! Your learntris implementation passes all
+existing tests, and you've even created and passed a few of
+your own.
+
+Take a moment to pat yourself on the back for making it this far. :)
+
+Now it's time for the real test...
+
+Take a look at what you've built so far. Is this everything
+you'd want to see in a video game? Or is it missing a thing
+or two?
+
+This test case contradicts the very first one, so the only way
+to make it pass is to delete it, or replace it with something
+better. The choice is yours.
+
+Either way, you will need to open up testplan.org and search
+for the test named 'learntris.end'.
 
 
 * NOTE How to add a new test.
